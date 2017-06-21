@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MGRscript : MonoBehaviour {
+public class mgrScript : MonoBehaviour {
     public float once;
     public int[] input;
     public bool[] b_input;
