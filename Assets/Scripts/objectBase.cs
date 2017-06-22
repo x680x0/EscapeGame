@@ -69,21 +69,25 @@ public class objectBase: MonoBehaviour {
             Y += (int)(readyY/1.4);
         }
     }
-    public virtual void SetVector(int _vector) {//これでSetしてMoveで実際に動かす。
+    public virtual void SetVector(int _vector,int speed) {//これでSetしてMoveで実際に動かす。
         switch(_vector) {
             case 0:
-                readyY += 10;
+                readyY +=speed;
                 break;
             case 1:
-                readyX += 10;
+                readyX += speed;
                 break;
             case 2:
-                readyY -= 10;
+                readyY -= speed;
                 break;
             case 3:
-                readyX -=10;
+                readyX -=speed;
                 break;
         }
     }
     public virtual void Death() { }
+    public virtual void SetPosition(int _X,int _Y) {
+        X = _X;
+        Y = _Y;
+    }
 }

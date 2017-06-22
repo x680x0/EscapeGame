@@ -11,8 +11,8 @@ public class mgrScript : MonoBehaviour {
     }
     // Use this for initialization
     void Start () {
-        b_input = new bool[4];
-        input = new int[4];
+        b_input = new bool[5];
+        input = new int[5];
         for(int i = 0; i < b_input.Length; i++) {
             input[i] = 0;
             b_input[i] = false;
@@ -33,7 +33,9 @@ public class mgrScript : MonoBehaviour {
         if(Input.GetKey("left")) {
             b_input[3] = true;
         }
-
+        if(Input.GetKey("z") ){
+            b_input[4] = true;
+        }
     }
     void FixedUpdate() {
         for(int i = 0; i < b_input.Length; i++) {

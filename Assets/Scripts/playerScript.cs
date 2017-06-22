@@ -8,6 +8,7 @@ public class playerScript:objectBase {
     Animator animator;
     static int[] walk;
     static int[] stay;
+    public GameObject healBottle;
     // Use this for initialization
     public override void Start() {
         base.Start();
@@ -52,12 +53,12 @@ public class playerScript:objectBase {
 
         if(MGR.input[vector] > 0) {
             stop = false;
-            SetVector(vector);
+            SetVector(vector,10 );
             if(MGR.input[(vector + 1) % 4] > 0) {
-                SetVector((vector + 1) % 4);
+                SetVector((vector + 1) % 4,10);
             }
             if(MGR.input[(vector + 3) % 4] > 0) {
-                SetVector((vector + 3) % 4);
+                SetVector((vector + 3) % 4,10);
             }
         } else {
             stop = true;
@@ -75,5 +76,11 @@ public class playerScript:objectBase {
             animator.Play(walk[vector]);
         }
         Move();
+        //アイテム投げテスト
+        if(MGR.input[4] == 1) {
+            itemBase a = Instantiate(healBottle).GetComponent<itemBase>();
+            a.SetPosition(X, Y);
+            a.Through(vector);
+        }
     }
 }
