@@ -4,15 +4,27 @@ using UnityEngine;
 
 public class playerScript:objectBase {
     public int x, y;
-    SpriteRenderer spriteRenderer;
     public Sprite[] arrow;
+    Animator animator;
+    static int[] walk;
+    static int[] stay;
     // Use this for initialization
     public override void Start() {
         base.Start();
         x = 0;
         y = 0;
-        spriteRenderer = GetComponent<SpriteRenderer>();
         vector = 0;
+        animator = GetComponent<Animator>();
+        walk = new int[4];
+        walk[0] = Animator.StringToHash("up");
+        walk[1] = Animator.StringToHash("right");
+        walk[2] = Animator.StringToHash("down");
+        walk[3] = Animator.StringToHash("left");
+        stay = new int[4];
+        stay[0] = Animator.StringToHash("upstop");
+        stay[1] = Animator.StringToHash("rightstop");
+        stay[2] = Animator.StringToHash("downstop");
+        stay[3] = Animator.StringToHash("leftstop");
     }
 
     // Update is called once per frame
@@ -20,7 +32,21 @@ public class playerScript:objectBase {
         base.Update();
     }
     public override void FixedUpdate() {
-        base.FixedUpdate();
+        inLight = false;
+        Collider2D[][] groundCheckCollider = new Collider2D[1][];
+        groundCheckCollider[0] = Physics2D.OverlapPointAll(pivot.transform.position);
+        foreach(Collider2D[] groundCheckList in groundCheckCollider) {
+            foreach(Collider2D groundCheck in groundCheckList) {
+                if(groundCheck != null) {
+                    if(!groundCheck.isTrigger) {
+                        if(groundCheck.tag == "Light") {
+                            inLight = true;
+                        }
+                    }
+                }
+
+            }
+        }
 
         readyX = 0; readyY = 0;//初期化
 
@@ -41,7 +67,12 @@ public class playerScript:objectBase {
                     stop = false;
                 }
             }
-            spriteRenderer.sprite = arrow[vector];
+           
+        }
+        if(stop) {
+            animator.Play(stay[vector]);
+        } else {
+            animator.Play(walk[vector]);
         }
         Move();
     }
