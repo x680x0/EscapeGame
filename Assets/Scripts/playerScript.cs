@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class playerScript:objectBase {
     public int x, y;
-    public Sprite[] arrow;
     Animator animator;
     static int[] walk;
     static int[] stay;
+    public bool itemTest;
+    GameObject pick;
     public GameObject healBottle;
     // Use this for initialization
     public override void Start() {
@@ -26,6 +27,8 @@ public class playerScript:objectBase {
         stay[1] = Animator.StringToHash("rightstop");
         stay[2] = Animator.StringToHash("downstop");
         stay[3] = Animator.StringToHash("leftstop");
+        itemTest = false;
+        pick = null;
     }
 
     // Update is called once per frame
@@ -33,6 +36,7 @@ public class playerScript:objectBase {
         base.Update();
     }
     public override void FixedUpdate() {
+        pick = null;
         inLight = false;
         Collider2D[][] groundCheckCollider = new Collider2D[1][];
         groundCheckCollider[0] = Physics2D.OverlapPointAll(pivot.transform.position);
@@ -42,6 +46,9 @@ public class playerScript:objectBase {
                     if(!groundCheck.isTrigger) {
                         if(groundCheck.tag == "Light") {
                             inLight = true;
+                        }
+                        else if(groundCheck.tag == "Item") {
+                            pick=groundCheck.gameObject;
                         }
                     }
                 }
@@ -76,11 +83,19 @@ public class playerScript:objectBase {
             animator.Play(walk[vector]);
         }
         Move();
-        //アイテム投げテスト
+        //アイテム投げテスト+拾いテスト
         if(MGR.input[4] == 1) {
-            itemBase a = Instantiate(healBottle).GetComponent<itemBase>();
-            a.SetPosition(X, Y);
-            a.Through(vector);
-        }
+            if(itemTest) {
+                itemTest = false;
+                itemBase a = Instantiate(healBottle).GetComponent<itemBase>();
+                if(a != null) {
+                    a.SetPosition(X, Y);
+                    a.Through(vector);
+                }
+            } else if(pick != null) {
+                Destroy(pick);
+                itemTest = true;
+            }
+        }  
     }
 }

@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class itemBase : objectBase {
+
+    public string label;
     public bool grounded;
-    Animator animator;
+    [System.NonSerialized]
+    public Animator animator;
     // Use this for initialization
     public override void Start() {
         base.Start();
@@ -25,11 +28,15 @@ public class itemBase : objectBase {
     public virtual void Through(int _vector) {
         grounded = false;
         vector = _vector;
+        animator = GetComponent<Animator>();
         animator.Play("through");
     }
     public virtual void Grounded() {
         grounded = true;
 
         animator.Play("stop");
+    }
+    public virtual void SetGrounded() {
+        grounded = true;
     }
 }
