@@ -7,14 +7,13 @@ public class playerScript:objectBase {
     Animator animator;
     static int[] walk;
     static int[] stay;
-    public bool itemTest;
+    public bool[] itemTest;
     GameObject pick;
     public GameObject healBottle;
     // Use this for initialization
     public override void Start() {
         base.Start();
-        x = 0;
-        y = 0;
+        itemTest = new bool[2];
         vector = 0;
         animator = GetComponent<Animator>();
         walk = new int[4];
@@ -27,7 +26,8 @@ public class playerScript:objectBase {
         stay[1] = Animator.StringToHash("rightstop");
         stay[2] = Animator.StringToHash("downstop");
         stay[3] = Animator.StringToHash("leftstop");
-        itemTest = false;
+        itemTest[0] = false;
+        itemTest[1] = false;
         pick = null;
     }
 
@@ -39,7 +39,7 @@ public class playerScript:objectBase {
         pick = null;
         inLight = false;
         Collider2D[][] groundCheckCollider = new Collider2D[1][];
-        groundCheckCollider[0] = Physics2D.OverlapPointAll(pivot.transform.position);
+        groundCheckCollider[0] = Physics2D.OverlapPointAll(pivot[vector].transform.position);
         foreach(Collider2D[] groundCheckList in groundCheckCollider) {
             foreach(Collider2D groundCheck in groundCheckList) {
                 if(groundCheck != null) {
@@ -84,18 +84,31 @@ public class playerScript:objectBase {
         }
         Move();
         //アイテム投げテスト+拾いテスト
-        if(MGR.input[4] == 1) {
-            if(itemTest) {
-                itemTest = false;
+        if(MGR.input[5] == 1) {
+            if(itemTest[0]) {
+                itemTest[0] = false;
                 itemBase a = Instantiate(healBottle).GetComponent<itemBase>();
                 if(a != null) {
                     a.SetPosition(X, Y);
-                    a.Through(vector);
+                    a.Through(vector,this.gameObject);
                 }
             } else if(pick != null) {
                 Destroy(pick);
-                itemTest = true;
+                itemTest[0] = true;
             }
-        }  
+        }
+        if(MGR.input[6] == 1) {
+            if(itemTest[1]) {
+                itemTest[1] = false;
+                itemBase a = Instantiate(healBottle).GetComponent<itemBase>();
+                if(a != null) {
+                    a.SetPosition(X, Y);
+                    a.Through(vector,this.gameObject);
+                }
+            } else if(pick != null) {
+                Destroy(pick);
+                itemTest[1] = true;
+            }
+        }
     }
 }
