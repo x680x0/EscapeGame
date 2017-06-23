@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class playerScript:objectBase {
-    public int x, y;
+    [System.NonSerialized]
     Animator animator;
     static int[] walk;
     static int[] stay;
@@ -57,25 +57,34 @@ public class playerScript:objectBase {
         }
 
         readyX = 0; readyY = 0;//初期化
-
-        if(MGR.input[vector] > 0) {
-            stop = false;
-            SetVector(vector,10 );
-            if(MGR.input[(vector + 1) % 4] > 0) {
-                SetVector((vector + 1) % 4,10);
-            }
-            if(MGR.input[(vector + 3) % 4] > 0) {
-                SetVector((vector + 3) % 4,10);
-            }
-        } else {
+        if(MGR.input[(int)mgrScript.keyUse.vectorlock] > 0) {
             stop = true;
             for(int i = 0; i < 4; i++) {
                 if(MGR.input[i] > 0) {
-                    vector = i;
                     stop = false;
+                    SetVector(i, 10);
                 }
             }
-           
+        } else {
+            if(MGR.input[vector] > 0) {
+                stop = false;
+                SetVector(vector, 10);
+                if(MGR.input[(vector + 1) % 4] > 0) {
+                    SetVector((vector + 1) % 4, 10);
+                }
+                if(MGR.input[(vector + 3) % 4] > 0) {
+                    SetVector((vector + 3) % 4, 10);
+                }
+            } else {
+                stop = true;
+                for(int i = 0; i < 4; i++) {
+                    if(MGR.input[i] > 0) {
+                        vector = i;
+                        stop = false;
+                    }
+                }
+
+            }
         }
         if(stop) {
             animator.Play(stay[vector]);
@@ -84,26 +93,24 @@ public class playerScript:objectBase {
         }
         Move();
         //アイテム投げテスト+拾いテスト
-        if(MGR.input[5] == 1) {
+        if(MGR.input[(int)mgrScript.keyUse.item1] == 1) {
             if(itemTest[0]) {
                 itemTest[0] = false;
                 itemBase a = Instantiate(healBottle).GetComponent<itemBase>();
                 if(a != null) {
-                    a.SetPosition(X, Y);
-                    a.Through(vector,this.gameObject);
+                    a.Through(vector,this.gameObject,20,X,Y);
                 }
             } else if(pick != null) {
                 Destroy(pick);
                 itemTest[0] = true;
             }
         }
-        if(MGR.input[6] == 1) {
+        if(MGR.input[(int)mgrScript.keyUse.item2] == 1) {
             if(itemTest[1]) {
                 itemTest[1] = false;
                 itemBase a = Instantiate(healBottle).GetComponent<itemBase>();
                 if(a != null) {
-                    a.SetPosition(X, Y);
-                    a.Through(vector,this.gameObject);
+                    a.Through(vector,this.gameObject,20,X,Y);
                 }
             } else if(pick != null) {
                 Destroy(pick);

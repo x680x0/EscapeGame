@@ -5,7 +5,10 @@ using UnityEngine;
 public class itemBase : objectBase {
 
     public string label;
+    [System.NonSerialized]
+    public int power;
     public bool grounded;
+    [System.NonSerialized]
     public GameObject actor;
     [System.NonSerialized]
     public Animator animator;
@@ -29,7 +32,7 @@ public class itemBase : objectBase {
                         if(groundCheck.tag == "Light") {
                             inLight = true;
                         }
-                        if(!grounded&&groundCheck.tag == "Wall"/* && groundCheck.gameObject.transform.parent.gameObject != actor*/) {
+                        if(!grounded&&groundCheck.tag == "Wall"&& groundCheck.gameObject.transform.parent.gameObject != actor) {
                             grounded = true;
                           //  groundCheck.gameObject.transform.parent.gameObject.GetComponent<objectBase>().Damaged(1, objectBase.typeOfDamage.cross);
                         }
@@ -40,11 +43,15 @@ public class itemBase : objectBase {
         }
         if(!grounded) {
             readyX = 0; readyY = 0;//初期化
-            SetVector(vector, 30);
+            SetVector(vector, power);
             Move();
         }
     }
-    public virtual void Through(int _vector,GameObject _actor) {
+    public virtual void Through(int _vector,GameObject _actor,int _power,int _X,int _Y) {
+        MGR = GameObject.Find("mgrObject").GetComponent<mgrScript>();
+        once = MGR.once;
+        SetPosition(_X, _Y);
+        power = _power;
         actor=_actor;
         grounded = false;
         vector = _vector;

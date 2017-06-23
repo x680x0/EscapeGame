@@ -28,6 +28,8 @@ public class objectBase: MonoBehaviour {
         stop = true;
         once = MGR.once;
         spriteRenderer = GetComponent<SpriteRenderer>();
+        X = (int)(transform.localPosition.x / once);
+        Y = (int)(transform.localPosition.y / once);
     }
 	
 	// Update is called once per frame
@@ -74,7 +76,10 @@ public class objectBase: MonoBehaviour {
     }
     public virtual void Death() { }
     public virtual void SetPosition(int _X,int _Y) {
+       
         X = _X;
         Y = _Y;
+        transform.localPosition = new Vector3(X * once, Y * once, transform.localPosition.z);
+
     }
 }
