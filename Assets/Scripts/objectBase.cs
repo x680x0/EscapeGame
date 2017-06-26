@@ -41,7 +41,8 @@ public class objectBase:MonoBehaviour {
 
     }
 
-    public virtual void Damaged(int damage, typeOfDamage type) {
+    public virtual void Damaged(int damage, typeOfDamage type,int _X,int _Y) {
+        
       //  Destroy(this.gameObject);
         HP -= damage;
         if(HP < 0) {
@@ -113,7 +114,7 @@ public class objectBase:MonoBehaviour {
                     if(!damagedObject.isTrigger) {
                         damagedScript = damagedObject.gameObject.transform.parent.gameObject.GetComponent<objectBase>();
                         if(damagedScript != null) {
-                            damagedScript.Damaged(damage, type);
+                            damagedScript.Damaged(damage, type,X,Y);
                            
 
                         }
@@ -123,4 +124,5 @@ public class objectBase:MonoBehaviour {
             }
         }
     }
+
 }

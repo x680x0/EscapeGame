@@ -61,7 +61,7 @@ public class slimeScript:objectBase {
                     int V1, V2;
                     float A = Mathf.Atan2(D2, D1);
                     A *= Mathf.Rad2Deg;
-                    if(0 == Random.Range(0, 5)&&D1 < 150&&D2<150) {
+                    if(0 == Random.Range(0, 4)&&(Mathf.Abs(D1) < 120)&& (Mathf.Abs(D2)<120)) {
                         if(-45<A&&A<45) {
                             vector = 3;
                         } else if(45<A&&A<135) {
@@ -74,7 +74,7 @@ public class slimeScript:objectBase {
                         setAttack = true;
                     }
                     if(!setAttack) {
-                        if(0 == Random.Range(0, 3) && (Mathf.Abs(D1) > 100 || Mathf.Abs(D2) > 100)) {
+                        if(0 == Random.Range(0, 2) && (Mathf.Abs(D1) > 30 || Mathf.Abs(D2) > 30)) {
                             if(D1 < 0) {
                                 V1 = 1;
                             } else {
@@ -124,5 +124,7 @@ public class slimeScript:objectBase {
             Attack(child.gameObject, 1, typeOfDamage.cross);
             count++;
         }
+
+        Attack(pivot[vector], 1, typeOfDamage.cross);
     }
 }
