@@ -1,11 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class mgrScript : MonoBehaviour {
     public float once;
     public int[] input;
     public bool[] b_input;
+    public int numberOfPlayer;
+    public objectBase[] player;
+
+    public Text testText;
+
     public enum keyIn{
         up=KeyCode.UpArrow,
         right=KeyCode.RightArrow,
@@ -34,10 +40,14 @@ public class mgrScript : MonoBehaviour {
             input[i] = 0;
             b_input[i] = false;
         }
+        numberOfPlayer = 1;
+        player = new objectBase[4];
+        player[0] = GameObject.Find("Player1").GetComponent<objectBase>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
+
         if(Input.GetKey((KeyCode)keyIn.up)) {
             b_input[(int)keyUse.up] = true;
         } else {
@@ -78,6 +88,7 @@ public class mgrScript : MonoBehaviour {
         } else {
             b_input[7] = false;
         }
+        testText.text = player[0].HP.ToString();
     }
     void FixedUpdate() {
         for(int i = 0; i < b_input.Length; i++) {

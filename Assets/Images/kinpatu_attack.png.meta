@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 2317c37db3d55824687f540b34e8fe1d
-timeCreated: 1498488762
+timeCreated: 1498541066
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -34,6 +34,23 @@ TextureImporter:
     21300054: kinpatu_attack_27
     21300056: kinpatu_attack_28
     21300058: kinpatu_attack_29
+    21300060: kinpatu_attack_30
+    21300062: kinpatu_attack_31
+    21300064: kinpatu_attack_32
+    21300066: kinpatu_attack_33
+    21300068: kinpatu_attack_34
+    21300070: kinpatu_attack_35
+    21300072: kinpatu_attack_36
+    21300074: kinpatu_attack_37
+    21300076: kinpatu_attack_38
+    21300078: kinpatu_attack_39
+    21300080: kinpatu_attack_40
+    21300082: kinpatu_attack_41
+    21300084: kinpatu_attack_42
+    21300086: kinpatu_attack_43
+    21300088: kinpatu_attack_44
+    21300090: kinpatu_attack_45
+    21300092: kinpatu_attack_46
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -189,8 +206,8 @@ TextureImporter:
       name: kinpatu_attack_6
       rect:
         serializedVersion: 2
-        x: 0
-        y: 284
+        x: 288
+        y: 332
         width: 48
         height: 48
       alignment: 0
@@ -202,8 +219,8 @@ TextureImporter:
       name: kinpatu_attack_7
       rect:
         serializedVersion: 2
-        x: 48
-        y: 284
+        x: 336
+        y: 332
         width: 48
         height: 48
       alignment: 0
@@ -215,8 +232,8 @@ TextureImporter:
       name: kinpatu_attack_8
       rect:
         serializedVersion: 2
-        x: 96
-        y: 284
+        x: 384
+        y: 332
         width: 48
         height: 48
       alignment: 0
@@ -228,8 +245,8 @@ TextureImporter:
       name: kinpatu_attack_9
       rect:
         serializedVersion: 2
-        x: 144
-        y: 284
+        x: 432
+        y: 332
         width: 48
         height: 48
       alignment: 0
@@ -241,7 +258,7 @@ TextureImporter:
       name: kinpatu_attack_10
       rect:
         serializedVersion: 2
-        x: 192
+        x: 0
         y: 284
         width: 48
         height: 48
@@ -254,7 +271,7 @@ TextureImporter:
       name: kinpatu_attack_11
       rect:
         serializedVersion: 2
-        x: 240
+        x: 48
         y: 284
         width: 48
         height: 48
@@ -267,8 +284,8 @@ TextureImporter:
       name: kinpatu_attack_12
       rect:
         serializedVersion: 2
-        x: 0
-        y: 236
+        x: 96
+        y: 284
         width: 48
         height: 48
       alignment: 0
@@ -280,8 +297,8 @@ TextureImporter:
       name: kinpatu_attack_13
       rect:
         serializedVersion: 2
-        x: 48
-        y: 236
+        x: 144
+        y: 284
         width: 48
         height: 48
       alignment: 0
@@ -293,8 +310,8 @@ TextureImporter:
       name: kinpatu_attack_14
       rect:
         serializedVersion: 2
-        x: 96
-        y: 236
+        x: 192
+        y: 284
         width: 48
         height: 48
       alignment: 0
@@ -306,8 +323,8 @@ TextureImporter:
       name: kinpatu_attack_15
       rect:
         serializedVersion: 2
-        x: 144
-        y: 236
+        x: 240
+        y: 284
         width: 48
         height: 48
       alignment: 0
@@ -319,8 +336,8 @@ TextureImporter:
       name: kinpatu_attack_16
       rect:
         serializedVersion: 2
-        x: 192
-        y: 236
+        x: 288
+        y: 284
         width: 48
         height: 48
       alignment: 0
@@ -332,6 +349,110 @@ TextureImporter:
       name: kinpatu_attack_17
       rect:
         serializedVersion: 2
+        x: 336
+        y: 284
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: kinpatu_attack_18
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 284
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: kinpatu_attack_19
+      rect:
+        serializedVersion: 2
+        x: 432
+        y: 284
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: kinpatu_attack_20
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 236
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: kinpatu_attack_21
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 236
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: kinpatu_attack_22
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 236
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: kinpatu_attack_23
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 236
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: kinpatu_attack_24
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 236
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: kinpatu_attack_25
+      rect:
+        serializedVersion: 2
         x: 240
         y: 236
         width: 48
@@ -342,7 +463,20 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: kinpatu_attack_18
+      name: kinpatu_attack_26
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 236
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: kinpatu_attack_27
       rect:
         serializedVersion: 2
         x: 0
@@ -355,7 +489,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: kinpatu_attack_19
+      name: kinpatu_attack_28
       rect:
         serializedVersion: 2
         x: 48
@@ -368,7 +502,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: kinpatu_attack_20
+      name: kinpatu_attack_29
       rect:
         serializedVersion: 2
         x: 96
@@ -381,7 +515,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: kinpatu_attack_21
+      name: kinpatu_attack_30
       rect:
         serializedVersion: 2
         x: 144
@@ -394,7 +528,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: kinpatu_attack_22
+      name: kinpatu_attack_31
       rect:
         serializedVersion: 2
         x: 192
@@ -407,7 +541,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: kinpatu_attack_23
+      name: kinpatu_attack_32
       rect:
         serializedVersion: 2
         x: 240
@@ -420,7 +554,33 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: kinpatu_attack_24
+      name: kinpatu_attack_33
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 188
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: kinpatu_attack_34
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 188
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: kinpatu_attack_35
       rect:
         serializedVersion: 2
         x: 0
@@ -433,7 +593,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: kinpatu_attack_25
+      name: kinpatu_attack_36
       rect:
         serializedVersion: 2
         x: 48
@@ -446,7 +606,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: kinpatu_attack_26
+      name: kinpatu_attack_37
       rect:
         serializedVersion: 2
         x: 96
@@ -459,7 +619,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: kinpatu_attack_27
+      name: kinpatu_attack_38
       rect:
         serializedVersion: 2
         x: 144
@@ -472,7 +632,59 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: kinpatu_attack_28
+      name: kinpatu_attack_39
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 140
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: kinpatu_attack_40
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 140
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: kinpatu_attack_41
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 140
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: kinpatu_attack_42
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 140
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: kinpatu_attack_43
       rect:
         serializedVersion: 2
         x: 0
@@ -485,11 +697,37 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: kinpatu_attack_29
+      name: kinpatu_attack_44
       rect:
         serializedVersion: 2
         x: 48
         y: 92
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: kinpatu_attack_45
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 92
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: kinpatu_attack_46
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 44
         width: 48
         height: 48
       alignment: 0

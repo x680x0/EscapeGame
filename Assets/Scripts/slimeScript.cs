@@ -12,6 +12,7 @@ public class slimeScript:objectBase {
     public bool setAttack;
     public override void Start() {
         base.Start();
+        HP = MAXHP = 10;
         setAttack = false;
         animator = GetComponent<Animator>();
         walk = new int[4];
@@ -121,10 +122,10 @@ public class slimeScript:objectBase {
         int count=0;
         foreach(Transform child in attackpivot[vector].transform) {
             //child is your child transform
-            Attack(child.gameObject, 1, typeOfDamage.cross);
+            Attack(child.gameObject, 20, typeOfDamage.cross);
             count++;
         }
 
-        Attack(pivot[vector], 1, typeOfDamage.cross);
+        Attack(pivot[vector], 20, typeOfDamage.cross);
     }
 }

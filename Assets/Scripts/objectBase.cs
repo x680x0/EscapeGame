@@ -41,14 +41,20 @@ public class objectBase:MonoBehaviour {
 
     }
 
-    public virtual void Damaged(int damage, typeOfDamage type,int _X,int _Y) {
-        
-      //  Destroy(this.gameObject);
-        HP -= damage;
-        if(HP < 0) {
-            Death();
+    public virtual void Damaged(int damage, typeOfDamage type, int _X, int _Y,GameObject Attacker) {
+
+        // 
+        if(this.gameObject==Attacker) {
+
+
+        } else {
+            HP -= damage;
+            if(HP < 0) {
+                Death();
+            }
         }
-    }
+
+    } 
 
     public virtual void Move() {//実際に動かす　SetMoveで事前にセットしておくこと
         if(readyX * readyY == 0) {
@@ -75,7 +81,9 @@ public class objectBase:MonoBehaviour {
                 break;
         }
     }
-    public virtual void Death() { }
+    public virtual void Death() {
+        Destroy(this.gameObject);
+    }
     public virtual void SetPosition(int _X, int _Y) {
 
         X = _X;
@@ -107,14 +115,16 @@ public class objectBase:MonoBehaviour {
              }
          }*/
         objectBase damagedScript;
+        GameObject Attacker;
         damagedObjectCollider[0] = Physics2D.OverlapPointAll(_pivot.transform.position);
         foreach(Collider2D[] damagedObjectList in damagedObjectCollider) {
             foreach(Collider2D damagedObject in damagedObjectList) {
                 if(damagedObject != null) {
                     if(!damagedObject.isTrigger) {
-                        damagedScript = damagedObject.gameObject.transform.parent.gameObject.GetComponent<objectBase>();
+                        Attacker = damagedObject.gameObject.transform.parent.gameObject;
+                        damagedScript = Attacker.GetComponent<objectBase>();
                         if(damagedScript != null) {
-                            damagedScript.Damaged(damage, type,X,Y);
+                            damagedScript.Damaged(damage, type,X,Y,Attacker);
                            
 
                         }

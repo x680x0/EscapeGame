@@ -9,6 +9,7 @@ public class playerScript:objectBase {
     static int[] stay;
     static int[] attack;
     static int[] damaged;
+    static int[] through;
     public bool[] itemTest;
     GameObject pick;
     public GameObject healBottle;
@@ -17,6 +18,7 @@ public class playerScript:objectBase {
     // Use this for initialization
     public override void Start() {
         base.Start();
+        MAXHP = HP = 100;
         itemTest = new bool[2];
         vector = 0;
         isAttack = false;
@@ -43,12 +45,19 @@ public class playerScript:objectBase {
         damaged[1] = Animator.StringToHash("damagedright");
         damaged[2] = Animator.StringToHash("damageddown");
         damaged[3] = Animator.StringToHash("damagedleft");
+        through = new int[4];
+        through[0] = Animator.StringToHash("throughup");
+        through[1] = Animator.StringToHash("throughright");
+        through[2] = Animator.StringToHash("throughdown");
+        through[3] = Animator.StringToHash("throughleft");
         itemTest[0] = false;
         itemTest[1] = false;
         pick = null;
     }
-    public override void Damaged(int damage, typeOfDamage type, int _X, int _Y) {
+    public override void Damaged(int damage, typeOfDamage type, int _X, int _Y,GameObject Attacker) {
         if(!isDamaged) {
+            isAttack = false;
+            HP -= damage;
             animator.Play(damaged[vector]);
             int dX = X - _X;
             int dY = Y - _Y;
@@ -76,8 +85,8 @@ public class playerScript:objectBase {
                     if(!groundCheck.isTrigger) {
                         if(groundCheck.tag == "Light") {
                             inLight = true;
-                        } else if(groundCheck.tag == "Item") {
-                            pick = groundCheck.gameObject;
+                        } else if(groundCheck.transform.parent.tag == "Item") {
+                            pick = groundCheck.transform.parent.gameObject;
                         }
                     }
                 }
@@ -130,18 +139,19 @@ public class playerScript:objectBase {
                 animator.Play(walk[vector]);
             }
             Move();
-            //アイテム投げテスト+拾いテスト
-            if(MGR.input[(int)mgrScript.keyUse.weapon] == 1) {
+            if(MGR.input[(int)mgrScript.keyUse.weapon] == 1) {//武器攻撃
                 isAttack = true;
                 animator.Play(attack[vector]);
             } else
-            if(MGR.input[(int)mgrScript.keyUse.item1] == 1) {
+            if(MGR.input[(int)mgrScript.keyUse.item1] == 1) {//アイテム関連
                 if(itemTest[0]) {
+                    isAttack = true;
                     itemTest[0] = false;
                     itemBase a = Instantiate(healBottle).GetComponent<itemBase>();
                     if(a != null) {
                         a.Through(vector, this.gameObject, 20, X, Y);
                     }
+                    animator.Play(through[vector]);
                 } else if(pick != null) {
                     Destroy(pick);
                     itemTest[0] = true;
