@@ -11,13 +11,17 @@ public class playerScript:objectBase {
     static int[] damaged;
     static int[] through;
     public bool[] itemTest;
+
     GameObject pick;
+    public GameObject weapon;
+    weaponBase weaponScript;
     public GameObject healBottle;
     public bool isAttack,isDamaged;
     int knockX, knockY,knockCount;
     // Use this for initialization
     public override void Start() {
         base.Start();
+        weaponScript = weapon.GetComponent<weaponBase>();
         MAXHP = HP = 100;
         itemTest = new bool[2];
         vector = 0;
@@ -55,20 +59,29 @@ public class playerScript:objectBase {
         pick = null;
     }
     public override void Damaged(int damage, typeOfDamage type, int _X, int _Y,GameObject Attacker) {
-        if(!isDamaged) {
-            isAttack = false;
-            HP -= damage;
-            animator.Play(damaged[vector]);
-            int dX = X - _X;
-            int dY = Y - _Y;
-            float knockScale = 10000.0f / (dX * dX + dY * dY);
-            knockScale = Mathf.Sqrt(knockScale);
-            knockX =(int)(knockScale*dX);
-            knockY = (int)(knockScale * dY);
+        if(this.gameObject == Attacker) {
 
-            knockCount = 30;
-            isDamaged = true;
+
+        } else {
+            if(!isDamaged) {
+                isAttack = false;
+                HP -= damage;
+                animator.Play(damaged[vector]);
+                if(weapon != null) {
+                    weaponScript.StopAnimation();
+                }
+                int dX = X - _X;
+                int dY = Y - _Y;
+                float knockScale = 10000.0f / (dX * dX + dY * dY);
+                knockScale = Mathf.Sqrt(knockScale);
+                knockX = (int)(knockScale * dX);
+                knockY = (int)(knockScale * dY);
+
+                knockCount = 30;
+                isDamaged = true;
+            }
         }
+            
     }
     // Update is called once per frame
     public override void Update() {
@@ -142,6 +155,9 @@ public class playerScript:objectBase {
             if(MGR.input[(int)mgrScript.keyUse.weapon] == 1) {//武器攻撃
                 isAttack = true;
                 animator.Play(attack[vector]);
+                if(weapon != null) {
+                    weaponScript.PlayAnimation(vector);
+                }
             } else
             if(MGR.input[(int)mgrScript.keyUse.item1] == 1) {//アイテム関連
                 if(itemTest[0]) {
@@ -170,5 +186,16 @@ public class playerScript:objectBase {
                 }
             }
         }
+    }
+
+    public void WeaponAttack() {
+        int count = 0;
+        foreach(Transform child in weaponScript.attackpivot[vector].transform) {
+            //child is your child transform
+            Attack(child.gameObject, 20, typeOfDamage.cross);
+            count++;
+        }
+
+        Attack(pivot[vector], 20, typeOfDamage.cross);
     }
 }

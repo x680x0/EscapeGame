@@ -34,7 +34,7 @@ public class itemBase : objectBase {
                         }
                         if(!grounded&&((groundCheck.tag == "Player"&& groundCheck.gameObject.transform.parent.gameObject != actor)||groundCheck.tag=="Enemy"|| groundCheck.tag == "Wall")) {
                             grounded = true;
-                            groundCheck.gameObject.transform.parent.gameObject.GetComponent<objectBase>().Damaged(1, objectBase.typeOfDamage.cross,X,Y,actor);
+                            groundCheck.gameObject.transform.parent.gameObject.GetComponent<objectBase>().Damaged(10, objectBase.typeOfDamage.cross,X,Y,actor);
                         }
                     }
                 }

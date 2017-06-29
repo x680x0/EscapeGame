@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class slimeScript:objectBase {
     static int[] walk,attack;
+    static int die;
     float time;
     Animator animator;
     public GameObject target;
@@ -25,6 +26,7 @@ public class slimeScript:objectBase {
         attack[1] = Animator.StringToHash("attackright");
         attack[2] = Animator.StringToHash("attackdown");
         attack[3] = Animator.StringToHash("attackleft");
+        die = Animator.StringToHash("motionDie");
         time = 0;
         if(target != null) {
             targetScript = target.GetComponent<objectBase>();
@@ -35,84 +37,86 @@ public class slimeScript:objectBase {
         transform.localPosition = new Vector3(X * once, (Y+22) * once, transform.localPosition.z);
     }
     public override void FixedUpdate() {
-        inLight = false;
-        Collider2D[][] groundCheckCollider = new Collider2D[1][];
-        groundCheckCollider[0] = Physics2D.OverlapPointAll(pivot[vector].transform.position);
-        foreach(Collider2D[] groundCheckList in groundCheckCollider) {
-            foreach(Collider2D groundCheck in groundCheckList) {
-                if(groundCheck != null) {
-                    if(!groundCheck.isTrigger) {
-                        if(groundCheck.tag == "Light") {
-                            inLight = true;
+        if(HP > 0) {
+            inLight = false;
+            Collider2D[][] groundCheckCollider = new Collider2D[1][];
+            groundCheckCollider[0] = Physics2D.OverlapPointAll(pivot[vector].transform.position);
+            foreach(Collider2D[] groundCheckList in groundCheckCollider) {
+                foreach(Collider2D groundCheck in groundCheckList) {
+                    if(groundCheck != null) {
+                        if(!groundCheck.isTrigger) {
+                            if(groundCheck.tag == "Light") {
+                                inLight = true;
+                            }
                         }
                     }
-                }
 
+                }
             }
-        }
-        int D1 =X - targetScript.X;
-        int D2 =Y - targetScript.Y;
-        if(!setAttack) {
-            if(target == null) {
+            int D1 = X - targetScript.X;
+            int D2 = Y - targetScript.Y;
+            if(!setAttack) {
+                if(target == null) {
 
-            } else {
-                readyX = 0; readyY = 0;//初期化
-                time += Random.Range(0.05f, 0.1f);
-                if(time > 1f) {
-                    int V1, V2;
-                    float A = Mathf.Atan2(D2, D1);
-                    A *= Mathf.Rad2Deg;
-                    if(0 == Random.Range(0, 4)&&(Mathf.Abs(D1) < 120)&& (Mathf.Abs(D2)<120)) {
-                        if(-45<A&&A<45) {
-                            vector = 3;
-                        } else if(45<A&&A<135) {
-                            vector = 2;
-                        } else if(-135<A&&A<-45) {
-                            vector = 0;
-                        } else {
-                            vector = 1;
-                        }
-                        setAttack = true;
-                    }
-                    if(!setAttack) {
-                        if(0 == Random.Range(0, 2) && (Mathf.Abs(D1) > 30 || Mathf.Abs(D2) > 30)) {
-                            if(D1 < 0) {
-                                V1 = 1;
-                            } else {
-                                V1 = 3;
-                            }
-                            if(D2 < 0) {
-                                V2 = 0;
-                            } else {
-                                V2 = 2;
-                            }
-                            if(Mathf.Abs(D1) > Mathf.Abs(D2)) {
-                                vector = V1;
-                            } else {
-                                vector = V2;
-                            }
-
-
-
-
-                        } else {
-                            vector = Random.Range(0, 4);
-                        }
-                    }
-                    time = 0;
-                }
-                if(setAttack) {
-                    animator.Play(attack[vector]);
                 } else {
-                    animator.Play(walk[vector]);
-                    SetVector(vector, Random.Range(4,7));
-                    if(4 > Random.Range(0, 10)) {
-                  
-                    }else {
-                        Move();
+                    readyX = 0; readyY = 0;//初期化
+                    time += Random.Range(0.05f, 0.1f);
+                    if(time > 1f) {
+                        int V1, V2;
+                        float A = Mathf.Atan2(D2, D1);
+                        A *= Mathf.Rad2Deg;
+                        if(0 == Random.Range(0, 4) && (Mathf.Abs(D1) < 120) && (Mathf.Abs(D2) < 120)) {
+                            if(-45 < A && A < 45) {
+                                vector = 3;
+                            } else if(45 < A && A < 135) {
+                                vector = 2;
+                            } else if(-135 < A && A < -45) {
+                                vector = 0;
+                            } else {
+                                vector = 1;
+                            }
+                           // setAttack = true;
+                        }
+                        if(!setAttack) {
+                            if(0 == Random.Range(0, 2) && (Mathf.Abs(D1) > 30 || Mathf.Abs(D2) > 30)) {
+                                if(D1 < 0) {
+                                    V1 = 1;
+                                } else {
+                                    V1 = 3;
+                                }
+                                if(D2 < 0) {
+                                    V2 = 0;
+                                } else {
+                                    V2 = 2;
+                                }
+                                if(Mathf.Abs(D1) > Mathf.Abs(D2)) {
+                                    vector = V1;
+                                } else {
+                                    vector = V2;
+                                }
+
+
+
+
+                            } else {
+                                vector = Random.Range(0, 4);
+                            }
+                        }
+                        time = 0;
+                    }
+                    if(setAttack) {
+                        animator.Play(attack[vector]);
+                    } else {
+                        animator.Play(walk[vector]);
+                        SetVector(vector, Random.Range(4, 7));
+                        if(4 > Random.Range(0, 10)) {
+
+                        } else {
+                            Move();
+
+                        }
 
                     }
-
                 }
             }
         }
@@ -128,4 +132,20 @@ public class slimeScript:objectBase {
 
         Attack(pivot[vector], 20, typeOfDamage.cross);
     }
+
+    public override void Damaged(int damage, typeOfDamage type, int _X, int _Y, GameObject Attacker) {
+
+        // 
+        if(this.gameObject == Attacker) {
+
+
+        } else {
+            HP -= damage;
+            if(HP <= 0) {
+                animator.Play(die);
+            }
+        }
+
+    }
+
 }

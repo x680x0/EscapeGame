@@ -115,14 +115,14 @@ public class objectBase:MonoBehaviour {
              }
          }*/
         objectBase damagedScript;
-        GameObject Attacker;
+        GameObject Attacker=this.gameObject;
         damagedObjectCollider[0] = Physics2D.OverlapPointAll(_pivot.transform.position);
         foreach(Collider2D[] damagedObjectList in damagedObjectCollider) {
             foreach(Collider2D damagedObject in damagedObjectList) {
                 if(damagedObject != null) {
                     if(!damagedObject.isTrigger) {
-                        Attacker = damagedObject.gameObject.transform.parent.gameObject;
-                        damagedScript = Attacker.GetComponent<objectBase>();
+                        //Attacker = ;
+                        damagedScript = damagedObject.gameObject.transform.parent.gameObject.GetComponent<objectBase>();
                         if(damagedScript != null) {
                             damagedScript.Damaged(damage, type,X,Y,Attacker);
                            
