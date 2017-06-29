@@ -75,7 +75,7 @@ public class slimeScript:objectBase {
                             } else {
                                 vector = 1;
                             }
-                           // setAttack = true;
+                            setAttack = true;
                         }
                         if(!setAttack) {
                             if(0 == Random.Range(0, 2) && (Mathf.Abs(D1) > 30 || Mathf.Abs(D2) > 30)) {
