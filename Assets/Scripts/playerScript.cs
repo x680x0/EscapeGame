@@ -16,8 +16,8 @@ public class playerScript:objectBase {
     public GameObject weapon;
     weaponBase weaponScript;
     public GameObject healBottle;
-    public bool isAttack,isDamaged;
-    int knockX, knockY,knockCount;
+    public bool isAttack, isDamaged;
+    int knockX, knockY, knockCount;
     // Use this for initialization
     public override void Start() {
         base.Start();
@@ -58,30 +58,36 @@ public class playerScript:objectBase {
         itemTest[1] = false;
         pick = null;
     }
-    public override void Damaged(int damage, typeOfDamage type, int _X, int _Y,GameObject Attacker) {
+    public override void Damaged(int damage, typeOfDamage type, int _X, int _Y, GameObject Attacker) {
         if(this.gameObject == Attacker) {
 
 
         } else {
-            if(!isDamaged) {
-                isAttack = false;
-                HP -= damage;
-                animator.Play(damaged[vector]);
-                if(weapon != null) {
-                    weaponScript.StopAnimation();
-                }
-                int dX = X - _X;
-                int dY = Y - _Y;
-                float knockScale = 10000.0f / (dX * dX + dY * dY);
-                knockScale = Mathf.Sqrt(knockScale);
-                knockX = (int)(knockScale * dX);
-                knockY = (int)(knockScale * dY);
+            switch(type) {
+                case typeOfDamage.slip:
+                    HP -= damage;
+                    break;
+                default:
+                    if(!isDamaged) {
+                        isAttack = false;
+                        HP -= damage;
+                        animator.Play(damaged[vector]);
+                        if(weapon != null) {
+                            weaponScript.StopAnimation();
+                        }
+                        int dX = X - _X;
+                        int dY = Y - _Y;
+                        float knockScale = 10000.0f / (dX * dX + dY * dY);
+                        knockScale = Mathf.Sqrt(knockScale);
+                        knockX = (int)(knockScale * dX);
+                        knockY = (int)(knockScale * dY);
 
-                knockCount = 30;
-                isDamaged = true;
+                        knockCount = 30;
+                        isDamaged = true;
+                    }
+                    break;
             }
         }
-            
     }
     // Update is called once per frame
     public override void Update() {
@@ -95,16 +101,21 @@ public class playerScript:objectBase {
         foreach(Collider2D[] groundCheckList in groundCheckCollider) {
             foreach(Collider2D groundCheck in groundCheckList) {
                 if(groundCheck != null) {
-                    if(!groundCheck.isTrigger) {
+                    if(groundCheck.isTrigger) {
                         if(groundCheck.tag == "Light") {
                             inLight = true;
-                        } else if(groundCheck.transform.parent.tag == "Item") {
+                        }
+                    }else {
+                        if(groundCheck.transform.parent.tag == "Item") {
                             pick = groundCheck.transform.parent.gameObject;
                         }
                     }
                 }
 
             }
+        }
+        if(!inLight) {
+            Damaged(1, typeOfDamage.slip, 0, 0, null);
         }
         if(isDamaged) {
             X += 2*knockX / 3;

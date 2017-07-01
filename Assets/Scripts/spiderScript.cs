@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class spiderScript :objectBase {
 
+    public int defY;
     static int[] attack;
     static int walk,die;
+    public int speed,a;
     float time;
     Animator animator;
     public GameObject target;
@@ -17,7 +19,7 @@ public class spiderScript :objectBase {
         HP = MAXHP = 10;
         setAttack = false;
         animator = GetComponent<Animator>();
-       
+        a = 1;
         walk = Animator.StringToHash("walk");
         attack = new int[4];
         attack[0] = Animator.StringToHash("attackup");
@@ -32,7 +34,7 @@ public class spiderScript :objectBase {
     }
     public override void Update() {
         spriteRenderer.sortingOrder = -Y;
-        transform.localPosition = new Vector3(X * once, (Y ) * once, transform.localPosition.z);
+        transform.localPosition = new Vector3(X * once, (Y +46) * once, transform.localPosition.z);
     }
     public override void FixedUpdate() {
         if(HP > 0) {
@@ -42,7 +44,7 @@ public class spiderScript :objectBase {
             foreach(Collider2D[] groundCheckList in groundCheckCollider) {
                 foreach(Collider2D groundCheck in groundCheckList) {
                     if(groundCheck != null) {
-                        if(!groundCheck.isTrigger) {
+                        if(groundCheck.isTrigger) {
                             if(groundCheck.tag == "Light") {
                                 inLight = true;
                             }
@@ -52,5 +54,7 @@ public class spiderScript :objectBase {
                 }
             }
         }
+        
     }
+
 }

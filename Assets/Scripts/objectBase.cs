@@ -19,7 +19,8 @@ public class objectBase:MonoBehaviour {
     public bool stop;
     public enum typeOfDamage {
         cross = 0,
-        mid
+        mid,
+        slip
     }
     // Use this for initialization
     public virtual void Start() {
