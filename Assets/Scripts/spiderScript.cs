@@ -14,6 +14,7 @@ public class spiderScript :objectBase {
     objectBase targetScript;
     public GameObject[] attackpivot;
     public bool setAttack;
+    public GameObject needle;
     public override void Start() {
         base.Start();
         HP = MAXHP = 10;
@@ -56,5 +57,8 @@ public class spiderScript :objectBase {
         }
         
     }
-
+    public void SpiderAttack() {
+        GameObject _needle = Instantiate(needle);
+        _needle.GetComponent<bulletBase>().Fire(X, Y, vector, 30.0f, typeOfDamage.mid, 10, this.gameObject);
+    }
 }
