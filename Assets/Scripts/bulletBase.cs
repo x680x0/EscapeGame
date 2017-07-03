@@ -12,16 +12,25 @@ public class bulletBase : MonoBehaviour {
     int damage;
     objectBase.typeOfDamage type;
     GameObject Attacker;
+    Animator animator;
+    static int[] hash;
+    
     // Use this for initialization
     void Start () {
-		
-	}
+        animator = GetComponent<Animator>();
+        hash = new int[4];
+        hash[0] = Animator.StringToHash("up");
+        hash[1] = Animator.StringToHash("right");
+        hash[2] = Animator.StringToHash("down");
+        hash[3] = Animator.StringToHash("left");
+    }
 	
 	// Update is called once per frame
 	void Update () {
 		
 	}
     public void Fire(int _X,int _Y,int _vector,float _speed,objectBase.typeOfDamage _type,int _damage,GameObject _Attacker) {
+        animator = GetComponent<Animator>();
         vector = _vector;
         Attacker = _Attacker;
         type = _type;
@@ -32,22 +41,26 @@ public class bulletBase : MonoBehaviour {
         Vector2 tmp;
         switch(_vector) {
             case 0:
+                animator.Play("up");
                 tmp = new Vector2(0, _speed);
                 break;
             case 1:
+                animator.Play("right");
                 tmp = new Vector2(_speed,0);
                 break;
             case 2:
+                animator.Play("down");
                 tmp = new Vector2(0,-_speed);
                 break;
             case 3:
+                animator.Play("left");
                 tmp = new Vector2(-_speed, 0);
                 break;
             default:
                 tmp = new Vector2();
                 break;
         }
-        speed = rigidbody2D.velocity = tmp;
+        speed = rigidbody2D.velocity = tmp;        
     }
     public void FixedUpdate() {
 
