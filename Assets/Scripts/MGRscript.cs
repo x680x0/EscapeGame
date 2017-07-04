@@ -43,7 +43,6 @@ public class mgrScript : MonoBehaviour {
         numberOfPlayer = 1;
         player = new objectBase[4];
         player[0] = GameObject.Find("Player1").GetComponent<objectBase>();
-        player[1] = GameObject.Find("Player2").GetComponent<objectBase>();
 	}
 	
 	// Update is called once per frame

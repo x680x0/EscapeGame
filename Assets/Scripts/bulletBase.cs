@@ -18,6 +18,7 @@ public class bulletBase : MonoBehaviour {
     // Use this for initialization
     void Start () {
         animator = GetComponent<Animator>();
+        rigidbody2D = GetComponent<Rigidbody2D>();
         hash = new int[4];
         hash[0] = Animator.StringToHash("up");
         hash[1] = Animator.StringToHash("right");
