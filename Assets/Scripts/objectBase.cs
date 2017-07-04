@@ -44,17 +44,7 @@ public class objectBase:MonoBehaviour {
 
     public virtual void Damaged(int damage, typeOfDamage type, int _X, int _Y,GameObject Attacker) {
 
-        // 
-        if(this.gameObject==Attacker) {
-
-
-        } else {
-            HP -= damage;
-            if(HP < 0) {
-                Death();
-            }
-        }
-
+      
     } 
 
     public virtual void Move() {//実際に動かす　SetMoveで事前にセットしておくこと

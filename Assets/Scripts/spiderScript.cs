@@ -184,4 +184,18 @@ public class spiderScript :objectBase {
         GameObject _needle = Instantiate(needle);
         _needle.GetComponent<bulletBase>().Fire(X, Y, vector, 30.0f, typeOfDamage.mid, 10, this.gameObject);
     }
+    public override void Damaged(int damage, typeOfDamage type, int _X, int _Y, GameObject Attacker) {
+
+        // 
+        if(this.gameObject == Attacker) {
+
+
+        } else {
+            HP -= damage;
+            if(HP <= 0) {
+                animator.Play(die);
+            }
+        }
+
+    }
 }

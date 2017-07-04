@@ -77,6 +77,9 @@ public class playerScript:objectBase {
                         }
                         int dX = X - _X;
                         int dY = Y - _Y;
+                        if(dX == 0 && dY == 0) {
+                            dX = dY = 1;
+                        }
                         float knockScale = 10000.0f / (dX * dX + dY * dY);
                         knockScale = Mathf.Sqrt(knockScale);
                         knockX = (int)(knockScale * dX);
