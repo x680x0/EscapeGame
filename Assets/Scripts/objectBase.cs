@@ -29,8 +29,6 @@ public class objectBase:MonoBehaviour {
         stop = true;
         once = MGR.once;
         spriteRenderer = GetComponent<SpriteRenderer>();
-        X = (int)(transform.localPosition.x / once);
-        Y = (int)(transform.localPosition.y / once);
     }
 
     // Update is called once per frame
@@ -42,7 +40,7 @@ public class objectBase:MonoBehaviour {
 
     }
 
-    public virtual void Damaged(int damage, typeOfDamage type, int _X, int _Y,GameObject Attacker) {
+    public virtual void Damaged(int damage, typeOfDamage type, int _X, int _Y,GameObject Attacker,string tag) {
 
       
     } 
@@ -94,7 +92,7 @@ public class objectBase:MonoBehaviour {
             V1 = 2;
         }
     }
-    public virtual void Attack(GameObject _pivot,int damage,typeOfDamage type) {
+    public virtual void Attack(GameObject _pivot,int damage,typeOfDamage type,string tag) {
         Collider2D[][] damagedObjectCollider = new Collider2D[1][];
         /* damagedObjects = Physics2D.OverlapPointAll(_pivot.transform.localPosition);
         
@@ -115,7 +113,7 @@ public class objectBase:MonoBehaviour {
                         //Attacker = ;
                         damagedScript = damagedObject.gameObject.transform.parent.gameObject.GetComponent<objectBase>();
                         if(damagedScript != null) {
-                            damagedScript.Damaged(damage, type,X,Y,Attacker);
+                            damagedScript.Damaged(damage, type,X,Y,Attacker, this.gameObject.tag);
                            
 
                         }
@@ -125,5 +123,7 @@ public class objectBase:MonoBehaviour {
             }
         }
     }
+    public virtual void SetTourch(GameObject _tourch) {
 
+    }
 }

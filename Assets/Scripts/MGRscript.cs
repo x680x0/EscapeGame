@@ -6,10 +6,12 @@ using UnityEngine.UI;
 public class mgrScript : MonoBehaviour {
     public float once;
     public int[] input;
+    public int[] prevInput;
     public bool[] b_input;
     public int numberOfPlayer;
     public objectBase[] player;
-
+    public itemMgr itemmgr;
+    public enemyMgr enemymgr;
     public Text testText;
 
     public enum keyIn{
@@ -33,17 +35,24 @@ public class mgrScript : MonoBehaviour {
         vectorlock
     }
     // Use this for initialization
+    void Awake() {
+        player = new objectBase[4];
+        player[0] = GameObject.Find("Player1").GetComponent<objectBase>();
+    }
     void Start () {
         b_input = new bool[8];
         input = new int[8];
+        prevInput = new int[8];
+        input = new int[8];
         for(int i = 0; i < b_input.Length; i++) {
             input[i] = 0;
+            prevInput[i] = 0;
             b_input[i] = false;
         }
         numberOfPlayer = 1;
-        player = new objectBase[4];
-        player[0] = GameObject.Find("Player1").GetComponent<objectBase>();
-	}
+        itemmgr = GetComponent<itemMgr>();
+        enemymgr = GetComponent<enemyMgr>();
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -92,11 +101,19 @@ public class mgrScript : MonoBehaviour {
     }
     void FixedUpdate() {
         for(int i = 0; i < b_input.Length; i++) {
+            prevInput[i] = input[i];
             if(b_input[i]) {
                 input[i] += 1;
             }else {
                 input[i] = 0;
             }
         }
+    }
+
+    public GameObject ItemInstantiate(itemMgr.itemID _item) {
+        return itemmgr.ItemInstantiate(_item);
+    }
+    public GameObject EnemyInstantiate(enemyMgr.enemyID _enemy) {
+        return enemymgr.EnemyInstantiate(_enemy);
     }
 }

@@ -10,20 +10,22 @@ public class playerScript:objectBase {
     static int[] attack;
     static int[] damaged;
     static int[] through;
-    public bool[] itemTest;
+    public itemMgr.itemID eItem;
 
     GameObject pick;
     public GameObject weapon;
     weaponBase weaponScript;
-    public GameObject healBottle;
     public bool isAttack, isDamaged;
     int knockX, knockY, knockCount;
     // Use this for initialization
     public override void Start() {
         base.Start();
+        X = (int)(transform.localPosition.x / once);
+        Y = (int)(transform.localPosition.y / once);
+        X = (int)(transform.localPosition.x / once);
+        Y = (int)(transform.localPosition.y / once);
         weaponScript = weapon.GetComponent<weaponBase>();
         MAXHP = HP = 100;
-        itemTest = new bool[2];
         vector = 0;
         isAttack = false;
         isDamaged = false;
@@ -54,12 +56,10 @@ public class playerScript:objectBase {
         through[1] = Animator.StringToHash("throughright");
         through[2] = Animator.StringToHash("throughdown");
         through[3] = Animator.StringToHash("throughleft");
-        itemTest[0] = false;
-        itemTest[1] = false;
         pick = null;
     }
-    public override void Damaged(int damage, typeOfDamage type, int _X, int _Y, GameObject Attacker) {
-        if(this.gameObject == Attacker) {
+    public override void Damaged(int damage, typeOfDamage type, int _X, int _Y, GameObject Attacker,string tag) {
+        if(this.gameObject == Attacker|| this.gameObject.tag==tag) {
 
 
         } else {
@@ -118,11 +118,11 @@ public class playerScript:objectBase {
             }
         }
         if(!inLight) {
-            Damaged(1, typeOfDamage.slip, 0, 0, null);
+            Damaged(1, typeOfDamage.slip, 0, 0, null,"");
         }
         if(isDamaged) {
-            X += 2*knockX / 3;
-            Y += 2*knockY / 3;
+            X += 2 * knockX / 3;
+            Y += 2 * knockY / 3;
             knockX /= 3;
             knockY /= 3;
             knockCount -= 1;
@@ -174,29 +174,17 @@ public class playerScript:objectBase {
                 }
             } else
             if(MGR.input[(int)mgrScript.keyUse.item1] == 1) {//アイテム関連
-                if(itemTest[0]) {
+                if(eItem!=itemMgr.itemID.None) {
                     isAttack = true;
-                    itemTest[0] = false;
-                    itemBase a = Instantiate(healBottle).GetComponent<itemBase>();
+                    itemBase a = MGR.ItemInstantiate(eItem).GetComponent<itemBase>();
                     if(a != null) {
                         a.Through(vector, this.gameObject, 20, X, Y);
                     }
+                    eItem = itemMgr.itemID.None;
                     animator.Play(through[vector]);
                 } else if(pick != null) {
+                    eItem = pick.GetComponent<itemBase>().ID;
                     Destroy(pick);
-                    itemTest[0] = true;
-                }
-            } else
-            if(MGR.input[(int)mgrScript.keyUse.item2] == 1) {
-                if(itemTest[1]) {
-                    itemTest[1] = false;
-                    itemBase a = Instantiate(healBottle).GetComponent<itemBase>();
-                    if(a != null) {
-                        a.Through(vector, this.gameObject, 20, X, Y);
-                    }
-                } else if(pick != null) {
-                    Destroy(pick);
-                    itemTest[1] = true;
                 }
             }
         }
@@ -206,10 +194,10 @@ public class playerScript:objectBase {
         int count = 0;
         foreach(Transform child in weaponScript.attackpivot[vector].transform) {
             //child is your child transform
-            Attack(child.gameObject, 20, typeOfDamage.cross);
+            Attack(child.gameObject, 20, typeOfDamage.cross,this.gameObject.tag);
             count++;
         }
 
-        Attack(pivot[vector], 20, typeOfDamage.cross);
+        Attack(pivot[vector], 20, typeOfDamage.cross, this.gameObject.tag);
     }
 }

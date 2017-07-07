@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class slimeScript:objectBase {
-    static int[] walk,attack;
+    static int[] walk, attack;
     static int die;
     float time;
     Animator animator;
     public GameObject target;
     objectBase targetScript;
     public GameObject[] attackpivot;
+    public GameObject tourch;
+    objectBase tourchS;
     public bool setAttack;
     public override void Start() {
         base.Start();
@@ -28,13 +30,13 @@ public class slimeScript:objectBase {
         attack[3] = Animator.StringToHash("attackleft");
         die = Animator.StringToHash("motionDie");
         time = 0;
-        if(target != null) {
-            targetScript = target.GetComponent<objectBase>();
+        if(tourch != null) {
+            tourchS = tourch.GetComponent<objectBase>();
         }
     }
     public override void Update() {
         spriteRenderer.sortingOrder = -Y;
-        transform.localPosition = new Vector3(X * once, (Y+22) * once, transform.localPosition.z);
+        transform.localPosition = new Vector3(X * once, (Y + 22) * once, transform.localPosition.z);
     }
     public override void FixedUpdate() {
         if(HP > 0) {
@@ -44,7 +46,7 @@ public class slimeScript:objectBase {
             foreach(Collider2D[] groundCheckList in groundCheckCollider) {
                 foreach(Collider2D groundCheck in groundCheckList) {
                     if(groundCheck != null) {
-                        if(!groundCheck.isTrigger) {
+                        if(groundCheck.isTrigger) {
                             if(groundCheck.tag == "Light") {
                                 inLight = true;
                             }
@@ -53,19 +55,45 @@ public class slimeScript:objectBase {
 
                 }
             }
-            int D1 = X - targetScript.X;
-            int D2 = Y - targetScript.Y;
-            if(!setAttack) {
-                if(target == null) {
 
+            readyX = 0; readyY = 0;//初期化
+            int DX;
+            int DY;
+            if(!setAttack) {
+
+
+                if(target == null) {
+                    
+                    DX = X - tourchS.X;
+                    DY = Y - tourchS.Y;
+                    if(DX > 0) {
+                        SetVector(3, 10);
+                    } else {
+                        SetVector(1, 10);
+                    }
+                    if(DY > 0) {
+                        SetVector(2, 10);
+                    } else {
+                        SetVector(0, 10);
+                    }
+                    Move();
+                    if(inLight) {
+                        target = MGR.player[0].gameObject;
+                        if(target != null) {
+                            targetScript = target.GetComponent<objectBase>();
+                        }
+                    }
                 } else {
-                    readyX = 0; readyY = 0;//初期化
+
+                    DX = X - targetScript.X;
+                    DY = Y - targetScript.Y;
+
                     time += Random.Range(0.05f, 0.1f);
                     if(time > 1f) {
                         int V1, V2;
-                        float A = Mathf.Atan2(D2, D1);
+                        float A = Mathf.Atan2(DY, DX);
                         A *= Mathf.Rad2Deg;
-                        if(0 == Random.Range(0, 4) && (Mathf.Abs(D1) < 120) && (Mathf.Abs(D2) < 120)) {
+                        if(0 == Random.Range(0, 4) && (Mathf.Abs(DX) < 120) && (Mathf.Abs(DY) < 120)) {
                             if(-45 < A && A < 45) {
                                 vector = 3;
                             } else if(45 < A && A < 135) {
@@ -78,18 +106,18 @@ public class slimeScript:objectBase {
                             setAttack = true;
                         }
                         if(!setAttack) {
-                            if(0 == Random.Range(0, 2) && (Mathf.Abs(D1) > 30 || Mathf.Abs(D2) > 30)) {
-                                if(D1 < 0) {
+                            if(0 == Random.Range(0, 2) && (Mathf.Abs(DX) > 30 || Mathf.Abs(DY) > 30)) {
+                                if(DX < 0) {
                                     V1 = 1;
                                 } else {
                                     V1 = 3;
                                 }
-                                if(D2 < 0) {
+                                if(DY < 0) {
                                     V2 = 0;
                                 } else {
                                     V2 = 2;
                                 }
-                                if(Mathf.Abs(D1) > Mathf.Abs(D2)) {
+                                if(Mathf.Abs(DX) > Mathf.Abs(DY)) {
                                     vector = V1;
                                 } else {
                                     vector = V2;
@@ -123,20 +151,20 @@ public class slimeScript:objectBase {
     }
 
     public void SlimeAttack() {
-        int count=0;
+        int count = 0;
         foreach(Transform child in attackpivot[vector].transform) {
             //child is your child transform
-            Attack(child.gameObject, 20, typeOfDamage.cross);
+            Attack(child.gameObject, 20, typeOfDamage.cross,this.gameObject.tag);
             count++;
         }
 
-        Attack(pivot[vector], 20, typeOfDamage.cross);
+        Attack(pivot[vector], 20, typeOfDamage.cross, this.gameObject.tag);
     }
 
-    public override void Damaged(int damage, typeOfDamage type, int _X, int _Y, GameObject Attacker) {
+    public override void Damaged(int damage, typeOfDamage type, int _X, int _Y, GameObject Attacker,string tag) {
 
         // 
-        if(this.gameObject == Attacker) {
+        if(this.gameObject == Attacker||this.gameObject.tag==tag) {
 
 
         } else {
@@ -147,5 +175,7 @@ public class slimeScript:objectBase {
         }
 
     }
-
+    public override void SetTourch(GameObject _tourch) {
+        tourch = _tourch;
+    }
 }

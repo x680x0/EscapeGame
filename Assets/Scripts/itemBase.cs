@@ -12,6 +12,8 @@ public class itemBase : objectBase {
     public GameObject actor;
     [System.NonSerialized]
     public Animator animator;
+
+    public itemMgr.itemID ID;
     // Use this for initialization
     public override void Start() {
         base.Start();
@@ -34,7 +36,7 @@ public class itemBase : objectBase {
                         }
                         if(!grounded&&((groundCheck.tag == "Player"&& groundCheck.gameObject.transform.parent.gameObject != actor)||groundCheck.tag=="Enemy"|| groundCheck.tag == "Wall")) {
                             grounded = true;
-                            groundCheck.gameObject.transform.parent.gameObject.GetComponent<objectBase>().Damaged(10, objectBase.typeOfDamage.cross,X,Y,actor);
+                            groundCheck.gameObject.transform.parent.gameObject.GetComponent<objectBase>().Damaged(10, objectBase.typeOfDamage.cross,X,Y,actor, this.gameObject.tag);
                         }
                     }
                 }

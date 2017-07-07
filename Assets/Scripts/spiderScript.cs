@@ -13,6 +13,8 @@ public class spiderScript :objectBase {
     public int Phase;
     Animator animator;
     public GameObject target;
+    public GameObject tourch;
+    objectBase tourchS; 
     objectBase targetScript;
     public GameObject[] attackpivot;
     public bool setAttack;
@@ -33,8 +35,8 @@ public class spiderScript :objectBase {
         attack[3] = Animator.StringToHash("attackleft");
         die = Animator.StringToHash("motionDie");
         time = 0;
-        if(target != null) {
-            targetScript = target.GetComponent<objectBase>();
+        if(tourch != null) {
+            tourchS = tourch.GetComponent<objectBase>();
         }
     }
     public override void Update() {
@@ -59,122 +61,148 @@ public class spiderScript :objectBase {
                 }
             }
             readyX = readyY = 0;
-            switch(Phase) {
-                case 0:
-                    DX = X - targetScript.X;
-                    DY = Y - targetScript.Y;
-                    if(Mathf.Abs(DX) > Mathf.Abs(DY)) {
-                        Phase = 1;
-                        //Y座標が近い
-                    }else {
-                        Phase = 2;
-                        //X座標が近い
+            if(target == null) {
+                DX = X - tourchS.X;
+                DY = Y - tourchS.Y;
+                if(DX > 0) {
+                    SetVector(3, 10);
+                } else {
+                    SetVector(1, 10);
+                }
+                if(DY > 0) {
+                    SetVector(2, 10);
+                } else {
+                    SetVector(0, 10);
+                }
+                Move();
+                if(inLight) {
+                    target = MGR.player[0].gameObject;
+                    if(target != null) {
+                        targetScript = target.GetComponent<objectBase>();
                     }
-                    break;
-                case 1://Yを離してからXで軸合わせへ
-                    DY = Y - targetScript.Y;
-                    if(Mathf.Abs(DY) < 800&&inLight) {
-                        if(DY < 0) {
-                            SetVector(2, 30);
-                        }else {
-                            SetVector(0, 30);
-                        }
-                    }else {
-                        Phase = 3;
-                    }
-                    break;
-                case 2://Xを離してからYで軸合わせへ
-                    DX = X - targetScript.X;
-                    if(Mathf.Abs(DX) < 800 && inLight) {
-                        if(DX < 0) {
-                            SetVector(3, 30);
-                        } else {
-                            SetVector(1, 30);
-                        }
-                    } else {
-                        Phase = 4;
-                    }
-                    break;
-                case 3://X近づく
-                    DX = X - targetScript.X;
-                    if(Mathf.Abs(DX) < 30) {
-                        if(DX < 0) {
-                            SetVector(1, Mathf.Abs(DX));
-                        } else {
-                            SetVector(3, Mathf.Abs(DX));
-                        }
-                        DY = Y - targetScript.Y;
-                        if(DY > 0) {
-                            vector = 2;
-                        } else {
-                            vector = 0;
-                        }
-                        Phase = 5;
-                    } else if(Mathf.Abs(DX) > 10) {
-                        if(DX < 0) {
-                            SetVector(1, 30);
-                        } else {
-                            SetVector(3, 30);
-                        }
-                    }
-                    break;
-                case 4:
-                    DY = Y - targetScript.Y;
-                    if(Mathf.Abs(DY) < 30) {
-                        if(DY < 0) {
-                            SetVector(0, Mathf.Abs(DY));
-                        } else {
-                            SetVector(2, Mathf.Abs(DY));
-                        }
+                }
+            } else {
+                switch(Phase) { 
+                    case 0:
                         DX = X - targetScript.X;
-                        if(DX > 0) {
-                            vector = 3;
+                        DY = Y - targetScript.Y;
+                        if(Mathf.Abs(DX) > Mathf.Abs(DY)) {
+                            Phase = 1;
+                            //Y座標が近い
                         } else {
-                            vector = 1;
+                            Phase = 2;
+                            //X座標が近い
                         }
-                        Phase = 5;
-                    } else if(Mathf.Abs(DY) > 10) {
-                        if(DY < 0) {
-                            SetVector(0, 30);
+                        break;
+                    case 1://Yを離してからXで軸合わせへ
+                        DY = Y - targetScript.Y;
+                        if(Mathf.Abs(DY) < 800 && inLight) {
+                            if(DY < 0) {
+                                SetVector(2, 30);
+                            } else {
+                                SetVector(0, 30);
+                            }
                         } else {
-                            SetVector(2, 30);
+                            Phase = 3;
                         }
-                    }
-                    break;
-                case 5://攻撃
-                    animator.Play(attack[vector]);
-                    Phase = 6;
-                    break;
-                case 6:
-                    time = 0;
-                    break;
-                case 7:
-                    DX = X - targetScript.X;
-                    DY = Y - targetScript.Y;
-                    if(DX < 0) {
-                        SetVector(3, 2);
-                    } else {
-                        SetVector(1, 2);
-                    }
-                    if(DY < 0) {
-                        SetVector(2, 2);
-                    } else {
-                        SetVector(0, 2);
-                    }
-                    time += 1.0f;
-                    vector = Random.Range(0, 4);
-                    if(time > 180) {
+                        break;
+                    case 2://Xを離してからYで軸合わせへ
+                        DX = X - targetScript.X;
+                        if(Mathf.Abs(DX) < 800 && inLight) {
+                            if(DX < 0) {
+                                SetVector(3, 30);
+                            } else {
+                                SetVector(1, 30);
+                            }
+                        } else {
+                            Phase = 4;
+                        }
+                        break;
+                    case 3://X近づく
+                        DX = X - targetScript.X;
+                        if(Mathf.Abs(DX) < 30) {
+                            if(DX < 0) {
+                                SetVector(1, Mathf.Abs(DX));
+                            } else {
+                                SetVector(3, Mathf.Abs(DX));
+                            }
+                            DY = Y - targetScript.Y;
+                            if(DY > 0) {
+                                vector = 2;
+                            } else {
+                                vector = 0;
+                            }
+                            Phase = 5;
+                        } else if(Mathf.Abs(DX) > 10) {
+                            if(DX < 0) {
+                                SetVector(1, 30);
+                            } else {
+                                SetVector(3, 30);
+                            }
+                        }
+                        break;
+                    case 4:
+                        DY = Y - targetScript.Y;
+                        if(Mathf.Abs(DY) < 30) {
+                            if(DY < 0) {
+                                SetVector(0, Mathf.Abs(DY));
+                            } else {
+                                SetVector(2, Mathf.Abs(DY));
+                            }
+                            DX = X - targetScript.X;
+                            if(DX > 0) {
+                                vector = 3;
+                            } else {
+                                vector = 1;
+                            }
+                            Phase = 5;
+                        } else if(Mathf.Abs(DY) > 10) {
+                            if(DY < 0) {
+                                SetVector(0, 30);
+                            } else {
+                                SetVector(2, 30);
+                            }
+                        }
+                        break;
+                    case 5://攻撃
+                        if(inLight) {
+                            animator.Play(attack[vector]);
+                            Phase = 6;
+                        } else {
+                            Phase = 0;
+                        }
+                        break;
+                    case 6:
                         time = 0;
-                        Phase = 0;
-                        animator.Play(walk);
-                    }
-                    break;
+                        break;
+                    case 7:
+                        DX = X - targetScript.X;
+                        DY = Y - targetScript.Y;
+                        if(DX < 0) {
+                            SetVector(3, 2);
+                        } else {
+                            SetVector(1, 2);
+                        }
+                        if(DY < 0) {
+                            SetVector(2, 2);
+                        } else {
+                            SetVector(0, 2);
+                        }
+                        time += 1.0f;
+                        vector = Random.Range(0, 4);
+                        if(time > 180) {
+                            time = 0;
+                            Phase = 0;
+                            animator.Play(walk);
+                        }
+                        break;
+                }
+                Move();
+                //移動
+
             }
-            Move();
-            //移動
-           
+
         }
-        
     }
     public void AttackFinish() {
         animator.Play(slow);
@@ -184,10 +212,10 @@ public class spiderScript :objectBase {
         GameObject _needle = Instantiate(needle);
         _needle.GetComponent<bulletBase>().Fire(X, Y, vector, 30.0f, typeOfDamage.mid, 10, this.gameObject);
     }
-    public override void Damaged(int damage, typeOfDamage type, int _X, int _Y, GameObject Attacker) {
+    public override void Damaged(int damage, typeOfDamage type, int _X, int _Y, GameObject Attacker,string tag) {
 
         // 
-        if(this.gameObject == Attacker) {
+        if(this.gameObject == Attacker||this.gameObject.tag==tag) {
 
 
         } else {
@@ -197,5 +225,9 @@ public class spiderScript :objectBase {
             }
         }
 
+    }
+
+    public override void SetTourch(GameObject _tourch) {
+        tourch = _tourch;
     }
 }

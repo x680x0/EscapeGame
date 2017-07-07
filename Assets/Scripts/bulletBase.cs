@@ -75,7 +75,7 @@ public class bulletBase : MonoBehaviour {
                         //Attacker = ;
                         damagedScript = damagedObject.gameObject.transform.parent.gameObject.GetComponent<objectBase>();
                         if(damagedScript != null&&damagedScript.gameObject!=Attacker) {
-                            damagedScript.Damaged(damage, type, (int)(transform.localPosition.x/once),(int) (transform.localPosition.y / once), Attacker);
+                            damagedScript.Damaged(damage, type, (int)(transform.localPosition.x/once),(int) (transform.localPosition.y / once), Attacker, this.gameObject.tag);
                             Destroy(this.gameObject);
                         }
                     }
