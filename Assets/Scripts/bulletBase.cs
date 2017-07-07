@@ -31,6 +31,7 @@ public class bulletBase : MonoBehaviour {
 		
 	}
     public void Fire(int _X,int _Y,int _vector,float _speed,objectBase.typeOfDamage _type,int _damage,GameObject _Attacker) {
+        this.gameObject.tag = _Attacker.tag;
         animator = GetComponent<Animator>();
         vector = _vector;
         Attacker = _Attacker;

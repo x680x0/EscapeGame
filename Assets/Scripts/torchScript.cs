@@ -28,8 +28,6 @@ public class torchScript:objectBase {
         Angle = Random.Range(0f, 2 * Mathf.PI);
         r = Random.Range(17f, 20f);
         objectBase a = MGR.EnemyInstantiate(_enemy).GetComponent<objectBase>();
-        print((int)(Mathf.Cos(Angle) * r / once));
-        print((int)(Mathf.Sin(Angle) * r / once));
         a.SetPosition((int)(Mathf.Cos(Angle) * r / once)+X, (int)(Mathf.Sin(Angle) * r / once)+Y);
             a.SetTourch(this.gameObject);
         
