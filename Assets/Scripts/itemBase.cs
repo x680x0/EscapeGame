@@ -34,9 +34,9 @@ public class itemBase : objectBase {
                         if(groundCheck.tag == "Light") {
                             inLight = true;
                         }
-                        if(!grounded&&((groundCheck.tag == "Player"&& groundCheck.gameObject.transform.parent.gameObject != actor)||groundCheck.tag=="Enemy"|| groundCheck.tag == "Wall")) {
+                        if(!grounded&& groundCheck.gameObject.transform.parent.gameObject != actor&& groundCheck.gameObject.transform.parent.gameObject != this.gameObject/*&&((groundCheck.tag == "Player"&& )||groundCheck.tag=="Enemy"|| groundCheck.tag == "Wall")*/) {
                             grounded = true;
-                            groundCheck.gameObject.transform.parent.gameObject.GetComponent<objectBase>().Damaged(10, objectBase.typeOfDamage.cross,X,Y,actor, this.gameObject.tag);
+                            Shock(groundCheck.gameObject.transform.parent.gameObject);
                         }
                     }
                 }
@@ -48,6 +48,9 @@ public class itemBase : objectBase {
             SetVector(vector, power);
             Move();
         }
+    }
+    public virtual void Shock(GameObject _gameObject) {
+       
     }
     public virtual void Through(int _vector,GameObject _actor,int _power,int _X,int _Y) {
         MGR = GameObject.Find("mgrObject").GetComponent<mgrScript>();
