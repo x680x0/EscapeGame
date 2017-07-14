@@ -14,6 +14,8 @@ public class itemBase : objectBase {
     public Animator animator;
 
     public itemMgr.itemID ID;
+    public itemMgr.weapnID WID;
+    public GameObject weapon;
     // Use this for initialization
     public override void Start() {
         base.Start();
@@ -62,6 +64,9 @@ public class itemBase : objectBase {
         vector = _vector;
         animator = GetComponent<Animator>();
         animator.Play("through");
+    }
+    public GameObject EquipWeapon() {
+        return Instantiate(weapon);
     }
     public virtual void Grounded() {
         grounded = true;

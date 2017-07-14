@@ -126,4 +126,7 @@ public class objectBase:MonoBehaviour {
     public virtual void SetTourch(GameObject _tourch) {
 
     }
+    public virtual void Heal(int heal) {
+        HP += heal;
+    }
 }

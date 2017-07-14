@@ -11,7 +11,7 @@ public class playerScript:objectBase {
     static int[] damaged;
     static int[] through;
     public itemMgr.itemID eItem;
-
+    public itemMgr.weapnID eWeapon;
     GameObject pick;
     public GameObject weapon;
     weaponBase weaponScript;
@@ -24,7 +24,7 @@ public class playerScript:objectBase {
         Y = (int)(transform.localPosition.y / once);
         X = (int)(transform.localPosition.x / once);
         Y = (int)(transform.localPosition.y / once);
-        weaponScript = weapon.GetComponent<weaponBase>();
+        
         MAXHP = HP = 100;
         vector = 0;
         isAttack = false;
@@ -58,8 +58,8 @@ public class playerScript:objectBase {
         through[3] = Animator.StringToHash("throughleft");
         pick = null;
     }
-    public override void Damaged(int damage, typeOfDamage type, int _X, int _Y, GameObject Attacker,string tag) {
-        if(this.gameObject == Attacker|| this.gameObject.tag==tag) {
+    public override void Damaged(int damage, typeOfDamage type, int _X, int _Y, GameObject Attacker, string tag) {
+        if(this.gameObject == Attacker || this.gameObject.tag == tag) {
 
 
         } else {
@@ -108,7 +108,7 @@ public class playerScript:objectBase {
                         if(groundCheck.tag == "Light") {
                             inLight = true;
                         }
-                    }else {
+                    } else {
                         if(groundCheck.transform.parent.tag == "Item") {
                             pick = groundCheck.transform.parent.gameObject;
                         }
@@ -118,7 +118,7 @@ public class playerScript:objectBase {
             }
         }
         if(!inLight) {
-            Damaged(1, typeOfDamage.slip, 0, 0, null,"");
+            Damaged(1, typeOfDamage.slip, 0, 0, null, "");
         }
         if(isDamaged) {
             X += 2 * knockX / 3;
@@ -166,6 +166,24 @@ public class playerScript:objectBase {
                 animator.Play(walk[vector]);
             }
             Move();
+            if(MGR.input[(int)mgrScript.keyUse.pick] == 1) {
+                if(pick != null) {
+                    itemBase itembase = pick.GetComponent<itemBase>();
+                    GameObject W;
+                    if(itembase.ID != itemMgr.itemID.weapon) {
+                        eItem = itembase.ID;
+                    } else {
+                        eWeapon = itembase.WID;
+                        W = itembase.EquipWeapon();
+                        weapon = W;
+                        W.transform.parent = this.gameObject.transform;
+                        W.transform.localPosition = new Vector3(0, 0, 0);
+                        weaponScript = weapon.GetComponent<weaponBase>();
+                    }
+
+                    Destroy(pick);
+                }
+            }
             if(MGR.input[(int)mgrScript.keyUse.weapon] == 1) {//武器攻撃
                 isAttack = true;
                 animator.Play(attack[vector]);
@@ -173,18 +191,24 @@ public class playerScript:objectBase {
                     weaponScript.PlayAnimation(vector);
                 }
             } else
-            if(MGR.input[(int)mgrScript.keyUse.item1] == 1) {//アイテム関連
-                if(eItem!=itemMgr.itemID.None) {
-                    isAttack = true;
-                    itemBase a = MGR.ItemInstantiate(eItem).GetComponent<itemBase>();
-                    if(a != null) {
-                        a.Through(vector, this.gameObject, 20, X, Y);
+            if(MGR.input[(int)mgrScript.keyUse.item] == 0) {
+
+                if(MGR.prevInput[(int)mgrScript.keyUse.item] > 30) {
+                    if(eItem != itemMgr.itemID.None) {
+                        isAttack = true;
+                        itemBase a = MGR.ItemInstantiate(eItem).GetComponent<itemBase>();
+                        if(a != null) {
+                            a.Through(vector, this.gameObject, 20, X, Y);
+                        }
+                        eItem = itemMgr.itemID.None;
+                        animator.Play(through[vector]);
                     }
-                    eItem = itemMgr.itemID.None;
-                    animator.Play(through[vector]);
-                } else if(pick != null) {
-                    eItem = pick.GetComponent<itemBase>().ID;
-                    Destroy(pick);
+                } else if(MGR.prevInput[(int)mgrScript.keyUse.item] != 0) {
+                    if(eItem != itemMgr.itemID.None) {
+                        if(MGR.ItemUse(eItem, this) == 0) {
+                            eItem = itemMgr.itemID.None;
+                        }
+                    }
                 }
             }
         }
@@ -200,4 +224,5 @@ public class playerScript:objectBase {
 
         Attack(pivot[vector], 20, typeOfDamage.cross, this.gameObject.tag);
     }
+
 }

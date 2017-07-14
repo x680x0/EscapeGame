@@ -19,9 +19,9 @@ public class mgrScript : MonoBehaviour {
         right=KeyCode.RightArrow,
         down=KeyCode.DownArrow,
         left=KeyCode.LeftArrow,
-        weapon=KeyCode.Z,
-        item1=KeyCode.X,
-        item2=KeyCode.C,
+        pick=KeyCode.Z,
+        weapon=KeyCode.X,
+        item=KeyCode.C,
         vectorlock=KeyCode.LeftShift
     }
     public enum keyUse {
@@ -29,9 +29,9 @@ public class mgrScript : MonoBehaviour {
         right,
         down ,
         left,
+        pick,
         weapon,
-        item1,
-        item2,
+        item,
         vectorlock
     }
     // Use this for initialization
@@ -77,17 +77,17 @@ public class mgrScript : MonoBehaviour {
         } else {
             b_input[3] = false;
         }
-        if(Input.GetKey((KeyCode)keyIn.weapon) ){
+        if(Input.GetKey((KeyCode)keyIn.pick) ){
             b_input[4] = true;
         } else {
             b_input[4] = false;
         }
-        if(Input.GetKey((KeyCode)keyIn.item1)) {
+        if(Input.GetKey((KeyCode)keyIn.weapon)) {
             b_input[5] = true;
         } else {
             b_input[5] = false;
         }
-        if(Input.GetKey((KeyCode)keyIn.item2)) {
+        if(Input.GetKey((KeyCode)keyIn.item)) {
             b_input[6] = true;
         } else {
             b_input[6] = false;
@@ -112,6 +112,9 @@ public class mgrScript : MonoBehaviour {
 
     public GameObject ItemInstantiate(itemMgr.itemID _item) {
         return itemmgr.ItemInstantiate(_item);
+    }
+    public int ItemUse(itemMgr.itemID _item,objectBase script) {
+        return itemmgr.ItemUse(_item, script);
     }
     public GameObject EnemyInstantiate(enemyMgr.enemyID _enemy) {
         return enemymgr.EnemyInstantiate(_enemy);
