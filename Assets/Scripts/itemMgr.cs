@@ -12,7 +12,8 @@ public class itemMgr : MonoBehaviour {
     }
     public enum weapnID {
         None=-1,
-        knighf,
+        shortSord,
+        hardSord,
         count
     }
     public GameObject[] items;
