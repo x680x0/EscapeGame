@@ -13,6 +13,7 @@ public class mgrScript : MonoBehaviour {
     public itemMgr itemmgr;
     public enemyMgr enemymgr;
     public Text testText;
+    public bool END;
 
     public enum keyIn{
         up=KeyCode.UpArrow,
@@ -40,6 +41,7 @@ public class mgrScript : MonoBehaviour {
         player[0] = GameObject.Find("Player1").GetComponent<objectBase>();
     }
     void Start () {
+        END = false;
         b_input = new bool[8];
         input = new int[8];
         prevInput = new int[8];
@@ -97,7 +99,6 @@ public class mgrScript : MonoBehaviour {
         } else {
             b_input[7] = false;
         }
-        testText.text = player[0].HP.ToString();
     }
     void FixedUpdate() {
         for(int i = 0; i < b_input.Length; i++) {

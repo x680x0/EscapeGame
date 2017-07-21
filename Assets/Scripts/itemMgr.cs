@@ -39,6 +39,8 @@ public class itemMgr : MonoBehaviour {
             case itemID.healBottle:
                 script.Heal(50);
                 return 0;
+            case itemID.stone:
+                return 2;
             default:
                 return 1;
         }

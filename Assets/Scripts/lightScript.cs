@@ -34,7 +34,7 @@ public class lightScript : MonoBehaviour {
                   for(int i = 0; i < 3; i++) {
                         lights[wave].AddEnemy(enemyMgr.enemyID.spider);
                     }*/
-                lights[wave].AddItem(itemMgr.itemID.weapon, itemMgr.weapnID.shortSord);
+                lights[wave].AddItem(itemMgr.itemID.weapon, itemMgr.weapnID.shortSord   );
             }
             if(wave - 2 >= 0) {
                 lights[wave - 2].TurnLight(false);

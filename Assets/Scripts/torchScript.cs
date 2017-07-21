@@ -12,6 +12,12 @@ public class torchScript:objectBase {
         Y = (int)(transform.localPosition.y / once);
         circleCollider2D = GetComponent<CircleCollider2D>();
     }
+    public override void Update() {
+        base.Update();
+        if(MGR.END) {
+            Light.transform.localScale *= 1.01f;
+        }
+    }
     public void TurnLight(bool on) {
         lightOn = on;
         Light.SetActive(on);
@@ -23,12 +29,30 @@ public class torchScript:objectBase {
         return lightOn;
     }
     public void AddEnemy(enemyMgr.enemyID _enemy) {
-        float Angle;
-        float r;
+        float Angle = 0; ;
+        float r=0;
+       bool tmpInLight = false;
+
+        while(!tmpInLight) {
+            r = Random.Range(17f, 20f);
         Angle = Random.Range(0f, 2 * Mathf.PI);
-        r = Random.Range(17f, 20f);
+        Collider2D[][] groundCheckCollider = new Collider2D[1][];
+            groundCheckCollider[0] = Physics2D.OverlapPointAll(new Vector2(((Mathf.Cos(Angle) * r / once) + X) * once, ((Mathf.Sin(Angle) * r / once) + Y) * once));
+            foreach(Collider2D[] groundCheckList in groundCheckCollider) {
+                foreach(Collider2D groundCheck in groundCheckList) {
+                    if(groundCheck != null) {
+                        if(groundCheck.isTrigger) {
+                            if(groundCheck.tag == "Light") {
+                                tmpInLight = true;
+                            }
+                        }
+                    }
+
+                }
+            }
+        }
         objectBase a = MGR.EnemyInstantiate(_enemy).GetComponent<objectBase>();
-        a.SetPosition((int)(Mathf.Cos(Angle) * r / once)+X, (int)(Mathf.Sin(Angle) * r / once)+Y);
+        a.SetPosition((int)(Mathf.Cos(Angle) * r / once) + X, (int)(Mathf.Sin(Angle) * r / once)+Y);
             a.SetTourch(this.gameObject);
         
     }

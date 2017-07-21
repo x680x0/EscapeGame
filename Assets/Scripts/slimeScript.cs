@@ -40,6 +40,10 @@ public class slimeScript:objectBase {
     }
     public override void FixedUpdate() {
         if(HP > 0) {
+
+            if(MGR.END) {
+                Damaged(1, typeOfDamage.slip, 0, 0, null, "");
+            }
             inLight = false;
             Collider2D[][] groundCheckCollider = new Collider2D[1][];
             groundCheckCollider[0] = Physics2D.OverlapPointAll(pivot[vector].transform.position);

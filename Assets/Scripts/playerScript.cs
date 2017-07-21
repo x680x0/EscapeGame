@@ -207,6 +207,14 @@ public class playerScript:objectBase {
                     if(eItem != itemMgr.itemID.None) {
                         if(MGR.ItemUse(eItem, this) == 0) {
                             eItem = itemMgr.itemID.None;
+                        }else if((MGR.ItemUse(eItem, this) == 2)){
+                            isAttack = true;
+                            itemBase a = MGR.ItemInstantiate(eItem, itemMgr.weapnID.None).GetComponent<itemBase>();
+                            if(a != null) {
+                                a.Through(vector, this.gameObject, 20, X, Y);
+                            }
+                            eItem = itemMgr.itemID.None;
+                            animator.Play(through[vector]);
                         }
                     }
                 }
@@ -217,7 +225,6 @@ public class playerScript:objectBase {
     public void WeaponAttack() {
         int count = 0;
         foreach(Transform child in weaponScript.attackpivot[vector].transform) {
-            //child is your child transform
             Attack(child.gameObject, 20, typeOfDamage.cross,this.gameObject.tag);
             count++;
         }
