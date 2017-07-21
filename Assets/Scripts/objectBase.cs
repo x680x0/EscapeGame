@@ -17,10 +17,12 @@ public class objectBase:MonoBehaviour {
     public bool inLight;//光の当たる範囲
     public int vector;//上から時計回りに0123
     public bool stop;
+    public GameObject H;
     public enum typeOfDamage {
         cross = 0,
         mid,
-        slip
+        slip,
+        sord
     }
     // Use this for initialization
     public virtual void Start() {
@@ -127,6 +129,11 @@ public class objectBase:MonoBehaviour {
 
     }
     public virtual void Heal(int heal) {
+        
         HP += heal;
+        if(HP > MAXHP) {
+            HP = MAXHP;
+        }
+        Instantiate(H,this.gameObject.transform);
     }
 }

@@ -151,6 +151,8 @@ public class slimeScript:objectBase {
                     }
                 }
             }
+        }else {
+            animator.Play(die);
         }
     }
 

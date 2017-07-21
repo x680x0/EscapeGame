@@ -224,12 +224,24 @@ public class playerScript:objectBase {
 
     public void WeaponAttack() {
         int count = 0;
+        int da=0;
+        switch(eWeapon) {
+            case itemMgr.weapnID.None:
+                da = 0;
+                break;
+            case itemMgr.weapnID.shortSord:
+                da = 10;
+                break;
+            case itemMgr.weapnID.hardSord:
+                da = 20;
+                break;
+        }
         foreach(Transform child in weaponScript.attackpivot[vector].transform) {
-            Attack(child.gameObject, 20, typeOfDamage.cross,this.gameObject.tag);
+            Attack(child.gameObject, da, typeOfDamage.sord,this.gameObject.tag);
             count++;
         }
 
-        Attack(pivot[vector], 20, typeOfDamage.cross, this.gameObject.tag);
+        Attack(pivot[vector], da, typeOfDamage.sord, this.gameObject.tag);
     }
 
 }

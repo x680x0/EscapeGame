@@ -22,7 +22,7 @@ public class spiderScript :objectBase {
     public override void Start() {
         base.Start();
         Phase = 0;
-        HP = MAXHP = 10;
+        HP = MAXHP = 30;
         setAttack = false;
         animator = GetComponent<Animator>();
         a = 1;
@@ -205,6 +205,8 @@ public class spiderScript :objectBase {
 
             }
 
+        } else {
+            animator.Play(die);
         }
     }
     public void AttackFinish() {

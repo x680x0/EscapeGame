@@ -12,7 +12,7 @@ public class title : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         if(Input.GetKeyDown("z")) {
-    
+            Application.LoadLevel("main");
         }
 	}
 }

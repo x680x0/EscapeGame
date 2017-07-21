@@ -12,7 +12,7 @@ public class mgrScript : MonoBehaviour {
     public objectBase[] player;
     public itemMgr itemmgr;
     public enemyMgr enemymgr;
-    public Text testText;
+    public Image image;
     public bool END;
 
     public enum keyIn{
@@ -98,6 +98,9 @@ public class mgrScript : MonoBehaviour {
             b_input[7] = true;
         } else {
             b_input[7] = false;
+        }
+        if(END) {
+            image.enabled = true;
         }
     }
     void FixedUpdate() {

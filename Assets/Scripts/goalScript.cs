@@ -27,7 +27,7 @@ public class goalScript:objectBase {
         if(this.gameObject == Attacker || this.gameObject.tag == tag) {
 
 
-        } else {
+        } else if(type==objectBase.typeOfDamage.sord){
             HP -= damage;
             if(HP <= 0) {
                 MGR.END = true;
