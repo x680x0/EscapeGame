@@ -28,12 +28,13 @@ public class lightScript : MonoBehaviour {
             time = nextwave;
             if(wave < lights.Length) {
                 lights[wave].TurnLight(true);
-              for(int i = 0; i < 10; i++) {
-                    lights[wave].AddEnemy(enemyMgr.enemyID.slime);
-                }
-              for(int i = 0; i < 3; i++) {
-                    lights[wave].AddEnemy(enemyMgr.enemyID.spider);
-                }
+                /*  for(int i = 0; i < 10; i++) {
+                        lights[wave].AddEnemy(enemyMgr.enemyID.slime);
+                    }
+                  for(int i = 0; i < 3; i++) {
+                        lights[wave].AddEnemy(enemyMgr.enemyID.spider);
+                    }*/
+                lights[wave].AddItem(itemMgr.itemID.healBottle, itemMgr.weapnID.None);
             }
             if(wave - 2 >= 0) {
                 lights[wave - 2].TurnLight(false);

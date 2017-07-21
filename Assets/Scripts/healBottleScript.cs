@@ -15,6 +15,5 @@ public class healBottleScript :itemBase {
     }
     public override void Grounded() {
         base.Grounded();
-        Destroy(this.gameObject);
     }
 }

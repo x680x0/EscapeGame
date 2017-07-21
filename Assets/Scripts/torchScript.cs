@@ -32,4 +32,18 @@ public class torchScript:objectBase {
             a.SetTourch(this.gameObject);
         
     }
+    public void AddItem(itemMgr.itemID _item, itemMgr.weapnID _weapn) {
+        float Angle;
+        float r;
+        Angle = Random.Range(0f, 2 * Mathf.PI);
+        r = Random.Range(0f, 4f);
+        objectBase a = MGR.ItemInstantiate(_item).GetComponent<objectBase>();
+        a.SetPosition((int)(Mathf.Cos(Angle) * r / once) + X, (int)(Mathf.Sin(Angle) * r / once) + Y);
+      //  a.SetTourch(this.gameObject);
+    }
+    /*
+    IEnumerator On() {
+        yield return null; 
+    }*/
+
 }
