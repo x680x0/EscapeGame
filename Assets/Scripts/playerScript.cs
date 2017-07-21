@@ -196,7 +196,7 @@ public class playerScript:objectBase {
                 if(MGR.prevInput[(int)mgrScript.keyUse.item] > 30) {
                     if(eItem != itemMgr.itemID.None) {
                         isAttack = true;
-                        itemBase a = MGR.ItemInstantiate(eItem).GetComponent<itemBase>();
+                        itemBase a = MGR.ItemInstantiate(eItem,itemMgr.weapnID.None).GetComponent<itemBase>();
                         if(a != null) {
                             a.Through(vector, this.gameObject, 20, X, Y);
                         }

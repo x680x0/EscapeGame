@@ -28,9 +28,11 @@ public class itemMgr : MonoBehaviour {
 		
 	}
     public GameObject ItemInstantiate(itemID _item) {
-        return Instantiate(items[(int)_item]);
+            return Instantiate(items[(int)_item]);
     }
-
+    public GameObject WeaponInstantiate(weapnID _item) {
+        return Instantiate(weapons[(int)_item]);
+    }
     public int ItemUse(itemID _item,objectBase script) {
         //  0:使用後アイテムが残らない 1:使用後アイテムが残る 
         switch(_item) {

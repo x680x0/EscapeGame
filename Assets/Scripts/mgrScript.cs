@@ -110,8 +110,12 @@ public class mgrScript : MonoBehaviour {
         }
     }
 
-    public GameObject ItemInstantiate(itemMgr.itemID _item) {
-        return itemmgr.ItemInstantiate(_item);
+    public GameObject ItemInstantiate(itemMgr.itemID _item,itemMgr.weapnID _weapon) {
+        if(_item != itemMgr.itemID.weapon) {
+            return itemmgr.ItemInstantiate(_item);
+        }else {
+            return itemmgr.WeaponInstantiate(_weapon);
+        }
     }
     public int ItemUse(itemMgr.itemID _item,objectBase script) {
         return itemmgr.ItemUse(_item, script);
