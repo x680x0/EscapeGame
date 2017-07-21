@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: f761411be951d3c4daa5de4b21cd1796
+timeCreated: 1500636103
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: dekisokonaifont
+  fontNames:
+  - dekisokonaifont
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
