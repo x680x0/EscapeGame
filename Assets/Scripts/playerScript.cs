@@ -10,6 +10,8 @@ public class playerScript:objectBase {
     static int[] attack;
     static int[] damaged;
     static int[] through;
+    static int dead;
+    bool gameover;
     public itemMgr.itemID eItem;
     public itemMgr.weapnID eWeapon;
     GameObject pick;
@@ -19,6 +21,7 @@ public class playerScript:objectBase {
     int knockX, knockY, knockCount;
     // Use this for initialization
     public override void Start() {
+        gameover = false;
         base.Start();
         X = (int)(transform.localPosition.x / once);
         Y = (int)(transform.localPosition.y / once);
@@ -56,6 +59,7 @@ public class playerScript:objectBase {
         through[1] = Animator.StringToHash("throughright");
         through[2] = Animator.StringToHash("throughdown");
         through[3] = Animator.StringToHash("throughleft");
+        dead = Animator.StringToHash("dead");
         pick = null;
     }
     public override void Damaged(int damage, typeOfDamage type, int _X, int _Y, GameObject Attacker, string tag) {
@@ -63,32 +67,37 @@ public class playerScript:objectBase {
 
 
         } else {
-            switch(type) {
-                case typeOfDamage.slip:
-                    HP -= damage;
-                    break;
-                default:
-                    if(!isDamaged) {
-                        isAttack = false;
+            if(HP >= 0) {
+                switch(type) {
+                    case typeOfDamage.slip:
                         HP -= damage;
-                        animator.Play(damaged[vector]);
-                        if(weapon != null) {
-                            weaponScript.StopAnimation();
-                        }
-                        int dX = X - _X;
-                        int dY = Y - _Y;
-                        if(dX == 0 && dY == 0) {
-                            dX = dY = 1;
-                        }
-                        float knockScale = 10000.0f / (dX * dX + dY * dY);
-                        knockScale = Mathf.Sqrt(knockScale);
-                        knockX = (int)(knockScale * dX);
-                        knockY = (int)(knockScale * dY);
+                        break;
+                    default:
+                        if(!isDamaged) {
+                            isAttack = false;
+                            HP -= damage;
+                            animator.Play(damaged[vector]);
+                            if(weapon != null) {
+                                weaponScript.StopAnimation();
+                            }
+                            int dX = X - _X;
+                            int dY = Y - _Y;
+                            if(dX == 0 && dY == 0) {
+                                dX = dY = 1;
+                            }
+                            float knockScale = 10000.0f / (dX * dX + dY * dY);
+                            knockScale = Mathf.Sqrt(knockScale);
+                            knockX = (int)(knockScale * dX);
+                            knockY = (int)(knockScale * dY);
 
-                        knockCount = 30;
-                        isDamaged = true;
-                    }
-                    break;
+                            knockCount = 30;
+                            isDamaged = true;
+                        }
+                        break;
+                }
+                if(HP <= 0) {
+                    
+                }
             }
         }
     }
@@ -97,117 +106,105 @@ public class playerScript:objectBase {
         base.Update();
     }
     public override void FixedUpdate() {
-        pick = null;
-        inLight = false;
-        Collider2D[][] groundCheckCollider = new Collider2D[1][];
-        groundCheckCollider[0] = Physics2D.OverlapPointAll(pivot[vector].transform.position);
-        foreach(Collider2D[] groundCheckList in groundCheckCollider) {
-            foreach(Collider2D groundCheck in groundCheckList) {
-                if(groundCheck != null) {
-                    if(groundCheck.isTrigger) {
-                        if(groundCheck.tag == "Light") {
-                            inLight = true;
-                        }
-                    } else {
-                        if(groundCheck.transform.parent.tag == "Item") {
-                            pick = groundCheck.transform.parent.gameObject;
+        if(HP >= 0) {
+            pick = null;
+            inLight = false;
+            Collider2D[][] groundCheckCollider = new Collider2D[1][];
+            groundCheckCollider[0] = Physics2D.OverlapPointAll(pivot[vector].transform.position);
+            foreach(Collider2D[] groundCheckList in groundCheckCollider) {
+                foreach(Collider2D groundCheck in groundCheckList) {
+                    if(groundCheck != null) {
+                        if(groundCheck.isTrigger) {
+                            if(groundCheck.tag == "Light") {
+                                inLight = true;
+                            }
+                        } else {
+                            if(groundCheck.transform.parent.tag == "Item") {
+                                pick = groundCheck.transform.parent.gameObject;
+                            }
                         }
                     }
-                }
 
-            }
-        }
-        if(!inLight) {
-            Damaged(1, typeOfDamage.slip, 0, 0, null, "");
-        }
-        if(isDamaged) {
-            X += 2 * knockX / 3;
-            Y += 2 * knockY / 3;
-            knockX /= 3;
-            knockY /= 3;
-            knockCount -= 1;
-            if(knockCount <= 0) {
-                isDamaged = false;
-            }
-        } else if(!isAttack) {
-            readyX = 0; readyY = 0;//初期化
-            if(MGR.input[(int)mgrScript.keyUse.vectorlock] > 0) {
-                stop = true;
-                for(int i = 0; i < 4; i++) {
-                    if(MGR.input[i] > 0) {
-                        stop = false;
-                        SetVector(i, 10);
-                    }
                 }
-            } else {
-                if(MGR.input[vector] > 0) {
-                    stop = false;
-                    SetVector(vector, 10);
-                    if(MGR.input[(vector + 1) % 4] > 0) {
-                        SetVector((vector + 1) % 4, 10);
-                    }
-                    if(MGR.input[(vector + 3) % 4] > 0) {
-                        SetVector((vector + 3) % 4, 10);
-                    }
-                } else {
+            }
+            if(!inLight) {
+                Damaged(1, typeOfDamage.slip, 0, 0, null, "");
+            }
+            if(isDamaged) {
+                X += 2 * knockX / 3;
+                Y += 2 * knockY / 3;
+                knockX /= 3;
+                knockY /= 3;
+                knockCount -= 1;
+                if(knockCount <= 0) {
+                    isDamaged = false;
+                }
+            } else if(!isAttack) {
+                readyX = 0; readyY = 0;//初期化
+                if(MGR.input[(int)mgrScript.keyUse.vectorlock] > 0) {
                     stop = true;
                     for(int i = 0; i < 4; i++) {
                         if(MGR.input[i] > 0) {
-                            vector = i;
                             stop = false;
+                            SetVector(i, 10);
                         }
                     }
-
-                }
-            }
-            if(stop) {
-                animator.Play(stay[vector]);
-            } else {
-                animator.Play(walk[vector]);
-            }
-            Move();
-            if(MGR.input[(int)mgrScript.keyUse.pick] == 1) {
-                if(pick != null) {
-                    itemBase itembase = pick.GetComponent<itemBase>();
-                    GameObject W;
-                    if(itembase.ID != itemMgr.itemID.weapon) {
-                        eItem = itembase.ID;
+                } else {
+                    if(MGR.input[vector] > 0) {
+                        stop = false;
+                        SetVector(vector, 10);
+                        if(MGR.input[(vector + 1) % 4] > 0) {
+                            SetVector((vector + 1) % 4, 10);
+                        }
+                        if(MGR.input[(vector + 3) % 4] > 0) {
+                            SetVector((vector + 3) % 4, 10);
+                        }
                     } else {
-                        eWeapon = itembase.WID;
-                        W = itembase.EquipWeapon();
-                        weapon = W;
-                        W.transform.parent = this.gameObject.transform;
-                        W.transform.localPosition = new Vector3(0, 0, 0);
-                        weaponScript = weapon.GetComponent<weaponBase>();
-                    }
-
-                    Destroy(pick);
-                }
-            }
-            if(MGR.input[(int)mgrScript.keyUse.weapon] == 1) {//武器攻撃
-                isAttack = true;
-                animator.Play(attack[vector]);
-                if(weapon != null) {
-                    weaponScript.PlayAnimation(vector);
-                }
-            } else
-            if(MGR.input[(int)mgrScript.keyUse.item] == 0) {
-
-                if(MGR.prevInput[(int)mgrScript.keyUse.item] > 30) {
-                    if(eItem != itemMgr.itemID.None) {
-                        isAttack = true;
-                        itemBase a = MGR.ItemInstantiate(eItem,itemMgr.weapnID.None).GetComponent<itemBase>();
-                        if(a != null) {
-                            a.Through(vector, this.gameObject, 20, X, Y);
+                        stop = true;
+                        for(int i = 0; i < 4; i++) {
+                            if(MGR.input[i] > 0) {
+                                vector = i;
+                                stop = false;
+                            }
                         }
-                        eItem = itemMgr.itemID.None;
-                        animator.Play(through[vector]);
+
                     }
-                } else if(MGR.prevInput[(int)mgrScript.keyUse.item] != 0) {
-                    if(eItem != itemMgr.itemID.None) {
-                        if(MGR.ItemUse(eItem, this) == 0) {
-                            eItem = itemMgr.itemID.None;
-                        }else if((MGR.ItemUse(eItem, this) == 2)){
+                }
+                if(stop) {
+                    animator.Play(stay[vector]);
+                } else {
+                    animator.Play(walk[vector]);
+                }
+                Move();
+                if(MGR.input[(int)mgrScript.keyUse.pick] == 1) {
+                    if(pick != null) {
+                        itemBase itembase = pick.GetComponent<itemBase>();
+                        GameObject W;
+                        if(itembase.ID != itemMgr.itemID.weapon) {
+                            eItem = itembase.ID;
+                        } else {
+                            eWeapon = itembase.WID;
+                            W = itembase.EquipWeapon();
+                            weapon = W;
+                            W.transform.parent = this.gameObject.transform;
+                            W.transform.localPosition = new Vector3(0, 0, 0);
+                            weaponScript = weapon.GetComponent<weaponBase>();
+                        }
+
+                        Destroy(pick);
+                    }
+                }
+                if(MGR.input[(int)mgrScript.keyUse.weapon] == 1) {//武器攻撃
+                    isAttack = true;
+                    animator.Play(attack[vector]);
+                    if(weapon != null) {
+                        weaponScript.PlayAnimation(vector);
+                    }
+                } else
+                if(MGR.input[(int)mgrScript.keyUse.item] == 0) {
+
+                    if(MGR.prevInput[(int)mgrScript.keyUse.item] > 30) {
+                        if(eItem != itemMgr.itemID.None) {
                             isAttack = true;
                             itemBase a = MGR.ItemInstantiate(eItem, itemMgr.weapnID.None).GetComponent<itemBase>();
                             if(a != null) {
@@ -216,9 +213,26 @@ public class playerScript:objectBase {
                             eItem = itemMgr.itemID.None;
                             animator.Play(through[vector]);
                         }
+                    } else if(MGR.prevInput[(int)mgrScript.keyUse.item] != 0) {
+                        if(eItem != itemMgr.itemID.None) {
+                            if(MGR.ItemUse(eItem, this) == 0) {
+                                eItem = itemMgr.itemID.None;
+                            } else if((MGR.ItemUse(eItem, this) == 2)) {
+                                isAttack = true;
+                                itemBase a = MGR.ItemInstantiate(eItem, itemMgr.weapnID.None).GetComponent<itemBase>();
+                                if(a != null) {
+                                    a.Through(vector, this.gameObject, 20, X, Y);
+                                }
+                                eItem = itemMgr.itemID.None;
+                                animator.Play(through[vector]);
+                            }
+                        }
                     }
                 }
             }
+        }else if(!gameover){
+            animator.Play(dead);
+            gameover = true;
         }
     }
 
@@ -244,4 +258,7 @@ public class playerScript:objectBase {
         Attack(pivot[vector], da, typeOfDamage.sord, this.gameObject.tag);
     }
 
+    public void GameOver() {
+        Application.LoadLevel("title");
+    }
 }
