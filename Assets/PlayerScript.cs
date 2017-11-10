@@ -1,0 +1,211 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class PlayerScript : Objects {
+    [System.NonSerialized]
+    Animator animator;
+    static int[] walk;
+    static int[] stay;
+    static int[] attack;
+    static int[] damaged;
+    static int[] through;
+    public float DamageTimer = 0;
+    public bool AttackNow,DamageNow;
+    public float HP;
+    public MGR INPUT;
+    public GameObject[] pickpivot;
+    public WeaaponEquipment eWeapon;
+    public ItemEquipment eItem;
+    Vector2 nock;
+    float nocktime = 0;
+    // Use this for initialization
+    override public void Start() {
+        base.Start();
+        nock = Vector2.zero;
+        AttackNow = false;
+        DamageNow = false;
+        animator = GetComponent<Animator>();
+        walk = new int[4];
+        walk[0] = Animator.StringToHash("up");
+        walk[1] = Animator.StringToHash("right");
+        walk[2] = Animator.StringToHash("down");
+        walk[3] = Animator.StringToHash("left");
+        stay = new int[4];
+        stay[0] = Animator.StringToHash("upstop");
+        stay[1] = Animator.StringToHash("rightstop");
+        stay[2] = Animator.StringToHash("downstop");
+        stay[3] = Animator.StringToHash("leftstop");
+        attack = new int[4];
+        attack[0] = Animator.StringToHash("attackup");
+        attack[1] = Animator.StringToHash("attackright");
+        attack[2] = Animator.StringToHash("attackdown");
+        attack[3] = Animator.StringToHash("attackleft");
+        damaged = new int[4];
+        damaged[0] = Animator.StringToHash("damagedup");
+        damaged[1] = Animator.StringToHash("damagedright");
+        damaged[2] = Animator.StringToHash("damageddown");
+        damaged[3] = Animator.StringToHash("damagedleft");
+        through = new int[4];
+        through[0] = Animator.StringToHash("throughup");
+        through[1] = Animator.StringToHash("throughright");
+        through[2] = Animator.StringToHash("throughdown");
+        through[3] = Animator.StringToHash("throughleft");
+    }
+
+    // Update is called once per frame
+    void Update () {
+       
+    }
+    void WeaponAttack() {
+        
+    }
+    void FixedUpdate() {
+        speed = Vector2.zero;
+        if(DamageTimer <= 0) {
+            DamageTimer = 0;
+            if(DamageNow) {
+                DamageNow = false;
+            }
+            if(!AttackNow) {
+                if(INPUT.input[5] > 0) {
+
+                    animator.Play(attack[muki]);
+                    if(eWeapon != null) {
+                        eWeapon.GetComponent<WeaaponEquipment>().PlayAnimation(muki);
+                    }
+                    AttackNow = true;
+
+                } else if(INPUT.input[muki] > 0) {
+                    move = true;
+                    SetSpeed(muki, 10);
+                    if(INPUT.input[(muki + 1) % 4] > 0) {
+                        SetSpeed((muki + 1) % 4, 10);
+                    }
+                    if(INPUT.input[(muki + 3) % 4] > 0) {
+                        SetSpeed((muki + 3) % 4, 10);
+                    }
+                } else {
+                    move = false;
+                    for(int i = 0; i < 4; i++) {
+                        if(INPUT.input[i] > 0) {
+                            muki = i;
+                            move = false;
+                        }
+                    }
+
+                }
+                MakeSpeed(ss);
+                rb2d.velocity = speed;
+                if(!move) {
+                    animator.Play(stay[muki]);
+                } else {
+                    animator.Play(walk[muki]);
+                }
+                SetOrder(0);
+
+                if(INPUT.input[(int)MGR.keyUse.pick] == 1) {
+                    Collider2D[][] CheckCollider = new Collider2D[1][];
+                    CheckCollider[0] = Physics2D.OverlapPointAll(pickpivot[muki].transform.position);
+
+                    foreach(Collider2D[] CheckList in CheckCollider) {
+
+                        foreach(Collider2D groundCheck in CheckList) {
+                            if(groundCheck != null) {
+                                if(groundCheck.isTrigger) {
+                                    if(groundCheck.tag == "PickUpItem") {
+                                        if(eItem == null) {
+                                            //ItemObject=groundCheck.transform.parent.gameObject.GetComopnent<ItemObject>();
+                                            //ItemObject.関数名().transform.parent=this.gameObject;
+                                            //関数内でInstansとアイテムの初期化、そしてそれをreturnする
+                                            eItem = groundCheck.gameObject.GetComponent<ItemObject>().Pick(this.transform).GetComponent<ItemEquipment>();
+                                        }
+                                    }
+                                    if(groundCheck.tag == "PickUpWeapon") {
+                                        if(eWeapon == null) {
+                                            //ItemObject=groundCheck.transform.parent.gameObject.GetComopnent<ItemObject>();
+                                            //ItemObject.関数名().transform.parent=this.gameObject;
+                                            //関数内でInstansとアイテムの初期化、そしてそれをreturnする
+                                            eWeapon = groundCheck.gameObject.GetComponent<ItemObject>().Pick(this.transform).GetComponent<WeaaponEquipment>();
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                    }
+
+                }
+
+            }
+
+            if(DamageTimer <= 0f) {
+                Collider2D[][] CheckCollider = new Collider2D[1][];
+                CheckCollider[0] = Physics2D.OverlapPointAll(pivot[muki].transform.position);
+
+                foreach(Collider2D[] CheckList in CheckCollider) {
+
+                    foreach(Collider2D groundCheck in CheckList) {
+                        if(groundCheck != null) {
+                            if(groundCheck.isTrigger) {
+                                if(groundCheck.tag == "EnemyAttack") {
+                                    Damaged(groundCheck.gameObject);
+                                }
+                            }
+                        }
+                    }
+
+                }
+            }
+
+        } else {
+            DamageTimer -= 0.1f;
+            if(nocktime > 0) {
+                rb2d.velocity = speed + nock;
+                nocktime -= 0.1f;
+            } else {
+                rb2d.velocity = speed;
+            }
+            
+        }
+       
+    }
+    public override void Damaged(GameObject obj) {
+        DamageInf dmi = obj.GetComponent<DamageInf>();
+        int damage=0;
+       
+        if(dmi != null) {
+            dmi.GetInf(ref damage,ref nock,ref nocktime,pivot[muki].transform.position);
+            if(HP < damage) {
+                HP = 0;
+            } else {
+                DamageNow = true;
+                animator.Play(damaged[muki]);
+                HP -= damage;
+                DamageTimer = 1.5f;
+
+            }
+        }
+    }
+    void SetSpeed(int vect,float s) {
+        switch(vect) {
+            case 0:
+                speed += Vector2.up * s;
+                break;
+            case 1:
+                speed += Vector2.right * s;
+                break;
+            case 2:
+                speed += Vector2.down * s;
+                break;
+            case 3:
+                speed += Vector2.left * s;
+                break;
+        }
+    }
+    void MakeSpeed(float s) {
+        speed.Normalize();
+        speed*= s;
+        return;
+    }
+}
