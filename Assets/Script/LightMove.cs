@@ -24,7 +24,12 @@ public class LightMove:MonoBehaviour {
                 if(groundCheck != null) {
                     if(groundCheck.isTrigger) {
                         if(groundCheck.tag == "LightStop") {
-                            rb2d.velocity = groundCheck.gameObject.GetComponent<LitghtPoint>().ToNext()*speed;
+                            LitghtPoint LP= groundCheck.gameObject.GetComponent<LitghtPoint>();
+                            if(LP.GetSwitch()) {
+                                rb2d.velocity = LP.ToNext() * speed;
+                            } else {
+                                rb2d.velocity = Vector2.zero;
+                            }
                         }
                     }
                 }

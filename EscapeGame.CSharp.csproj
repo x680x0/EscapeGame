@@ -91,6 +91,7 @@
     <Compile Include="Assets\Script\MGR.cs" />
     <Compile Include="Assets\Script\PlayerScript.cs" />
     <Compile Include="Assets\Script\WeaaponEquipment.cs" />
+    <Compile Include="Assets\Slime.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Shaders\TreasureBox.shader" />

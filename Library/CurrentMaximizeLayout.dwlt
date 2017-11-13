@@ -19,10 +19,10 @@ MonoBehaviour:
     y: 30
     width: 1920
     height: 987
-  m_MinSize: {x: 711, y: 392}
-  m_MaxSize: {x: 18006, y: 14042}
+  m_MinSize: {x: 709, y: 371}
+  m_MaxSize: {x: 18004, y: 14021}
   vertical: 1
-  controlID: 6447
+  controlID: 1149
 --- !u!114 &2
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -120,10 +120,10 @@ MonoBehaviour:
     y: 0
     width: 1920
     height: 987
-  m_MinSize: {x: 711, y: 392}
-  m_MaxSize: {x: 18006, y: 14042}
+  m_MinSize: {x: 709, y: 371}
+  m_MaxSize: {x: 18004, y: 14021}
   vertical: 0
-  controlID: 6448
+  controlID: 1150
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -177,23 +177,23 @@ MonoBehaviour:
     height: 966
   m_TreeViewState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: ae280000
-    m_LastClickedID: 10414
-    m_ExpandedIDs: 9af5ffff56f6ffff58f6ffff5ef6ffff6af6ffffe2fbffff00000000ae28000000290000
+    m_SelectedIDs: a8fbffff
+    m_LastClickedID: -1112
+    m_ExpandedIDs: e2fbffff000000009c280000362900005a290000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: 
-      m_OriginalName: 
+      m_Name: GameObject (1)
+      m_OriginalName: GameObject (1)
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 0
+      m_UserData: 10506
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 11
+      m_OriginalEventType: 0
       m_IsRenamingFilename: 0
       m_ClientGUIView: {fileID: 4}
     m_SearchString: 
@@ -307,10 +307,10 @@ MonoBehaviour:
     y: 0
     width: 1350
     height: 987
-  m_MinSize: {x: 232, y: 392}
-  m_MaxSize: {x: 10002, y: 14042}
+  m_MinSize: {x: 232, y: 371}
+  m_MaxSize: {x: 10002, y: 14021}
   vertical: 1
-  controlID: 6425
+  controlID: 1106
 --- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -514,8 +514,8 @@ MonoBehaviour:
     y: 481
     width: 1350
     height: 506
-  m_MinSize: {x: 230, y: 250}
-  m_MaxSize: {x: 10000, y: 10000}
+  m_MinSize: {x: 232, y: 271}
+  m_MaxSize: {x: 10002, y: 10021}
   m_ActualView: {fileID: 16}
   m_Panes:
   - {fileID: 15}
@@ -585,18 +585,18 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 0
     m_Folders:
-    - Assets/RenderTextures
+    - Assets/Script
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/RenderTextures
+  - Assets/Script
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\Kou\Documents\GitHub\EscapeGame
   m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: de250000
-    m_LastClickedID: 9694
+    m_SelectedIDs: 5a280000
+    m_LastClickedID: 10330
     m_ExpandedIDs: 00000000ce240000ffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -650,9 +650,9 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: ae280000
-    m_LastClickedInstanceID: 10414
-    m_HadKeyboardFocusLastEvent: 0
+    m_SelectedInstanceIDs: a8fbffff
+    m_LastClickedInstanceID: -1112
+    m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: 54a6feff3a05000012050000e42b00009e1dffff4ec6ffff580500002c050000341c0000f0040000f40400009a1e00007205000074050000780500000605000040050000800500009aa5ffff429bffff9a1c0000b60500009c05000090050000ca2d0000841c0000361d0000821d000032050000080500000e050000b8a4fcff3c1c0000441c000002050000040500002a050000e0240000802400000c2900002e2d000052240000bc2d0000c82d0000ba2500007ad9ffffa4240000a2240000a6240000483100009a240000502400007a2e0000c4240000a8240000d8430000568bfdff36f3ffff5c24000072240000f2510000b6240000da24000060240000d6240000b224000068270000742800000c260000dc270000e42700003ed1feff10260000aa270000ce2a0000d22a0000382b0000da250000a42600001e3500001427000008370000c825000080280000c04600009e270000442b0000a42700009e2b0000ea50000092260000ae270000fc2800003494ffff402800005838000020280000be26000052280000ee2e00007e280000a0250000265100007e260000222d0000c4260000be2d000016290000ae2d0000c8280000802600003c5600000000000092250000ea2800005e25000098250000ac26000040270000163d00000e2500000a2500001c26000076470000003d000082260000f62d000040260000c0260000da4f0000d4260000342600005426000064270000ce25000000270000ca380000f8250000fa310000f631000002320000dc2500002c280000f4c8ffff76280000f4260000fc2500002a2500001e270000e22600007c270000242700001cb300007c28000030270000682a0000ac2a0000b42a0000202600001a250000a627000056260000b6270000f2240000be250000325a00005a250000
     m_RenameOverlay:
       m_UserAcceptedRename: 0

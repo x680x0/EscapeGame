@@ -5,10 +5,20 @@ using UnityEngine;
 public class LitghtPoint:MonoBehaviour {
     public bool LM = true;
     public GameObject next;
+    public float timer=-1;
+    public float Time;
     public void Switch(bool _LM) {
         LM = _LM;
     }
-    bool GetSwitch() {
+    public bool GetSwitch() {
+        if(timer == -1) {
+            Switch(false);
+            timer = Time;
+        } else if(timer > 0) {
+            timer -= 0.1f;
+        } else if(timer <= 0) {
+            Switch(true);
+        }
         return LM;
     }
     public Vector2 ToNext() {
@@ -18,4 +28,5 @@ public class LitghtPoint:MonoBehaviour {
             return -(Vector2)(transform.position - next.transform.position).normalized;
         }
     }
+    
 }
