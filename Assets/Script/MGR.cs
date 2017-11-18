@@ -2,13 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using GamepadInput;
 
 public class MGR:MonoBehaviour {
     public float once;
     public int[] input;
     public int[] prevInput;
+    public int[][] Inpad;
+    public int[][] preInpad; 
     public bool[] b_input;
     public int numberOfPlayer;
+    GamepadState state;
 
     public enum keyIn {
         up = KeyCode.UpArrow,
@@ -30,8 +34,23 @@ public class MGR:MonoBehaviour {
         item,
         vectorlock
     }
+    public enum padUse {
+        up = 0,
+        right,
+        down,
+        left,
+        pick,
+        weapon,
+        item,
+        vectorlock,
+        count
+    }
     // Use this for initialization
     void Start() {
+        Inpad = new int[4][];
+        for(int i = 0; i < Inpad.Length; i++) {
+            Inpad[i] = new int[(int)padUse.count];
+        }
         b_input = new bool[8];
         input = new int[8];
         prevInput = new int[8];
@@ -88,6 +107,7 @@ public class MGR:MonoBehaviour {
         }
     }
     void FixedUpdate() {
+        
         for(int i = 0; i < b_input.Length; i++) {
             prevInput[i] = input[i];
             if(b_input[i]) {
@@ -96,5 +116,52 @@ public class MGR:MonoBehaviour {
                 input[i] = 0;
             }
         }
+        for(int i = 0; i < 4; i++) {
+            state = GamePad.GetState((GamePad.Index)(i+1));
+            if(state.LeftStickAxis.y==1.0f) {
+                Inpad[i][(int)padUse.up] += 1;
+            } else {
+                Inpad[i][(int)padUse.up] = 0;
+            }
+            if(state.LeftStickAxis.x == 1.0f) {
+                Inpad[i][(int)padUse.right] += 1;
+            } else {
+                Inpad[i][(int)padUse.right] = 0;
+            }
+            if(state.LeftStickAxis.y == -1.0f) {
+                Inpad[i][(int)padUse.down] += 1;
+            } else {
+                Inpad[i][(int)padUse.down] = 0;
+            }
+            if(state.LeftStickAxis.x == -1.0f) {
+                Inpad[i][(int)padUse.left] += 1;
+            } else {
+                Inpad[i][(int)padUse.left] = 0;
+            }
+            if(state.B) {
+                Inpad[i][(int)padUse.pick] += 1;
+            } else {
+                Inpad[i][(int)padUse.pick] = 0;
+            }
+            if(state.A) {
+                Inpad[i][(int)padUse.item] += 1;
+            } else {
+                Inpad[i][(int)padUse.item] = 0;
+            }
+            if(state.Y) {
+                Inpad[i][(int)padUse.weapon] += 1;
+            } else {
+                Inpad[i][(int)padUse.weapon] = 0;
+            }
+            if(state.X) {
+                Inpad[i][(int)padUse.vectorlock] += 1;
+            } else {
+                Inpad[i][(int)padUse.vectorlock] = 0;
+            }
+        }
+    }
+    int GetPad(padUse pu,int num) {
+
+        return 0;
     }
 }

@@ -19,6 +19,7 @@ public class PlayerScript : Objects {
     public ItemEquipment eItem;
     Vector2 nock;
     float nocktime = 0;
+    public int contlol;
     // Use this for initialization
     override public void Start() {
         base.Start();
@@ -68,7 +69,7 @@ public class PlayerScript : Objects {
                 DamageNow = false;
             }
             if(!AttackNow) {
-                if(INPUT.input[5] > 0) {
+                if(INPUT.Inpad[contlol][5] > 0) {
 
                     animator.Play(attack[muki]);
                     if(eWeapon != null) {
@@ -76,19 +77,19 @@ public class PlayerScript : Objects {
                     }
                     AttackNow = true;
 
-                } else if(INPUT.input[muki] > 0) {
+                } else if(INPUT.Inpad[contlol][muki] > 0) {
                     move = true;
                     SetSpeed(muki, 10);
-                    if(INPUT.input[(muki + 1) % 4] > 0) {
+                    if(INPUT.Inpad[contlol][(muki + 1) % 4] > 0) {
                         SetSpeed((muki + 1) % 4, 10);
                     }
-                    if(INPUT.input[(muki + 3) % 4] > 0) {
+                    if(INPUT.Inpad[contlol][(muki + 3) % 4] > 0) {
                         SetSpeed((muki + 3) % 4, 10);
                     }
                 } else {
                     move = false;
                     for(int i = 0; i < 4; i++) {
-                        if(INPUT.input[i] > 0) {
+                        if(INPUT.Inpad[contlol][i] > 0) {
                             muki = i;
                             move = false;
                         }
@@ -104,7 +105,7 @@ public class PlayerScript : Objects {
                 }
                 SetOrder(0);
 
-                if(INPUT.input[(int)MGR.keyUse.pick] == 1) {
+                if(INPUT.Inpad[contlol][(int)MGR.keyUse.pick] == 1) {
                     Collider2D[][] CheckCollider = new Collider2D[1][];
                     CheckCollider[0] = Physics2D.OverlapPointAll(pickpivot[muki].transform.position);
 

@@ -58,9 +58,9 @@ public class DemoScript : MonoBehaviour
         GUILayout.Label("" + state.X);
         GUILayout.Label("" + state.Y);
         GUILayout.Label("" + state.Start);
-        GUILayout.Label("" + state.Back);
-        GUILayout.Label("" + state.LeftShoulder);
-        GUILayout.Label("" + state.RightShoulder);
+       // GUILayout.Label("" + state.Back);
+        //GUILayout.Label("" + state.LeftShoulder);
+       // GUILayout.Label("" + state.RightShoulder);
         GUILayout.Label("" + state.Left);
         GUILayout.Label("" + state.Right);
         GUILayout.Label("" + state.Up);
@@ -99,9 +99,9 @@ public class DemoScript : MonoBehaviour
         GUILayout.Label("X");
         GUILayout.Label("Y");
         GUILayout.Label("Start");
-        GUILayout.Label("Back");
-        GUILayout.Label("Left Shoulder");
-        GUILayout.Label("Right Shoulder");
+      //  GUILayout.Label("Back");
+       // GUILayout.Label("Left Shoulder");
+        //GUILayout.Label("Right Shoulder");
         GUILayout.Label("Left");
         GUILayout.Label("Right");
         GUILayout.Label("Up");
