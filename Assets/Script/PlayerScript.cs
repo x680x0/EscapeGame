@@ -10,6 +10,7 @@ public class PlayerScript : Objects {
     static int[] attack;
     static int[] damaged;
     static int[] through;
+    static int dead;
     public float DamageTimer = 0;
     public bool AttackNow,DamageNow;
     public float HP;
@@ -52,6 +53,8 @@ public class PlayerScript : Objects {
         through[1] = Animator.StringToHash("throughright");
         through[2] = Animator.StringToHash("throughdown");
         through[3] = Animator.StringToHash("throughleft");
+        dead = Animator.StringToHash("dead");
+        animator.Play(dead);
     }
 
     // Update is called once per frame
@@ -63,7 +66,7 @@ public class PlayerScript : Objects {
     }
     void FixedUpdate() {
         speed = Vector2.zero;
-        if(DamageTimer <= 0) {
+        if(DamageTimer <= 0&&HP>0) {
             DamageTimer = 0;
             if(DamageNow) {
                 DamageNow = false;
@@ -177,8 +180,9 @@ public class PlayerScript : Objects {
        
         if(dmi != null) {
             dmi.GetInf(ref damage,ref nock,ref nocktime,pivot[muki].transform.position);
-            if(HP < damage) {
+            if(HP <= damage) {
                 HP = 0;
+                animator.Play(dead);
             } else {
                 DamageNow = true;
                 animator.Play(damaged[muki]);
