@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerScript : Objects {
+public class PlayerScript:Objects {
     [System.NonSerialized]
     Animator animator;
     static int[] walk;
@@ -12,9 +12,10 @@ public class PlayerScript : Objects {
     static int[] through;
     static int dead;
     public float DamageTimer = 0;
-    public bool AttackNow,DamageNow;
-    public float HP;
+    public bool AttackNow, DamageNow;
+    public int HP;
     public MGR INPUT;
+    public PlayerMGR PMGR;
     public GameObject[] pickpivot;
     public WeaaponEquipment eWeapon;
     public ItemEquipment eItem;
@@ -58,28 +59,29 @@ public class PlayerScript : Objects {
     }
 
     // Update is called once per frame
-    void Update () {
-       
+    void Update() {
+        PMGR.setHP(contlol, HP);
     }
     void WeaponAttack() {
-        
+
     }
     void FixedUpdate() {
         speed = Vector2.zero;
-        if(DamageTimer <= 0&&HP>0) {
+        if(DamageTimer <= 0 && HP > 0) {
             DamageTimer = 0;
             if(DamageNow) {
                 DamageNow = false;
             }
             if(!AttackNow) {
-                if(INPUT.Inpad[contlol][5] > 0) {
-
+                if(INPUT.Inpad[contlol][5] == 1 && eWeapon != null) {
                     animator.Play(attack[muki]);
-                    if(eWeapon != null) {
-                        eWeapon.GetComponent<WeaaponEquipment>().PlayAnimation(muki);
-                    }
+                    eWeapon.GetComponent<WeaaponEquipment>().PlayAnimation(muki);
                     AttackNow = true;
 
+                } else if(INPUT.Inpad[contlol][6] == 1 && eItem != null) {
+                    PMGR.ItemApply(eItem.GetComponent<ItemEquipment>().ItemUse(), contlol);
+                    Destroy(eItem.gameObject);
+                    eItem = null;
                 } else if(INPUT.Inpad[contlol][muki] > 0) {
                     move = true;
                     SetSpeed(muki, 10);
@@ -143,56 +145,74 @@ public class PlayerScript : Objects {
 
             }
 
-            if(DamageTimer <= 0f) {
-                Collider2D[][] CheckCollider = new Collider2D[1][];
-                CheckCollider[0] = Physics2D.OverlapPointAll(pivot[muki].transform.position);
+            Collider2D[][] CheckDamage = new Collider2D[1][];
+            CheckDamage[0] = Physics2D.OverlapPointAll(pivot[muki].transform.position);
 
-                foreach(Collider2D[] CheckList in CheckCollider) {
+            foreach(Collider2D[] CheckList in CheckDamage) {
 
-                    foreach(Collider2D groundCheck in CheckList) {
-                        if(groundCheck != null) {
-                            if(groundCheck.isTrigger) {
-                                if(groundCheck.tag == "EnemyAttack") {
-                                    Damaged(groundCheck.gameObject);
-                                }
+                foreach(Collider2D groundCheck in CheckList) {
+                    if(groundCheck != null) {
+                        if(groundCheck.isTrigger) {
+
+                            if(groundCheck.tag=="Poison"||(groundCheck.tag == "EnemyAttack" && DamageTimer <= 0f)) {
+                                Damaged(groundCheck.gameObject);
                             }
+
                         }
                     }
-
                 }
+
             }
 
         } else {
-            DamageTimer -= 0.1f;
-            if(nocktime > 0) {
-                rb2d.velocity = speed + nock;
-                nocktime -= 0.1f;
+            if(HP > 0) {
+                DamageTimer -= 0.1f;
+                if(nocktime > 0) {
+                    rb2d.velocity = speed + nock;
+                    nocktime -= 0.1f;
+                } else {
+                    rb2d.velocity = speed;
+                }
             } else {
-                rb2d.velocity = speed;
+                rb2d.velocity = Vector3.zero;
             }
-            
         }
-       
+
     }
     public override void Damaged(GameObject obj) {
         DamageInf dmi = obj.GetComponent<DamageInf>();
-        int damage=0;
-       
-        if(dmi != null) {
-            dmi.GetInf(ref damage,ref nock,ref nocktime,pivot[muki].transform.position);
-            if(HP <= damage) {
-                HP = 0;
-                animator.Play(dead);
-            } else {
-                DamageNow = true;
-                animator.Play(damaged[muki]);
-                HP -= damage;
-                DamageTimer = 1.5f;
+        int damage = 0;
 
+        if(dmi != null) {
+            if(dmi.GetPoison()) {
+                damage=dmi.GetDamage();
+                if(damage == 0) { }
+                else if(HP <= damage) {
+                    HP = 0;
+                    animator.Play(dead);
+                } else {
+                    animator.Play(damaged[muki]);
+                    HP -= damage;
+                    DamageTimer = 0.1f;
+
+                }
+            } else {
+                dmi.GetInf(ref damage, ref nock, ref nocktime, pivot[muki].transform.position);
+                if(HP <= damage) {
+                    HP = 0;
+                    animator.Play(dead);
+                } else {
+                    DamageNow = true;
+                    animator.Play(damaged[muki]);
+                    HP -= damage;
+                    DamageTimer = 1.5f;
+
+                }
             }
         }
     }
-    void SetSpeed(int vect,float s) {
+
+    void SetSpeed(int vect, float s) {
         switch(vect) {
             case 0:
                 speed += Vector2.up * s;
@@ -210,7 +230,7 @@ public class PlayerScript : Objects {
     }
     void MakeSpeed(float s) {
         speed.Normalize();
-        speed*= s;
+        speed *= s;
         return;
     }
 }

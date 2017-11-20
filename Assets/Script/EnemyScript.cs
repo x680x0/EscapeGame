@@ -11,6 +11,7 @@ public class EnemyScript : Objects {
     // Use this for initialization
     override public void Start () {
         base.Start();
+        muki = 0;
     }
     public virtual void FixedUpdate() {
         if(DamageTimer <= 0) {

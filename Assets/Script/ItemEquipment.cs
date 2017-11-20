@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class ItemEquipment : MonoBehaviour {
 
+    public enum ItemAction {
+        heal=0,
+    };
+
 	// Use this for initialization
 	void Start () {
 		
@@ -13,4 +17,7 @@ public class ItemEquipment : MonoBehaviour {
 	void Update () {
 		
 	}
+    public ItemAction ItemUse() {
+        return ItemAction.heal;
+    }
 }
