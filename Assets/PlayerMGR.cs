@@ -15,18 +15,7 @@ public class PlayerMGR:MonoBehaviour {
 
     }
     public void ItemApply(ItemEquipment.ItemAction IA, int num) {
-        switch(IA) {
-            case ItemEquipment.ItemAction.heal:
-                for(int i = 0; i < 2; i++) {
-                    if(Player[i] != null) {
-                        float a = Vector3.Distance(Player[i].transform.position, Player[num].transform.position);
-                        if(a < 5) {
-                            Player[i].GetComponent<PlayerScript>().HP += 10;
-                        }
-                    }
-                }
-                break;
-        }
+        
     }
     public void setHP(int number,int hp) {
         HP[number] = hp;

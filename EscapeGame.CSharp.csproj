@@ -82,6 +82,7 @@
     <Compile Include="Assets\GamePadInput\GamePad.cs" />
     <Compile Include="Assets\Goal.cs" />
     <Compile Include="Assets\GoalScript.cs" />
+    <Compile Include="Assets\HealBottle.cs" />
     <Compile Include="Assets\Images\Objects.cs" />
     <Compile Include="Assets\PlayerMGR.cs" />
     <Compile Include="Assets\Script\DamageInf.cs" />
