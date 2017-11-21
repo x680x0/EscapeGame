@@ -19,6 +19,10 @@ public class PlayerScript:Objects {
     public GameObject[] pickpivot;
     public WeaaponEquipment eWeapon;
     public ItemEquipment eItem;
+
+    public GameObject HealEffect;
+
+
     Vector2 nock;
     float nocktime = 0;
     public int contlol;
@@ -227,6 +231,7 @@ public class PlayerScript:Objects {
     }
 
     public void Heal(int num) {
+        Instantiate(HealEffect, transform);
         HealTimer = 0.5f;
         HP += num;
         if(MAXHP < HP) {
