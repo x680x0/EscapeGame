@@ -89,6 +89,7 @@
     <Compile Include="Assets\PlayerMGR.cs" />
     <Compile Include="Assets\Script\DamageInf.cs" />
     <Compile Include="Assets\Script\EnemyScript.cs" />
+    <Compile Include="Assets\Script\GUIControl.cs" />
     <Compile Include="Assets\Script\InputCheck.cs" />
     <Compile Include="Assets\Script\ItemEquipment.cs" />
     <Compile Include="Assets\Script\ItemObject.cs" />

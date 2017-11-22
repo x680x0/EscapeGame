@@ -79,89 +79,91 @@ public class PlayerScript:Objects {
                 HealTimer = 0;
             }
         }
-        if(DamageTimer <= 0 && HP > 0) {
-            DamageTimer = 0;
-            if(DamageNow) {
-                DamageNow = false;
-            }
-            if(!AttackNow) {
-                if(ItemCharge&&INPUT.Inpad[contlol][6]==0&&eItem!=null) {
-                    eItem.ItemUse();
-                    ItemCharge = false;
-                    eItem = null;
-                } else if(INPUT.Inpad[contlol][6] > 0 && eItem != null) {//アイテム長押しなどの処理
-                    eItem.ItemCharge();
-                    ItemCharge = true;
-                    move = false;
-                } else if(INPUT.Inpad[contlol][5] == 1 && eWeapon != null) {
-                    animator.Play(attack[muki]);
-                    eWeapon.GetComponent<WeaaponEquipment>().PlayAnimation(muki);
-                    AttackNow = true;
+        if(DamageTimer <= 0) {
+            if(HP > 0) {
+                DamageTimer = 0;
+                if(DamageNow) {
+                    DamageNow = false;
+                }
+                if(!AttackNow) {
+                    if(ItemCharge && INPUT.Inpad[contlol][6] == 0 && eItem != null) {
+                        eItem.ItemUse();
+                        ItemCharge = false;
+                        eItem = null;
+                    } else if(INPUT.Inpad[contlol][6] > 0 && eItem != null) {//アイテム長押しなどの処理
+                        eItem.ItemCharge();
+                        ItemCharge = true;
+                        move = false;
+                    } else if(INPUT.Inpad[contlol][5] == 1 && eWeapon != null) {
+                        animator.Play(attack[muki]);
+                        eWeapon.GetComponent<WeaaponEquipment>().PlayAnimation(muki);
+                        AttackNow = true;
 
-                } else if(INPUT.Inpad[contlol][muki] > 0) {
-                    move = true;
-                    SetSpeed(muki, 10);
-                    if(INPUT.Inpad[contlol][(muki + 1) % 4] > 0) {
-                        SetSpeed((muki + 1) % 4, 10);
-                    }
-                    if(INPUT.Inpad[contlol][(muki + 3) % 4] > 0) {
-                        SetSpeed((muki + 3) % 4, 10);
-                    }
-                } else {
-                    move = false;
-                    for(int i = 0; i < 4; i++) {
-                        if(INPUT.Inpad[contlol][i] > 0) {
-                            muki = i;
-                            move = false;
+                    } else if(INPUT.Inpad[contlol][muki] > 0) {
+                        move = true;
+                        SetSpeed(muki, 10);
+                        if(INPUT.Inpad[contlol][(muki + 1) % 4] > 0) {
+                            SetSpeed((muki + 1) % 4, 10);
                         }
-                    }
-
-                }
-                MakeSpeed(ss);
-                rb2d.velocity = speed;
-                if(!move) {
-                    animator.Play(stay[muki]);
-                } else {
-                    animator.Play(walk[muki]);
-                }
-                SetOrder(0);
-
-                if(INPUT.Inpad[contlol][(int)MGR.keyUse.pick] == 1) {
-                    Collider2D[][] CheckCollider = new Collider2D[1][];
-                    CheckCollider[0] = Physics2D.OverlapPointAll(pickpivot[muki].transform.position);
-
-                    foreach(Collider2D[] CheckList in CheckCollider) {
-
-                        foreach(Collider2D groundCheck in CheckList) {
-                            if(groundCheck != null) {
-                                if(groundCheck.isTrigger) {
-                                    if(groundCheck.tag == "PickUpItem") {
-                                        if(eItem == null) {
-                                            //ItemObject=groundCheck.transform.parent.gameObject.GetComopnent<ItemObject>();
-                                            //ItemObject.関数名().transform.parent=this.gameObject;
-                                            //関数内でInstansとアイテムの初期化、そしてそれをreturnする
-                                            eItem = groundCheck.gameObject.GetComponent<ItemObject>().Pick(this.transform).GetComponent<ItemEquipment>();
-                                        }
-                                    }
-                                    if(groundCheck.tag == "PickUpWeapon") {
-                                        if(eWeapon == null) {
-                                            //ItemObject=groundCheck.transform.parent.gameObject.GetComopnent<ItemObject>();
-                                            //ItemObject.関数名().transform.parent=this.gameObject;
-                                            //関数内でInstansとアイテムの初期化、そしてそれをreturnする
-                                            eWeapon = groundCheck.gameObject.GetComponent<ItemObject>().Pick(this.transform).GetComponent<WeaaponEquipment>();
-                                            groundCheck.gameObject.GetComponent<CNum>().ini(contlol);
-                                        }
-                                    }
-                                }
+                        if(INPUT.Inpad[contlol][(muki + 3) % 4] > 0) {
+                            SetSpeed((muki + 3) % 4, 10);
+                        }
+                    } else {
+                        move = false;
+                        for(int i = 0; i < 4; i++) {
+                            if(INPUT.Inpad[contlol][i] > 0) {
+                                muki = i;
+                                move = false;
                             }
                         }
 
                     }
+                    MakeSpeed(ss);
+                    rb2d.velocity = speed;
+                    if(!move) {
+                        animator.Play(stay[muki]);
+                    } else {
+                        animator.Play(walk[muki]);
+                    }
+
+
+                    if(INPUT.Inpad[contlol][(int)MGR.keyUse.pick] == 1) {
+                        Collider2D[][] CheckCollider = new Collider2D[1][];
+                        CheckCollider[0] = Physics2D.OverlapPointAll(pickpivot[muki].transform.position);
+
+                        foreach(Collider2D[] CheckList in CheckCollider) {
+
+                            foreach(Collider2D groundCheck in CheckList) {
+                                if(groundCheck != null) {
+                                    if(groundCheck.isTrigger) {
+                                        if(groundCheck.tag == "PickUpItem") {
+                                            if(eItem == null) {
+                                                //ItemObject=groundCheck.transform.parent.gameObject.GetComopnent<ItemObject>();
+                                                //ItemObject.関数名().transform.parent=this.gameObject;
+                                                //関数内でInstansとアイテムの初期化、そしてそれをreturnする
+                                                eItem = groundCheck.gameObject.GetComponent<ItemObject>().Pick(this.transform).GetComponent<ItemEquipment>();
+                                            }
+                                        }
+                                        if(groundCheck.tag == "PickUpWeapon") {
+                                            if(eWeapon == null) {
+                                                //ItemObject=groundCheck.transform.parent.gameObject.GetComopnent<ItemObject>();
+                                                //ItemObject.関数名().transform.parent=this.gameObject;
+                                                //関数内でInstansとアイテムの初期化、そしてそれをreturnする
+                                                eWeapon = groundCheck.gameObject.GetComponent<ItemObject>().Pick(this.transform).GetComponent<WeaaponEquipment>();
+                                                groundCheck.gameObject.GetComponent<CNum>().ini(contlol);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                        }
+
+                    }
 
                 }
-
             }
-
+            SetOrder(0);
             Collider2D[][] CheckDamage = new Collider2D[1][];
             CheckDamage[0] = Physics2D.OverlapPointAll(pivot[muki].transform.position);
 

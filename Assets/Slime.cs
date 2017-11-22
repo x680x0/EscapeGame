@@ -5,7 +5,7 @@ using UnityEngine;
 public class Slime:EnemyScript {
     static int[] walk, attack;
     static int die;
-    float[] DamageTimer;
+    public float[] DamageTimer;
     public GameObject[] attackCol;
     bool AttackNow;
     float Attacktime = 0;
@@ -16,7 +16,7 @@ public class Slime:EnemyScript {
         base.Start();
         DamageTimer = new float[4];
         bc2d = GetComponent<BoxCollider2D>();
-        HP = 10;
+        HP = 20;
         animator = GetComponent<Animator>();
         walk = new int[4];
         walk[0] = Animator.StringToHash("up");
@@ -82,7 +82,7 @@ public class Slime:EnemyScript {
                 if(groundCheck != null) {
                     if(groundCheck.isTrigger) {
                         if(groundCheck.tag == "PlayerAttack") {
-                            int c= groundCheck.gameObject.GetComponent<CNum>().GetContlol();
+                            int c= groundCheck.gameObject.transform.parent.gameObject.GetComponent<CNum>().GetContlol();
                             Damaged(groundCheck.gameObject,c);
                         }
                     }
