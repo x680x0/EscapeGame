@@ -5,7 +5,7 @@ using UnityEngine;
 public class Goal :EnemyScript {
     public GoalScript GS;
     public GameObject Attack;
-    public override void Damaged(GameObject obj) {
+    public override void Damaged(GameObject obj,int num) {
 
         DamageInf dmi = obj.GetComponent<DamageInf>();
         int damage;
@@ -16,7 +16,6 @@ public class Goal :EnemyScript {
                 End();
             } else {
                 HP -= damage;
-                DamageTimer = 1.5f;
             }
         }
     }

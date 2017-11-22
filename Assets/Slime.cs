@@ -5,15 +5,16 @@ using UnityEngine;
 public class Slime:EnemyScript {
     static int[] walk, attack;
     static int die;
-
+    float[] DamageTimer;
     public GameObject[] attackCol;
-    public bool AttackNow;
+    bool AttackNow;
     float Attacktime = 0;
     Animator animator;
     BoxCollider2D bc2d;
     // Use this for initialization
     override public void Start() {
         base.Start();
+        DamageTimer = new float[4];
         bc2d = GetComponent<BoxCollider2D>();
         HP = 10;
         animator = GetComponent<Animator>();
@@ -30,10 +31,13 @@ public class Slime:EnemyScript {
         die = Animator.StringToHash("motionDie");
     }
     public override void FixedUpdate() {
-        if(DamageTimer <= 0) {
-            DamageTimer = 0;
-        } else {
-            DamageTimer -= 0.1f;
+        int i = 0;
+        for(i = 0; i < 4; i++) {
+            if(DamageTimer[i] <= 0) {
+                DamageTimer[i] = 0;
+            } else {
+                DamageTimer[i] -= 0.1f;
+            }
         }
         Vector2 walkvect = new Vector2(0, 0);
         if(AttackNow) {
@@ -69,24 +73,24 @@ public class Slime:EnemyScript {
                 }
             }
         }
-        if(DamageTimer <= 0f) {
             Collider2D[][] CheckCollider = new Collider2D[1][];
             CheckCollider[0] = Physics2D.OverlapPointAll(pivot[muki].transform.position);
 
-            foreach(Collider2D[] CheckList in CheckCollider) {
+        foreach(Collider2D[] CheckList in CheckCollider) {
 
-                foreach(Collider2D groundCheck in CheckList) {
-                    if(groundCheck != null) {
-                        if(groundCheck.isTrigger) {
-                            if(groundCheck.tag == "PlayerAttack") {
-                                Damaged(groundCheck.gameObject);
-                            }
+            foreach(Collider2D groundCheck in CheckList) {
+                if(groundCheck != null) {
+                    if(groundCheck.isTrigger) {
+                        if(groundCheck.tag == "PlayerAttack") {
+                            int c= groundCheck.gameObject.GetComponent<CNum>().GetContlol();
+                            Damaged(groundCheck.gameObject,c);
                         }
                     }
                 }
-
             }
+
         }
+        
     }
 
     public void reAttack() {
@@ -108,19 +112,20 @@ public class Slime:EnemyScript {
         attackCol[vect].SetActive(true);
     }
 
-    public override void Damaged(GameObject obj) {
-
-        DamageInf dmi = obj.GetComponent<DamageInf>();
-        int damage;
-        if(dmi != null) {
-            damage = dmi.GetDamage();
-            if(HP <= damage) {
-                animator.Play(die);
-                bc2d.enabled = false;
-                HP = 0;
-            } else {
-                HP -= damage;
-                DamageTimer = 1.5f;
+    public override void Damaged(GameObject obj,int num) {
+        if(DamageTimer[num] <= 0) {
+            DamageInf dmi = obj.GetComponent<DamageInf>();
+            int damage;
+            if(dmi != null) {
+                damage = dmi.GetDamage();
+                if(HP <= damage) {
+                    animator.Play(die);
+                    bc2d.enabled = false;
+                    HP = 0;
+                } else {
+                    HP -= damage;
+                    DamageTimer[num] = 1.5f;
+                }
             }
         }
     }

@@ -149,6 +149,7 @@ public class PlayerScript:Objects {
                                             //ItemObject.関数名().transform.parent=this.gameObject;
                                             //関数内でInstansとアイテムの初期化、そしてそれをreturnする
                                             eWeapon = groundCheck.gameObject.GetComponent<ItemObject>().Pick(this.transform).GetComponent<WeaaponEquipment>();
+                                            groundCheck.gameObject.GetComponent<CNum>().ini(contlol);
                                         }
                                     }
                                 }
@@ -197,7 +198,7 @@ public class PlayerScript:Objects {
         }
 
     }
-    public override void Damaged(GameObject obj) {
+    public void Damaged(GameObject obj) {
         DamageInf dmi = obj.GetComponent<DamageInf>();
         int damage = 0;
 

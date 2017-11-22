@@ -7,20 +7,21 @@ public class Spider : EnemyScript {
     static int slow;
     static int[] attack;
     static int die;
+    float[] DamageTimer;
     Animator animator;
     Vector2 Speed;
-    float A = 0;
-    public bool AttackNow;
-    public int a;
-    public float Slow;
+    BoxCollider2D bc2d;
+     bool AttackNow;
+    int a;
+    float Slow;
     public GameObject Needle;
-   public  float r = 10;
+    float r = 10;
     bool inLight = true;
-
-    public int Phase;
+    int Phase;
     // Use this for initialization
     public override void Start () {
         base.Start();
+        DamageTimer = new float[4];
         Slow = 0;
         Phase = 0;
         AttackNow = false;
@@ -28,6 +29,7 @@ public class Spider : EnemyScript {
         HP = 20;
         rb2d = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        bc2d = GetComponent<BoxCollider2D>();
         walk = Animator.StringToHash("walk");
         slow = Animator.StringToHash("slowwalk");
         attack = new int[4];
@@ -46,6 +48,7 @@ public class Spider : EnemyScript {
     public override void FixedUpdate() {
         float tx, ty, x, y, dx, dy;
         a = muki;
+        SetOrder(15);
         if(Target != null) {
             float DX, DY;
             tx = Target.transform.position.x;
@@ -113,7 +116,6 @@ public class Spider : EnemyScript {
                     break;
                 case 4:
                     DY = y - ty;
-                    print(DY);
                     if(Mathf.Abs(DY) < 0.5) {
                         if(DY < 0) {
                             Speed.Set(0, Mathf.Abs(DY));
@@ -153,85 +155,50 @@ public class Spider : EnemyScript {
                    // muki = Random.Range(0, 4);
                     if(Slow > 180) {
                         Slow = 0;
-                        Phase = 0;
+                        if(HP > 0) {
+                            Phase = 0;
+                        }else {
+                            Phase = 8;
+                        }
                         animator.Play(walk);
                     }
                     break;
+                case 8:
+                    Speed = Vector2.zero;
+                    break;
             }
             if(!AttackNow) {
-                /*  if(Mathf.Abs(tx - x) < 0.1f) {
-                      Speed = Vector2.zero;
-                      animator.Play(attack[(muki + 1) % 4]);
-                      rb2d.velocity = Speed;
-                      AttackNow = true;
-                      muki = (muki + 1) % 4;
-                  } else if(Mathf.Abs(ty - y) < 0.1f) {
-                      animator.Play(attack[(muki + 1) % 4]);
-                      Speed = Vector2.zero;
-                      rb2d.velocity = Speed;
-                      AttackNow = true;
-                      muki = (muki + 1) % 4;
-                  } else {
-                      switch(muki) {
-                          case 0:
-                              dy = (ty + r) - y;
-                              if(dy > 0) {
-                                  if(dy < 1) {
-                                      Speed.Set(0, 10);
-                                  } else {
-                                      Speed.Set(0, 20);
-                                  }
-                              } else {
-                                  Speed.Set(0, 0);
-                                  muki++;
-                              }
-                              break;
-                          case 1:
-                              dx = (tx + r) - x;
-                              if(dx > 0) {
-                                  if(dx < 1) {
-                                      Speed.Set(10, 0);
-                                  } else {
-                                      Speed.Set(20, 0);
-                                  }
-                              } else {
-                                  Speed.Set(0, 0);
-                                  muki++;
-                              }
-                              break;
-                          case 2:
-                              dy = (ty - r) - y;
-                              if(dy < 0) {
-                                  if(dy > -1) {
-                                      Speed.Set(0, -10);
-                                  } else {
-                                      Speed.Set(0, -20);
-                                  }
-                              } else {
-                                  Speed.Set(0, 0);
-                                  muki++;
-                              }
-                              break;
-                          case 3:
-                              dx = (tx - r) - x;
-                              if(dx < 0) {
-                                  if(dx > -1) {
-                                      Speed.Set(-10, 0);
-                                  } else {
-                                      Speed.Set(-20, 0);
-                                  }
-                              } else {
-                                  Speed.Set(0, 0);
-                                  muki = 0;
-                              }
-                              break;
-
-                      }
-                  }
-              }*/
+               
                 rb2d.velocity = Speed;
             }
+
         }
+            Collider2D[][] CheckCollider = new Collider2D[1][];
+            CheckCollider[0] = Physics2D.OverlapPointAll(pivot[muki].transform.position);
+
+        foreach(Collider2D[] CheckList in CheckCollider) {
+
+            foreach(Collider2D groundCheck in CheckList) {
+                if(groundCheck != null) {
+                    if(groundCheck.isTrigger) {
+                        if(groundCheck.tag == "PlayerAttack") {
+                            int c = groundCheck.gameObject.transform.parent.GetComponent<CNum>().GetContlol();
+                            Damaged(groundCheck.gameObject, c);
+                        }
+                    }
+                }
+            }
+
+        }
+        int i = 0;
+        for(i = 0; i < 4; i++) {
+            if(DamageTimer[i] <= 0) {
+                DamageTimer[i] = 0;
+            } else {
+                DamageTimer[i] -= 1f;
+            }
+        }
+        
     }
 
     void Shot() {
@@ -241,5 +208,24 @@ public class Spider : EnemyScript {
     void AttackFinish() {
         AttackNow = false;
         animator.Play(slow);
+    }
+
+    public override void Damaged(GameObject obj, int num) {
+        if(DamageTimer[num] <= 0) {
+            DamageInf dmi = obj.GetComponent<DamageInf>();
+            int damage;
+            if(dmi != null) {
+                damage = dmi.GetDamage();
+                if(HP <= damage) {
+                    animator.Play(die);
+                    Phase = 8;
+                    bc2d.enabled = false;
+                    HP = 0;
+                } else {
+                    HP -= damage;
+                    DamageTimer[num] = 1.5f;
+                }
+            }
+        }
     }
 }

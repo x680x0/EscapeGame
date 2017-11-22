@@ -6,7 +6,7 @@ public class Objects : MonoBehaviour {
 
     public GameObject[] pivot; 
 
-    public int muki;
+    protected int muki;
     protected bool move;
 
 
@@ -35,9 +35,6 @@ public class Objects : MonoBehaviour {
     }
     public Vector2 GetPos() {
         return transform.position;
-    }
-    virtual public void Damaged(GameObject obj) {
-        
     }
     public int Vector2int(Vector2 vect) {
         vect.Normalize();

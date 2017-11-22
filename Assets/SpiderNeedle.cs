@@ -5,12 +5,6 @@ using UnityEngine;
 public class SpiderNeedle :EnemyScript {
     public float nspeed;
     public override void FixedUpdate() {
-        if(DamageTimer <= 0) {
-            DamageTimer = 0;
-        } else {
-            DamageTimer -= 0.1f;
-        }
-        if(DamageTimer <= 0f) {
             Collider2D[][] CheckCollider = new Collider2D[1][];
             CheckCollider[0] = Physics2D.OverlapPointAll(pivot[muki].transform.position);
 
@@ -20,17 +14,17 @@ public class SpiderNeedle :EnemyScript {
                     if(groundCheck != null) {
                         if(groundCheck.isTrigger) {
                             if(groundCheck.tag == "PlayerAttack") {
-                                Damaged(groundCheck.gameObject);
+                                Damaged(groundCheck.gameObject,0);
                             }
                         }
                     }
                 }
 
             }
-        }
+        
     }
 
-    public override void Damaged(GameObject obj) {
+    public override void Damaged(GameObject obj,int num) {
 
         DamageInf dmi = obj.GetComponent<DamageInf>();
         int damage;

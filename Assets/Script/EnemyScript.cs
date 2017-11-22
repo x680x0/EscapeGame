@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyScript : Objects {
-    
-
-    public float DamageTimer = 0;
     public Objects Target;
     public int HP;
     // Use this for initialization
@@ -14,7 +11,7 @@ public class EnemyScript : Objects {
         muki = 0;
     }
     public virtual void FixedUpdate() {
-        if(DamageTimer <= 0) {
+     /*   if(DamageTimer <= 0) {
             DamageTimer = 0;
         } else {
             DamageTimer -= 0.1f;
@@ -36,10 +33,10 @@ public class EnemyScript : Objects {
                 }
 
             }
-        }
+        }*/
     }
 
-    public override void Damaged(GameObject obj) {
+    public virtual void Damaged(GameObject obj,int num) {
         
             DamageInf dmi = obj.GetComponent<DamageInf>();
             int damage;
@@ -49,7 +46,6 @@ public class EnemyScript : Objects {
                     HP = 0;
             } else {
                     HP -= damage;
-                    DamageTimer = 1.5f;
                 }
             }
     }
