@@ -6,7 +6,7 @@ public class Objects : MonoBehaviour {
 
     public GameObject[] pivot; 
 
-    protected int muki;
+    public int muki;
     protected bool move;
 
 

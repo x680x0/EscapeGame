@@ -11,20 +11,26 @@ public class PlayerScript:Objects {
     static int[] damaged;
     static int[] through;
     static int dead;
-    public float DamageTimer = 0;
-    public bool AttackNow, DamageNow;
-    public int HP;
+    public float DamageTimer = 0,HealTimer=0;
+    public bool AttackNow, DamageNow,ItemCharge;
+    public int MAXHP,HP;
     public MGR INPUT;
     public PlayerMGR PMGR;
     public GameObject[] pickpivot;
     public WeaaponEquipment eWeapon;
     public ItemEquipment eItem;
+
+    public GameObject HealEffect;
+
+
     Vector2 nock;
     float nocktime = 0;
     public int contlol;
     // Use this for initialization
     override public void Start() {
         base.Start();
+        MAXHP = 100;
+        ItemCharge = false;
         nock = Vector2.zero;
         AttackNow = false;
         DamageNow = false;
@@ -67,21 +73,31 @@ public class PlayerScript:Objects {
     }
     void FixedUpdate() {
         speed = Vector2.zero;
+        if(HealTimer > 0) {
+            HealTimer -= 0.1f;
+            if(HealTimer <= 0) {
+                HealTimer = 0;
+            }
+        }
         if(DamageTimer <= 0 && HP > 0) {
             DamageTimer = 0;
             if(DamageNow) {
                 DamageNow = false;
             }
             if(!AttackNow) {
-                if(INPUT.Inpad[contlol][5] == 1 && eWeapon != null) {
+                if(ItemCharge&&INPUT.Inpad[contlol][6]==0&&eItem!=null) {
+                    eItem.ItemUse();
+                    ItemCharge = false;
+                    eItem = null;
+                } else if(INPUT.Inpad[contlol][6] > 0 && eItem != null) {//アイテム長押しなどの処理
+                    eItem.ItemCharge();
+                    ItemCharge = true;
+                    move = false;
+                } else if(INPUT.Inpad[contlol][5] == 1 && eWeapon != null) {
                     animator.Play(attack[muki]);
                     eWeapon.GetComponent<WeaaponEquipment>().PlayAnimation(muki);
                     AttackNow = true;
 
-                } else if(INPUT.Inpad[contlol][6] == 1 && eItem != null) {
-                    PMGR.ItemApply(eItem.GetComponent<ItemEquipment>().ItemUse(), contlol);
-                    Destroy(eItem.gameObject);
-                    eItem = null;
                 } else if(INPUT.Inpad[contlol][muki] > 0) {
                     move = true;
                     SetSpeed(muki, 10);
@@ -157,7 +173,9 @@ public class PlayerScript:Objects {
                             if(groundCheck.tag=="Poison"||(groundCheck.tag == "EnemyAttack" && DamageTimer <= 0f)) {
                                 Damaged(groundCheck.gameObject);
                             }
-
+                            if(groundCheck.tag == "Heal" && HealTimer <= 0) {
+                                Heal(10);
+                            }
                         }
                     }
                 }
@@ -209,6 +227,15 @@ public class PlayerScript:Objects {
 
                 }
             }
+        }
+    }
+
+    public void Heal(int num) {
+        Instantiate(HealEffect, transform);
+        HealTimer = 0.5f;
+        HP += num;
+        if(MAXHP < HP) {
+            HP = MAXHP;
         }
     }
 

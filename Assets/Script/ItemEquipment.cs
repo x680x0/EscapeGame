@@ -4,20 +4,17 @@ using UnityEngine;
 
 public class ItemEquipment : MonoBehaviour {
 
+    public float charge=0;
+    void Start() {
+        charge = 0;
+    }
     public enum ItemAction {
         heal=0,
     };
-
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-    public ItemAction ItemUse() {
-        return ItemAction.heal;
+    public virtual void ItemUse() {
+        charge = 0;
     }
+    public virtual float ItemCharge() {
+        return charge;
+    } 
 }
