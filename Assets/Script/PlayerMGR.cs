@@ -29,7 +29,7 @@ public class PlayerMGR:MonoBehaviour {
         HP[number] = hp;
     }
     public GameObject ReTarget() {
-        if((HP[0] + HP[1] + HP[2] + HP[3]) == 0) {
+        if(HP[0] <= 0 && HP[1] <= 0 && HP[2] <= 0 && HP[3] <= 0) {
             return null;
         } else {
             while(true) {

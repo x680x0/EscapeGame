@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ItemEquipment : MonoBehaviour {
-
+    protected ItemType itemType;
     public float charge=0;
     void Start() {
         charge = 0;
@@ -16,5 +16,8 @@ public class ItemEquipment : MonoBehaviour {
     }
     public virtual float ItemCharge() {
         return charge;
-    } 
+    }
+    public ItemType GetItemType() {
+        return itemType;
+    }
 }

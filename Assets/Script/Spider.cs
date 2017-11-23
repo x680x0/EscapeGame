@@ -46,7 +46,7 @@ public class Spider : EnemyScript {
 		
 	}
     public override void FixedUpdate() {
-        float tx, ty, x, y, dx, dy;
+        float tx, ty, x, y;
         a = muki;
         SetOrder(15);
         if(Target != null) {

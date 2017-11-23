@@ -5,6 +5,9 @@ using UnityEngine;
 public class HealBottle:ItemEquipment {
     public GameObject Circle;
     public CircleCollider2D CC2D;
+    void Start() {
+        itemType = ItemType.Portion;
+    }
     public override float ItemCharge() {
         if(charge == 0) {
             Circle.SetActive(true);

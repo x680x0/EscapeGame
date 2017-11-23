@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerScript:Objects {
     [System.NonSerialized]
     Animator animator;
+    GUIControl GUIcon;
     static int[] walk;
     static int[] stay;
     static int[] attack;
@@ -34,7 +35,9 @@ public class PlayerScript:Objects {
     // Use this for initialization
     override public void Start() {
         base.Start();
-        ForGUI = new Status();
+        GUIcon = GameObject.Find("GUICanvas").GetComponent<GUIControl>();
+        GUIcon.SetWeapon(WeaponType.None, contlol);
+        GUIcon.SetItem(ItemType.None, contlol);
         MAXHP = 100;
         ItemCharge = false;
         nock = Vector2.zero;
@@ -100,6 +103,7 @@ public class PlayerScript:Objects {
                         ItemCharge = false;
                         eItem = null;
                         existF = true;
+                        GUIcon.SetItem(ItemType.None, contlol);
                     } else if(INPUT.Inpad[contlol][6] > 0 && eItem != null) {//アイテム長押しなどの処理
                         eItem.ItemCharge();
                         ItemCharge = true;
@@ -156,7 +160,9 @@ public class PlayerScript:Objects {
                                                 //ItemObject=groundCheck.transform.parent.gameObject.GetComopnent<ItemObject>();
                                                 //ItemObject.関数名().transform.parent=this.gameObject;
                                                 //関数内でInstansとアイテムの初期化、そしてそれをreturnする
-                                                eItem = groundCheck.gameObject.GetComponent<ItemObject>().Pick(this.transform).GetComponent<ItemEquipment>();
+                                                GameObject tmp = groundCheck.gameObject.GetComponent<ItemObject>().Pick(this.transform);
+                                                eItem = tmp.GetComponent<ItemEquipment>();
+                                                GUIcon.SetItem(eItem.GetItemType(), contlol);
                                             }
                                         }
                                         if(groundCheck.tag == "PickUpWeapon") {
@@ -164,8 +170,10 @@ public class PlayerScript:Objects {
                                                 //ItemObject=groundCheck.transform.parent.gameObject.GetComopnent<ItemObject>();
                                                 //ItemObject.関数名().transform.parent=this.gameObject;
                                                 //関数内でInstansとアイテムの初期化、そしてそれをreturnする
-                                                eWeapon = groundCheck.gameObject.GetComponent<ItemObject>().Pick(this.transform).GetComponent<WeaaponEquipment>();
-                                                groundCheck.gameObject.GetComponent<ItemObject>().Pick(this.transform).GetComponent<CNum>().ini(contlol);
+                                                GameObject tmp= groundCheck.gameObject.GetComponent<ItemObject>().Pick(this.transform);
+                                                eWeapon = tmp.GetComponent<WeaaponEquipment>();
+                                                tmp.GetComponent<CNum>().ini(contlol);
+                                                GUIcon.SetWeapon(eWeapon.GetWeaponType(), contlol);
                                             }
                                         }
                                     }
@@ -223,6 +231,7 @@ public class PlayerScript:Objects {
     }
     public void Damaged(GameObject obj,bool Light) {
         if(Light) {
+            GUIcon.SetDamage(2, contlol);
             if(HP <=1) {
                 HP = 0;
                 animator.Play(dead);
@@ -241,10 +250,12 @@ public class PlayerScript:Objects {
                 if(damage == 0) { }
                 else if(HP <= damage) {
                     HP = 0;
+                    GUIcon.SetDamage(damage, contlol);
                     animator.Play(dead);
                 } else {
                     animator.Play(damaged[muki]);
                     HP -= damage;
+                    GUIcon.SetDamage(damage, contlol);
                     DamageTimer = 0.1f;
 
                 }
@@ -252,11 +263,13 @@ public class PlayerScript:Objects {
                 dmi.GetInf(ref damage, ref nock, ref nocktime, pivot[muki].transform.position);
                 if(HP <= damage) {
                     HP = 0;
+                    GUIcon.SetDamage(damage, contlol);
                     animator.Play(dead);
                 } else {
                     DamageNow = true;
                     animator.Play(damaged[muki]);
                     HP -= damage;
+                    GUIcon.SetDamage(damage, contlol);
                     DamageTimer = 1.5f;
 
                 }
@@ -268,6 +281,8 @@ public class PlayerScript:Objects {
         Instantiate(HealEffect, transform);
         HealTimer = 0.5f;
         HP += num;
+
+        GUIcon.SetDamage(-num, contlol);
         if(MAXHP < HP) {
             HP = MAXHP;
         }

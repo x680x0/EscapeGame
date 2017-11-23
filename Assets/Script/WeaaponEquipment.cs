@@ -8,8 +8,10 @@ public class WeaaponEquipment : MonoBehaviour {
     static int[] blow;
     static int none;
     public GameObject[] attackCol;
+    protected WeaponType weaponType;
     // Use this for initialization
     void Start() {
+        weaponType = WeaponType.Sword;
         animator = GetComponent<Animator>();
         blow = new int[4];
         blow[0] = Animator.StringToHash("up");
@@ -35,5 +37,8 @@ public class WeaaponEquipment : MonoBehaviour {
         foreach(GameObject attackcol in attackCol) {
            attackcol.SetActive(false);
         }
+    }
+    public WeaponType GetWeaponType() {
+        return weaponType;
     }
 }
