@@ -16,7 +16,6 @@ public class Spider : EnemyScript {
     float Slow;
     public GameObject Needle;
     float r = 10;
-    bool inLight = true;
     int Phase;
     // Use this for initialization
     public override void Start () {
@@ -38,6 +37,7 @@ public class Spider : EnemyScript {
         attack[2] = Animator.StringToHash("attackdown");
         attack[3] = Animator.StringToHash("attackleft");
         die = Animator.StringToHash("motionDie");
+        ReTarget();
         muki = 0;
     }
 	
@@ -145,6 +145,7 @@ public class Spider : EnemyScript {
                     Phase = 6;
                     break;
                 case 6:
+                    ReTarget();
                     Slow = 0;
                     Phase =7;
                     break;
@@ -175,7 +176,7 @@ public class Spider : EnemyScript {
         }
             Collider2D[][] CheckCollider = new Collider2D[1][];
             CheckCollider[0] = Physics2D.OverlapPointAll(pivot[muki].transform.position);
-
+        inLight = false;
         foreach(Collider2D[] CheckList in CheckCollider) {
 
             foreach(Collider2D groundCheck in CheckList) {
@@ -184,6 +185,9 @@ public class Spider : EnemyScript {
                         if(groundCheck.tag == "PlayerAttack") {
                             int c = groundCheck.gameObject.transform.parent.GetComponent<CNum>().GetContlol();
                             Damaged(groundCheck.gameObject, c);
+                        }
+                        if(groundCheck.tag == "PlayArea") {
+                            inLight = true;
                         }
                     }
                 }

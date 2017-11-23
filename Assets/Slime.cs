@@ -29,6 +29,7 @@ public class Slime:EnemyScript {
         attack[2] = Animator.StringToHash("attackdown");
         attack[3] = Animator.StringToHash("attackleft");
         die = Animator.StringToHash("motionDie");
+        ReTarget();
     }
     public override void FixedUpdate() {
         int i = 0;
@@ -75,7 +76,7 @@ public class Slime:EnemyScript {
         }
             Collider2D[][] CheckCollider = new Collider2D[1][];
             CheckCollider[0] = Physics2D.OverlapPointAll(pivot[muki].transform.position);
-
+        inLight = false;
         foreach(Collider2D[] CheckList in CheckCollider) {
 
             foreach(Collider2D groundCheck in CheckList) {
@@ -84,6 +85,9 @@ public class Slime:EnemyScript {
                         if(groundCheck.tag == "PlayerAttack") {
                             int c= groundCheck.gameObject.transform.parent.gameObject.GetComponent<CNum>().GetContlol();
                             Damaged(groundCheck.gameObject,c);
+                        }
+                        if(groundCheck.tag == "PlayArea") {
+                            inLight = true;
                         }
                     }
                 }
@@ -101,6 +105,7 @@ public class Slime:EnemyScript {
         }
         animator.Play(walk[muki]);
         Attacktime = 1;
+        ReTarget();
     }
     public void StopAttack() {
         foreach(GameObject attackcol in attackCol) {

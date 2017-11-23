@@ -22,6 +22,7 @@ public class PlayerScript:Objects {
 
     public GameObject HealEffect;
 
+    Status ForGUI;
 
     Vector2 nock;
     float nocktime = 0;
@@ -29,6 +30,7 @@ public class PlayerScript:Objects {
     // Use this for initialization
     override public void Start() {
         base.Start();
+        ForGUI = new Status();
         MAXHP = 100;
         ItemCharge = false;
         nock = Vector2.zero;
@@ -150,7 +152,7 @@ public class PlayerScript:Objects {
                                                 //ItemObject.関数名().transform.parent=this.gameObject;
                                                 //関数内でInstansとアイテムの初期化、そしてそれをreturnする
                                                 eWeapon = groundCheck.gameObject.GetComponent<ItemObject>().Pick(this.transform).GetComponent<WeaaponEquipment>();
-                                                groundCheck.gameObject.GetComponent<CNum>().ini(contlol);
+                                                groundCheck.gameObject.GetComponent<ItemObject>().Pick(this.transform).GetComponent<CNum>().ini(contlol);
                                             }
                                         }
                                     }
@@ -164,6 +166,7 @@ public class PlayerScript:Objects {
                 }
             }
             SetOrder(0);
+            inLight = false;
             Collider2D[][] CheckDamage = new Collider2D[1][];
             CheckDamage[0] = Physics2D.OverlapPointAll(pivot[muki].transform.position);
 
@@ -174,17 +177,22 @@ public class PlayerScript:Objects {
                         if(groundCheck.isTrigger) {
 
                             if(groundCheck.tag=="Poison"||(groundCheck.tag == "EnemyAttack" && DamageTimer <= 0f)) {
-                                Damaged(groundCheck.gameObject);
+                                Damaged(groundCheck.gameObject,false);
                             }
                             if(groundCheck.tag == "Heal" && HealTimer <= 0) {
                                 Heal(10);
+                            }
+                            if(groundCheck.tag == "PlayArea") {
+                                inLight = true;
                             }
                         }
                     }
                 }
 
             }
-
+            if(!inLight) {
+                Damaged(null, true);
+            }
         } else {
             if(HP > 0) {
                 DamageTimer -= 0.1f;
@@ -200,7 +208,17 @@ public class PlayerScript:Objects {
         }
 
     }
-    public void Damaged(GameObject obj) {
+    public void Damaged(GameObject obj,bool Light) {
+        if(Light) {
+            if(HP <=1) {
+                HP = 0;
+                animator.Play(dead);
+            } else {
+                HP -= 1;
+                DamageTimer = 0.1f;
+            }
+            return;
+        }
         DamageInf dmi = obj.GetComponent<DamageInf>();
         int damage = 0;
 
@@ -262,5 +280,8 @@ public class PlayerScript:Objects {
         speed.Normalize();
         speed *= s;
         return;
+    }
+    void SetStatus() {
+        ForGUI.hp = HP;
     }
 }

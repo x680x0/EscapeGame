@@ -5,6 +5,7 @@ using UnityEngine;
 public class LitghtPoint:MonoBehaviour {
     public bool LM = true;
     public GameObject next;
+    public GameObject EnemyPack;
     public float timer=-1;
     public float Time;
     public void Switch(bool _LM) {
@@ -13,6 +14,9 @@ public class LitghtPoint:MonoBehaviour {
     public bool GetSwitch() {
         if(timer == -1) {
             Switch(false);
+            if(EnemyPack != null) {
+                EnemyPack.SetActive(true);
+            }
             timer = Time;
         } else if(timer > 0) {
             timer -= 0.1f;

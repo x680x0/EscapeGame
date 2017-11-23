@@ -5,10 +5,12 @@ using UnityEngine;
 public class EnemyScript : Objects {
     public Objects Target;
     public int HP;
+    PlayerMGR PMGR;
     // Use this for initialization
     override public void Start () {
         base.Start();
         muki = 0;
+        PMGR=GameObject.Find("PlayerMGR").GetComponent<PlayerMGR>();
     }
     public virtual void FixedUpdate() {
      /*   if(DamageTimer <= 0) {
@@ -51,5 +53,8 @@ public class EnemyScript : Objects {
     }
     public void Kill() {
         Destroy(this.gameObject);
-    } 
+    }
+    public void ReTarget() {
+        Target = PMGR.ReTarget().GetComponent<Objects>();
+    }
 }

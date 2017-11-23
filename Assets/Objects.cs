@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Objects : MonoBehaviour {
 
-    public GameObject[] pivot; 
-
+    public GameObject[] pivot;
+    public bool inLight;
     protected int muki;
     protected bool move;
 
@@ -54,4 +54,5 @@ public class Objects : MonoBehaviour {
         }
         return -1;
     }
+
 }
