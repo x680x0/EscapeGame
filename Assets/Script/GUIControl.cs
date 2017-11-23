@@ -66,7 +66,7 @@ public class GUIControl : MonoBehaviour {
 		}
 	}
 	
-	public void SetStatus (Status[] status){
+	public void SetStatusAll (Status[] status){
 		for (int i = 0; i < status.Length; i++) {
 			frames [i].character.sprite = ((int)status [i].character < 0) ? None : characters [(int)status [i].character];
 			frames [i].weapon.sprite = ((int)status [i].weapon < 0) ? None : weapons [(int)status [i].weapon];
@@ -78,5 +78,31 @@ public class GUIControl : MonoBehaviour {
 			frames [i].ammoNow.text = status [i].ammoNow.ToString ();
 			frames [i].ammoMax.text = status [i].ammoMax.ToString ();
 		}
+	}
+
+	public void SetStatus (Status status, int index){
+		frames [index].character.sprite = ((int)status.character < 0) ? None : characters [(int)status.character];
+		frames [index].weapon.sprite = ((int)status.weapon < 0) ? None : weapons [(int)status.weapon];
+		frames [index].item.sprite = ((int)status.item < 0) ? None : items [(int)status.item];
+
+		frames [index].lifeText.text = status.hp.ToString ();
+		frames [index].lifeGuage.fillAmount = (float)status.hp / 100f;
+
+		frames [index].ammoNow.text = status.ammoNow.ToString ();
+		frames [index].ammoMax.text = status.ammoMax.ToString ();
+	}
+
+	public void SetItem (ItemType item, int index){
+		frames[index].item.sprite = ((int)item < 0) ? None : items [(int)item];
+	}
+
+	public void SetWeapon (WeaponType weapon, int index){
+		frames [index].weapon.sprite = ((int)weapon < 0) ? None : weapons [(int)weapon];
+	}
+
+	public void SetDamage (int damageAmount, int index){
+		int life = Mathf.Clamp (int.Parse (frames [index].lifeText.text) - damageAmount, 0, 100);
+		frames [index].lifeText.text = life.ToString ();
+		frames [index].lifeGuage.fillAmount = (float)life / 100f;
 	}
 }
