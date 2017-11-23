@@ -12,6 +12,9 @@ public class LitghtPoint:MonoBehaviour {
         LM = _LM;
     }
     public bool GetSwitch() {
+        if(EnemyPack == null) {
+            timer = 0;
+        }
         if(timer == -1) {
             Switch(false);
             if(EnemyPack != null) {
@@ -23,6 +26,7 @@ public class LitghtPoint:MonoBehaviour {
         } else if(timer <= 0) {
             Switch(true);
         }
+        
         return LM;
     }
     public Vector2 ToNext() {

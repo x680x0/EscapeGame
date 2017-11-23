@@ -11,6 +11,10 @@ public class PlayerScript:Objects {
     static int[] damaged;
     static int[] through;
     static int dead;
+
+    public float exist=0;
+    bool existF = false;
+
     public float DamageTimer = 0,HealTimer=0;
     public bool AttackNow, DamageNow,ItemCharge;
     public int MAXHP,HP;
@@ -75,6 +79,9 @@ public class PlayerScript:Objects {
     }
     void FixedUpdate() {
         speed = Vector2.zero;
+        if(!existF&&exist>30) {
+            StartCoroutine(Extinction());
+        }
         if(HealTimer > 0) {
             HealTimer -= 0.1f;
             if(HealTimer <= 0) {
@@ -92,14 +99,17 @@ public class PlayerScript:Objects {
                         eItem.ItemUse();
                         ItemCharge = false;
                         eItem = null;
+                        existF = true;
                     } else if(INPUT.Inpad[contlol][6] > 0 && eItem != null) {//アイテム長押しなどの処理
                         eItem.ItemCharge();
                         ItemCharge = true;
                         move = false;
+                        existF = true;
                     } else if(INPUT.Inpad[contlol][5] == 1 && eWeapon != null) {
                         animator.Play(attack[muki]);
                         eWeapon.GetComponent<WeaaponEquipment>().PlayAnimation(muki);
                         AttackNow = true;
+                        existF = true;
 
                     } else if(INPUT.Inpad[contlol][muki] > 0) {
                         move = true;
@@ -110,6 +120,7 @@ public class PlayerScript:Objects {
                         if(INPUT.Inpad[contlol][(muki + 3) % 4] > 0) {
                             SetSpeed((muki + 3) % 4, 10);
                         }
+                        existF = true;
                     } else {
                         move = false;
                         for(int i = 0; i < 4; i++) {
@@ -118,7 +129,9 @@ public class PlayerScript:Objects {
                                 move = false;
                             }
                         }
-
+                        if(!existF) {
+                            exist += 0.1f;
+                        }
                     }
                     MakeSpeed(ss);
                     rb2d.velocity = speed;
@@ -214,7 +227,7 @@ public class PlayerScript:Objects {
                 HP = 0;
                 animator.Play(dead);
             } else {
-                HP -= 1;
+                HP -= 2;
                 DamageTimer = 0.1f;
             }
             return;
@@ -283,5 +296,14 @@ public class PlayerScript:Objects {
     }
     void SetStatus() {
         ForGUI.hp = HP;
+    }
+    IEnumerator Extinction() {
+        for(float i =0; i < 255; i += 1) {
+            sr.color = new Color(1, 1, 1, (float)((255 - i) / 255));
+            yield return null;
+        }
+        HP = -1;
+        PMGR.setHP(contlol, HP);
+        Destroy(this.gameObject);
     }
 }

@@ -5,17 +5,22 @@ using UnityEngine;
 public class PlayerMGR:MonoBehaviour {
     public int[] HP;
     public GameObject[] Player;
+    public GoalScript gs;
+    bool GO;
     // Use this for initialization
     void Awake() {
         HP = new int[4];
     }
     void Start() {
-        
+        GO = false;
     }
 
     // Update is called once per frame
     void Update() {
-
+        if(HP[0]<=0&&HP[1]<=0 && HP[2] <= 0 && HP[3] <= 0&&!GO) {
+            StartCoroutine(gs.GameOver());
+            GO = true;
+        }
     }
     public void ItemApply(ItemEquipment.ItemAction IA, int num) {
         

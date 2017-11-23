@@ -12,7 +12,7 @@ public class Objects : MonoBehaviour {
 
     protected Rigidbody2D rb2d;
     protected Vector2 speed;
-    SpriteRenderer sr;
+    protected SpriteRenderer sr;
     public float ss;
 
     // Use this for initialization

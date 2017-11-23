@@ -16,7 +16,7 @@ public class Slime:EnemyScript {
         base.Start();
         DamageTimer = new float[4];
         bc2d = GetComponent<BoxCollider2D>();
-        HP = 20;
+        HP = 10;
         animator = GetComponent<Animator>();
         walk = new int[4];
         walk[0] = Animator.StringToHash("up");

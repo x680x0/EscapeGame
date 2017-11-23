@@ -78,29 +78,31 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\AutoDestroy.cs" />
-    <Compile Include="Assets\CNum.cs" />
+    <Compile Include="Assets\AutoDestroyPlus.cs" />
     <Compile Include="Assets\GamePadInput\Demo\DemoScript.cs" />
     <Compile Include="Assets\GamePadInput\GamePad.cs" />
-    <Compile Include="Assets\Goal.cs" />
-    <Compile Include="Assets\GoalScript.cs" />
-    <Compile Include="Assets\HealBottle.cs" />
-    <Compile Include="Assets\Objects.cs" />
-    <Compile Include="Assets\PlayerMGR.cs" />
+    <Compile Include="Assets\Script\AutoDestroy.cs" />
+    <Compile Include="Assets\Script\CNum.cs" />
     <Compile Include="Assets\Script\DamageInf.cs" />
     <Compile Include="Assets\Script\EnemyScript.cs" />
     <Compile Include="Assets\Script\GUIControl.cs" />
+    <Compile Include="Assets\Script\Goal.cs" />
+    <Compile Include="Assets\Script\GoalScript.cs" />
+    <Compile Include="Assets\Script\HealBottle.cs" />
     <Compile Include="Assets\Script\InputCheck.cs" />
     <Compile Include="Assets\Script\ItemEquipment.cs" />
     <Compile Include="Assets\Script\ItemObject.cs" />
     <Compile Include="Assets\Script\LightMove.cs" />
     <Compile Include="Assets\Script\LitghtPoint.cs" />
     <Compile Include="Assets\Script\MGR.cs" />
+    <Compile Include="Assets\Script\Objects.cs" />
+    <Compile Include="Assets\Script\PlayerMGR.cs" />
     <Compile Include="Assets\Script\PlayerScript.cs" />
+    <Compile Include="Assets\Script\Slime.cs" />
+    <Compile Include="Assets\Script\Spider.cs" />
+    <Compile Include="Assets\Script\SpiderNeedle.cs" />
     <Compile Include="Assets\Script\WeaaponEquipment.cs" />
-    <Compile Include="Assets\Slime.cs" />
-    <Compile Include="Assets\Spider.cs" />
-    <Compile Include="Assets\SpiderNeedle.cs" />
+    <Compile Include="Assets\Title.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Shaders\TreasureBox.shader" />
