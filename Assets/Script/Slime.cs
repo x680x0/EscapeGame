@@ -40,6 +40,9 @@ public class Slime:EnemyScript {
                 DamageTimer[i] -= 0.1f;
             }
         }
+        if(Target == null){
+            ReTarget();
+        }
         Vector2 walkvect = new Vector2(0, 0);
         if(AttackNow) {
             rb2d.velocity = Vector2.zero;

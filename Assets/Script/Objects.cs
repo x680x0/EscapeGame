@@ -29,9 +29,13 @@ public class Objects : MonoBehaviour {
 	void Update () {
 		
 	}
-
+    void FixedUpdate() {
+        SetOrder(20);
+    }
     public void SetOrder(int dif) {
-        sr.sortingOrder = (int)(transform.position.y * -100)+dif;
+        if(sr != null) {
+            sr.sortingOrder = (int)(transform.position.y * -100) + dif;
+        }
     }
     public Vector2 GetPos() {
         return transform.position;

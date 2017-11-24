@@ -55,6 +55,10 @@ public class EnemyScript : Objects {
         Destroy(this.gameObject);
     }
     public void ReTarget() {
-        Target = PMGR.ReTarget().GetComponent<Objects>();
+        Objects tmp;
+        tmp = PMGR.ReTarget().GetComponent<Objects>();
+        if(tmp != null) {
+            Target = tmp;
+        }
     }
 }

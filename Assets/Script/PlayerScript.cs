@@ -316,9 +316,16 @@ public class PlayerScript:Objects {
         for(float i =0; i < 255; i += 1) {
             sr.color = new Color(1, 1, 1, (float)((255 - i) / 255));
             yield return null;
+            if(existF) {
+                sr.color = new Color(1, 1, 1, 1);
+                break;
+            }
         }
-        HP = -1;
-        PMGR.setHP(contlol, HP);
-        Destroy(this.gameObject);
+        if(!existF) {
+            HP = -1;
+            PMGR.setHP(contlol, HP);
+            GUIcon.SetDamage(100, contlol);
+            Destroy(this.gameObject);
+        }
     }
 }

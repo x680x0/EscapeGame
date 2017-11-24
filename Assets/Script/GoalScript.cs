@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GoalScript:MonoBehaviour {
-
+    public GameObject ClearChar;
     // Use this for initialization
     void Start() {
         StartCoroutine(GameStart());
@@ -22,6 +22,7 @@ public class GoalScript:MonoBehaviour {
             transform.localScale = range;
             yield return null;
         }
+        ClearChar.SetActive(true);
     }
     public IEnumerator GameStart() {
         Vector3 range = new Vector3(0.5f, 0.5f, 0);

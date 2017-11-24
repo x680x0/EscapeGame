@@ -5,6 +5,7 @@ using UnityEngine;
 public class LightMove:MonoBehaviour {
     public float speed;
     Rigidbody2D rb2d;
+    public GoalScript gs;
 
     // Use this for initialization
     void Start() {
@@ -25,7 +26,11 @@ public class LightMove:MonoBehaviour {
                     if(groundCheck.isTrigger) {
                         if(groundCheck.tag == "LightStop") {
                             LitghtPoint LP= groundCheck.gameObject.GetComponent<LitghtPoint>();
-                            if(LP.GetSwitch()) {
+                            if(LP.ToNext() == Vector2.zero) {
+                                StartCoroutine(gs.GameClear());
+                                rb2d.velocity = Vector2.zero;
+                            }
+                            else if(LP.GetSwitch()) {
                                 rb2d.velocity = LP.ToNext() * speed;
                             } else {
                                 rb2d.velocity = Vector2.zero;

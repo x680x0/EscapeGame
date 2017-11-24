@@ -6,8 +6,12 @@ public class LitghtPoint:MonoBehaviour {
     public bool LM = true;
     public GameObject next;
     public GameObject EnemyPack;
+    PlayerMGR PMGR;
     public float timer=-1;
     public float Time;
+    void Start() {
+        PMGR = GameObject.Find("PlayerMGR").GetComponent<PlayerMGR>();
+    }
     public void Switch(bool _LM) {
         LM = _LM;
     }
@@ -16,6 +20,7 @@ public class LitghtPoint:MonoBehaviour {
             timer = 0;
         }
         if(timer == -1) {
+            PMGR.ReBirth();
             Switch(false);
             if(EnemyPack != null) {
                 EnemyPack.SetActive(true);
