@@ -15,7 +15,8 @@ struct GUIFrame {
 
 public enum CharacterType {
 	None = -1,
-	Girl
+	Kinpatu,
+	Ginpatu
 }
 
 public enum WeaponType {
@@ -50,6 +51,7 @@ public class GUIControl : MonoBehaviour {
 	void Start () {
 		//Resources読み込み
 		characters[0] = Resources.Load<Sprite>("GUISprites/character_0");
+		characters[1] = Resources.Load<Sprite>("GUISprites/character_1");
 		weapons[0] = Resources.Load<Sprite>("GUISprites/weapon_sword");
 		items[0] = Resources.Load<Sprite>("GUISprites/item_portion");
 		None = Resources.Load<Sprite>("GUISprites/none");
