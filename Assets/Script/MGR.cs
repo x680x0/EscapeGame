@@ -64,7 +64,8 @@ public class MGR:MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-
+        if(Input.GetKeyDown(KeyCode.Escape))
+            Application.Quit();
         if(Input.GetKey((KeyCode)keyIn.up)) {
             b_input[(int)keyUse.up] = true;
         } else {

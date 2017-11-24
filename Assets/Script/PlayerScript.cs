@@ -11,7 +11,10 @@ public class PlayerScript:Objects {
     static int[] attack;
     static int[] damaged;
     static int[] through;
+    static int[] gun;
     static int dead;
+    WeaponType AttackAction;
+    float ReLoad=0;
 
     public float exist=0;
     bool existF = false;
@@ -26,8 +29,6 @@ public class PlayerScript:Objects {
     public ItemEquipment eItem;
 
     public GameObject HealEffect;
-
-    Status ForGUI;
 
     Vector2 nock;
     float nocktime = 0;
@@ -45,10 +46,10 @@ public class PlayerScript:Objects {
         DamageNow = false;
         animator = GetComponent<Animator>();
         walk = new int[4];
-        walk[0] = Animator.StringToHash("up");
-        walk[1] = Animator.StringToHash("right");
-        walk[2] = Animator.StringToHash("down");
-        walk[3] = Animator.StringToHash("left");
+        walk[0] = Animator.StringToHash("walkup");
+        walk[1] = Animator.StringToHash("walkright");
+        walk[2] = Animator.StringToHash("walkdown");
+        walk[3] = Animator.StringToHash("walkleft");
         stay = new int[4];
         stay[0] = Animator.StringToHash("upstop");
         stay[1] = Animator.StringToHash("rightstop");
@@ -69,8 +70,12 @@ public class PlayerScript:Objects {
         through[1] = Animator.StringToHash("throughright");
         through[2] = Animator.StringToHash("throughdown");
         through[3] = Animator.StringToHash("throughleft");
+        gun = new int[4];
+        gun[0] = Animator.StringToHash("gunup");
+        gun[1] = Animator.StringToHash("gunright");
+        gun[2] = Animator.StringToHash("gundown");
+        gun[3] = Animator.StringToHash("gunleft");
         dead = Animator.StringToHash("dead");
-        animator.Play(dead);
     }
 
     // Update is called once per frame
@@ -80,8 +85,18 @@ public class PlayerScript:Objects {
     void WeaponAttack() {
 
     }
-    void FixedUpdate() {
+    public override void FixedUpdate() {
         speed = Vector2.zero;
+        if(ReLoad > 0) {
+            ReLoad -= 0.1f;
+            if(ReLoad <= 0) {
+                ReLoad = 0;
+                if(eWeapon != null&&AttackAction==WeaponType.Gun) {
+                    GUIcon.SetAmmoMax(eWeapon.GetAmmoMax(), contlol);
+                    eWeapon.SetMax();
+                }
+            }
+        }
         if(!existF&&exist>30) {
             StartCoroutine(Extinction());
         }
@@ -110,8 +125,22 @@ public class PlayerScript:Objects {
                         move = false;
                         existF = true;
                     } else if(INPUT.Inpad[contlol][5] == 1 && eWeapon != null) {
-                        animator.Play(attack[muki]);
-                        eWeapon.GetComponent<WeaaponEquipment>().PlayAnimation(muki);
+                        switch(AttackAction) {
+                            case WeaponType.Sword:
+                                animator.Play(attack[muki]);
+                                eWeapon.GetComponent<WeaaponEquipment>().PlayAnimation(muki);
+                                break;
+                            case WeaponType.Gun:
+                                animator.Play(gun[muki]);
+                                eWeapon.GetComponent<WeaaponEquipment>().PlayAnimation(muki);
+                                if(eWeapon.GetAmmo() > 0) {
+                                    GUIcon.SetUseAmmo(1, contlol);
+                                }
+                                if(eWeapon.GetAmmo() == 1) {
+                                    ReLoad = 20;
+                                }
+                                break;
+                        }
                         AttackNow = true;
                         existF = true;
 
@@ -174,6 +203,8 @@ public class PlayerScript:Objects {
                                                 eWeapon = tmp.GetComponent<WeaaponEquipment>();
                                                 tmp.GetComponent<CNum>().ini(contlol);
                                                 GUIcon.SetWeapon(eWeapon.GetWeaponType(), contlol);
+                                                GUIcon.SetAmmoMax(eWeapon.GetAmmoMax(), contlol);
+                                                AttackAction = eWeapon.GetWeaponType();
                                             }
                                         }
                                     }
@@ -308,9 +339,6 @@ public class PlayerScript:Objects {
         speed.Normalize();
         speed *= s;
         return;
-    }
-    void SetStatus() {
-        ForGUI.hp = HP;
     }
     IEnumerator Extinction() {
         for(float i =0; i < 255; i += 1) {

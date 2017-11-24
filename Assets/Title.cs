@@ -17,6 +17,8 @@ public class Title : MonoBehaviour {
         if(state.A || state.B || state.Y || state.X) {
             StartCoroutine(MOVE());
         }
+        if(Input.GetKeyDown(KeyCode.Escape))
+            Application.Quit();
     }
     IEnumerator MOVE() {
         for(float i = 0; i < 255; i+=1) {

@@ -27,7 +27,6 @@ public class SpiderNeedle :EnemyScript {
     public override void Damaged(GameObject obj,int num) {
 
         DamageInf dmi = obj.GetComponent<DamageInf>();
-        int damage;
         if(dmi != null) {
             if(dmi.GetDamage() > 0) {
                 Destroy(this.gameObject);

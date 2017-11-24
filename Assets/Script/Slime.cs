@@ -54,7 +54,7 @@ public class Slime:EnemyScript {
                 if(Target != null) {
                     walkvect = Target.GetPos() - (Vector2)transform.position;
                     walkvect.Normalize();
-                    walkvect *= Random.Range(0f, 3f);
+                    walkvect *= Random.Range(1f, 4f);
                 }
                 if(walkvect.x > 0f && (muki != 1)) {
                     animator.Play(walk[1]);
@@ -133,8 +133,11 @@ public class Slime:EnemyScript {
                 } else {
                     HP -= damage;
                     DamageTimer[num] = 1.5f;
+                    Instantiate(DamageParticle, transform);
                 }
             }
+        }else {
+            print("muteki");
         }
     }
 }

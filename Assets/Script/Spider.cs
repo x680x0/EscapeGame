@@ -12,10 +12,8 @@ public class Spider : EnemyScript {
     Vector2 Speed;
     BoxCollider2D bc2d;
      bool AttackNow;
-    int a;
     float Slow;
     public GameObject Needle;
-    float r = 10;
     int Phase;
     // Use this for initialization
     public override void Start () {
@@ -47,8 +45,10 @@ public class Spider : EnemyScript {
 	}
     public override void FixedUpdate() {
         float tx, ty, x, y;
-        a = muki;
         SetOrder(15);
+        if(Target == null) {
+            ReTarget();
+        }
         if(Target != null) {
             float DX, DY;
             tx = Target.transform.position.x;
@@ -174,8 +174,10 @@ public class Spider : EnemyScript {
             }
 
         }
-            Collider2D[][] CheckCollider = new Collider2D[1][];
-            CheckCollider[0] = Physics2D.OverlapPointAll(pivot[muki].transform.position);
+        Collider2D[][] CheckCollider = new Collider2D[3][];
+        CheckCollider[0] = Physics2D.OverlapPointAll(pivot[0].transform.position);
+        CheckCollider[1] = Physics2D.OverlapPointAll(pivot[1].transform.position);
+        CheckCollider[2] = Physics2D.OverlapPointAll(pivot[2].transform.position);
         inLight = false;
         foreach(Collider2D[] CheckList in CheckCollider) {
 
@@ -228,6 +230,7 @@ public class Spider : EnemyScript {
                 } else {
                     HP -= damage;
                     DamageTimer[num] = 1.5f;
+                    Instantiate(DamageParticle, transform);
                 }
             }
         }

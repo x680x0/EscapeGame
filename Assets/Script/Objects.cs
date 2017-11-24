@@ -29,7 +29,7 @@ public class Objects : MonoBehaviour {
 	void Update () {
 		
 	}
-    void FixedUpdate() {
+    virtual public void FixedUpdate() {
         SetOrder(20);
     }
     public void SetOrder(int dif) {

@@ -21,7 +21,8 @@ public enum CharacterType {
 
 public enum WeaponType {
 	None = -1,
-	Sword
+	Sword,
+    Gun
 }
 
 public enum ItemType {
@@ -42,18 +43,19 @@ public class GUIControl : MonoBehaviour {
 
 	GUIFrame[] frames = new GUIFrame[4];
 
-	Sprite[] characters = new Sprite[1];
-	Sprite[] weapons = new Sprite[1];
+	Sprite[] characters = new Sprite[2];
+	Sprite[] weapons = new Sprite[2];
 	Sprite[] items = new Sprite[1];
 	Sprite None;
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
 		//Resources読み込み
 		characters[0] = Resources.Load<Sprite>("GUISprites/character_0");
 		characters[1] = Resources.Load<Sprite>("GUISprites/character_1");
 		weapons[0] = Resources.Load<Sprite>("GUISprites/weapon_sword");
-		items[0] = Resources.Load<Sprite>("GUISprites/item_portion");
+        weapons[1] = Resources.Load<Sprite>("GUISprites/weapon_gun");
+        items[0] = Resources.Load<Sprite>("GUISprites/item_portion");
 		None = Resources.Load<Sprite>("GUISprites/none");
 
 		//インスタンス捕捉
@@ -107,4 +109,14 @@ public class GUIControl : MonoBehaviour {
 		frames [index].lifeText.text = life.ToString ();
 		frames [index].lifeGuage.fillAmount = (float)life / 100f;
 	}
+    
+	public void SetAmmoMax(int newAmmoMax,int index){
+		frames [index].ammoMax.text = newAmmoMax.ToString();
+		frames [index].ammoNow.text = newAmmoMax.ToString();
+	}
+	public void SetUseAmmo(int UseAmount,int index){
+		int Ammo = Mathf.Clamp (int.Parse (frames [index].ammoNow.text) - UseAmount, 0, int.Parse (frames [index].ammoMax.text));
+		frames [index].ammoNow.text = Ammo.ToString ();
+	}
+
 }

@@ -4,13 +4,17 @@ using UnityEngine;
 
 public class WeaaponEquipment : MonoBehaviour {
 
-    Animator animator;
-    static int[] blow;
-    static int none;
+    protected Animator animator;
+    protected static int[] blow;
+    protected static int none;
+    public int ammo;
+    public int ammoMax;
     public GameObject[] attackCol;
-    protected WeaponType weaponType;
+    public int vect;
+    public  WeaponType weaponType;
     // Use this for initialization
-    void Start() {
+    public virtual void Start() {
+        ammo = 0;
         weaponType = WeaponType.Sword;
         animator = GetComponent<Animator>();
         blow = new int[4];
@@ -28,17 +32,26 @@ public class WeaaponEquipment : MonoBehaviour {
     }
 
 
-    public void PlayAnimation(int vector) {
+    public virtual void PlayAnimation(int vector) {
         animator.Play(blow[vector]);
-       
+        vect = vector;
     }
-    public void StopAnimation() {
+    public virtual void StopAnimation() {
         animator.Play(none);
         foreach(GameObject attackcol in attackCol) {
            attackcol.SetActive(false);
         }
     }
-    public WeaponType GetWeaponType() {
+    public virtual WeaponType GetWeaponType() {
         return weaponType;
+    }
+    public int GetAmmoMax() {
+        return ammoMax;
+    }
+    public int GetAmmo() {
+        return ammo;
+    }
+    public void SetMax() {
+        ammo = ammoMax;
     }
 }

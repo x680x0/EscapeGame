@@ -6,6 +6,7 @@ public class EnemyScript : Objects {
     public Objects Target;
     public int HP;
     PlayerMGR PMGR;
+    public GameObject DamageParticle;
     // Use this for initialization
     override public void Start () {
         base.Start();
@@ -13,29 +14,7 @@ public class EnemyScript : Objects {
         PMGR=GameObject.Find("PlayerMGR").GetComponent<PlayerMGR>();
     }
     public virtual void FixedUpdate() {
-     /*   if(DamageTimer <= 0) {
-            DamageTimer = 0;
-        } else {
-            DamageTimer -= 0.1f;
-        }
-        if(DamageTimer <= 0f) {
-            Collider2D[][] CheckCollider = new Collider2D[1][];
-            CheckCollider[0] = Physics2D.OverlapPointAll(pivot[muki].transform.position);
 
-            foreach(Collider2D[] CheckList in CheckCollider) {
-
-                foreach(Collider2D groundCheck in CheckList) {
-                    if(groundCheck != null) {
-                        if(groundCheck.isTrigger) {
-                            if(groundCheck.tag == "PlayerAttack") {
-                                Damaged(groundCheck.gameObject);
-                            }
-                        }
-                    }
-                }
-
-            }
-        }*/
     }
 
     public virtual void Damaged(GameObject obj,int num) {
