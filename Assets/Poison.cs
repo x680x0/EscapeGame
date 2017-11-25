@@ -55,7 +55,7 @@ public class Poison:EnemyScript {
                     }
                 }
                 if(Random.Range(0, 10) < 5) {
-                    walkvect.Set(Random.Range(0, 2), Random.Range(0, 6));
+                    walkvect.Set(Random.Range(-4, 4), Random.Range(-4, 4));
                 }
                 rb2d.velocity = walkvect;
                 SetOrder(0);
@@ -85,6 +85,7 @@ public class Poison:EnemyScript {
     }
 
     public override void Damaged(GameObject obj, int num) {
+        Instantiate(DamageParticle, transform);
         ShelfBomb();
     }
     public void ShelfBomb() {

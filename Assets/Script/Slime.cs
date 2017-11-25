@@ -127,6 +127,7 @@ public class Slime:EnemyScript {
             if(dmi != null) {
                 damage = dmi.GetDamage();
                 if(HP <= damage) {
+                    Instantiate(DamageParticle, transform);
                     animator.Play(die);
                     bc2d.enabled = false;
                     HP = 0;
