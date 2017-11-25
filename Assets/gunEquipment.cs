@@ -7,8 +7,8 @@ public class gunEquipment :WeaaponEquipment {
     public GameObject Bullet;
     int contlol;
     public override void Start() {
-        ammo = 6;
-        ammoMax = 6;
+        ammo = 10;
+        ammoMax = 10;
         weaponType = WeaponType.Gun;
         animator = GetComponent<Animator>();
         blow = new int[4];

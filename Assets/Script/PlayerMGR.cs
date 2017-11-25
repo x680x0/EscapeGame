@@ -48,6 +48,9 @@ public class PlayerMGR:MonoBehaviour {
             }
         }
     }
+    public GameObject SelectTarget(int num) {
+        return Player[num];
+    }
     public void ReBirth() {
         for(int i = 0; i < 4; i++) {
             if(HP[i] == 0) {

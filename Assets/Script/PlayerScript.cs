@@ -28,7 +28,7 @@ public class PlayerScript:Objects {
     public WeaaponEquipment eWeapon;
     public ItemEquipment eItem;
 
-    public GameObject HealEffect;
+    public GameObject HealEffect,Reflesh;
 
     Vector2 nock;
     float nocktime = 0;
@@ -232,7 +232,7 @@ public class PlayerScript:Objects {
                                 Damaged(groundCheck.gameObject,false);
                             }
                             if(groundCheck.tag == "Heal" && HealTimer <= 0) {
-                                Heal(10);
+                                Heal(50);
                             }
                             if(groundCheck.tag == "PlayArea") {
                                 inLight = true;
@@ -309,7 +309,11 @@ public class PlayerScript:Objects {
     }
 
     public void Heal(int num) {
-        Instantiate(HealEffect, transform);
+        if(HP <= 0) {
+            Instantiate(Reflesh, transform);
+        } else {
+            Instantiate(HealEffect, transform);
+        }
         HealTimer = 0.5f;
         HP += num;
 

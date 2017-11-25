@@ -23,6 +23,8 @@ public class GoalScript:MonoBehaviour {
             yield return null;
         }
         ClearChar.SetActive(true);
+        yield return new WaitForSeconds(10.0f);
+        SceneManager.LoadScene(0);
     }
     public IEnumerator GameStart() {
         Vector3 range = new Vector3(0.5f, 0.5f, 0);

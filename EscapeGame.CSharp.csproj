@@ -81,6 +81,7 @@
     <Compile Include="Assets\AutoDestroyPlus.cs" />
     <Compile Include="Assets\Bullet.cs" />
     <Compile Include="Assets\GamePadInput\GamePad.cs" />
+    <Compile Include="Assets\Poison.cs" />
     <Compile Include="Assets\Script\AutoDestroy.cs" />
     <Compile Include="Assets\Script\CNum.cs" />
     <Compile Include="Assets\Script\DamageInf.cs" />
@@ -103,6 +104,7 @@
     <Compile Include="Assets\Script\SpiderNeedle.cs" />
     <Compile Include="Assets\Script\WeaaponEquipment.cs" />
     <Compile Include="Assets\Title.cs" />
+    <Compile Include="Assets\Tossin.cs" />
     <Compile Include="Assets\gunEquipment.cs" />
   </ItemGroup>
   <ItemGroup>
