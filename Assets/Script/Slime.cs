@@ -11,12 +11,12 @@ public class Slime:EnemyScript {
     float Attacktime = 0;
     Animator animator;
     BoxCollider2D bc2d;
+    public int SpeedRange1, SpeedRange2;
     // Use this for initialization
     override public void Start() {
         base.Start();
         DamageTimer = new float[4];
         bc2d = GetComponent<BoxCollider2D>();
-        HP = 10;
         animator = GetComponent<Animator>();
         walk = new int[4];
         walk[0] = Animator.StringToHash("up");
@@ -54,7 +54,7 @@ public class Slime:EnemyScript {
                 if(Target != null) {
                     walkvect = Target.GetPos() - (Vector2)transform.position;
                     walkvect.Normalize();
-                    walkvect *= Random.Range(1f, 4f);
+                    walkvect *= Random.Range((float)SpeedRange1, (float)(SpeedRange2));
                 }
                 if(walkvect.x > 0f && (muki != 1)) {
                     animator.Play(walk[1]);
